@@ -1,3 +1,5 @@
+![Netlify Examples](https://github.com/netlify/examples/assets/5865/4145aa2f-b915-404f-af02-deacee24f7bf)
+
 # Netlify Examples
 
 WORK IN PROGRESS — A PRIVATE REPOSITORY FOR NOW
