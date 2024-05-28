@@ -1,0 +1,70 @@
+@use "../node_modules/@netlify/netlify-marketing-tokens/dist/css/global.css";
+@use "_includes/css/reset.scss";
+@use "_includes/css/variables.scss";
+@use "_includes/css/font.scss";
+@use "_includes/css/layout.scss";
+@use "_includes/css/typography.scss";
+@use "_includes/css/buttons.scss";
+@use "_includes/css/code.scss";
+
+::selection {
+  background-color: var(--teal-200);
+  color:#000;
+}
+
+html {
+  background: #fff;
+}
+
+body {
+  font-family: var(--font-primary);
+  background: linear-gradient(180deg, var(--gradient-main));
+  padding: 0 2em;
+}
+
+header,
+main {
+  background: linear-gradient(#00000010 0.5px, transparent 0.5px), linear-gradient(90deg, #00000010 0.5px, transparent 0.5px);
+  background-size: var(--grid-line-size) var(--grid-line-size);  
+}
+
+footer .nf-logo,
+header .nf-logo {
+  height: var(--step-5);
+  fill: red;
+  color: #fff;
+}
+
+hr {
+  border-style: none;
+  border-top: solid 0.5px #ffffff22;
+  margin:0;
+}
+
+a:link,
+a:visited {
+  color: #fff;
+  text-decoration: underline;
+  text-decoration-color: #ffffff77;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  transition: all 300ms;
+}
+a:hover,
+a:focus {
+ text-decoration-color: cyan;
+ text-underline-offset: 0.3em;
+ transition: all 100ms;
+}
+
+footer {
+  & a:link,
+  & a:visited {
+    color: #000;
+    text-decoration-color: #00000055;
+  }
+  & a:hover,
+  & a:focus {
+  text-decoration-color: cyan;
+  }
+}

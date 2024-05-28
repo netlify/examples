@@ -1,0 +1,80 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+figure,
+blockquote,
+dl,
+dd,
+ul,
+ol,
+pre,
+code {
+  margin: 0;
+}
+
+:where(p, h1, h2, h3, h4, h5, h6) {
+  overflow-wrap: break-word;
+}
+
+:where(ul, ol) {
+  padding-inline-start: 1em;
+}
+
+:where(ul[role="list"], ol[role="list"], ul[class], ol[class]) {
+  list-style: none;
+  padding-inline-start: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:focus-within {
+    scroll-behavior: smooth;
+  }
+}
+
+html {
+  /* Prevent font size inflation */
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+}
+
+body {
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+a {
+  color: currentcolor;
+}
+
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+}
+
+picture,
+img,
+video,
+iframe,
+object {
+  display: block;
+  max-inline-size: 100%;
+  block-size: auto;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}

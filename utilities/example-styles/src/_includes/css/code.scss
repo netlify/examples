@@ -1,0 +1,20 @@
+pre,
+code {
+  background-color: var(--blue-900);
+  color:var(--blue-300);
+}
+code {
+  padding: 0.2em;
+  border-radius: var(--radius-1);
+  font-size: var(--step--1);
+}
+pre {
+  padding: 1em;
+  margin: 1em 0;
+  border-radius: var(--radius-3);
+  overflow-y: scroll;
+}
+
+pre code {
+  padding: 0;
+}
