@@ -14,6 +14,8 @@ layout: "_layouts/base.liquid"
 <link rel="stylesheet" href="https://example-styles.netlify.app/styles.css">
 ```
 
+Review the [reference](/reference) page to review how this stylesheet formats standard HTML elements and also for some additional utility classes which it makes available.
+
 </section>
 <hr>
 <section>
