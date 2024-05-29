@@ -23,8 +23,22 @@ layout: "_layouts/base.liquid"
 <hr>
 <section>
 
-  # Blockquotes
+  ## Blockquotes
 
   > Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque perspiciatis placeat sit deserunt suscipit quisquam eaque hic dolorum libero magnam! Ducimus quis adipisci amet mollitia atque dicta iste aut ratione?
+
+  ## Lists
+
+  Ordered and unordered lists get a little breathing room:
+
+  1. Ordered lists
+  1. Show numbered items 
+  1. With this formatting
+
+  We also style the number or bullet with a tiny bit of color variation:
+
+  - Unordered lists
+  - Show bullet items 
+  - With this formatting
 
 </section>

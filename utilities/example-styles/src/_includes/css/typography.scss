@@ -38,3 +38,9 @@ blockquote {
   font-size: var(--step-0);
 }
 
+ul, ol {
+  margin: 1em 0;
+}
+li::marker {
+  color: var(--blue-200);
+}
