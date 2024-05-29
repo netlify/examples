@@ -1,7 +1,7 @@
 [build] 
   publish = "dist"
   command = "pnpm run build"
-  ignore = "git diff $CACHED_COMMIT_REF $COMMIT_REF utilities/example-styles"
+  ignore = "git diff $CACHED_COMMIT_REF $COMMIT_REF /utilities/example-styles"
 
 
 [dev] 
