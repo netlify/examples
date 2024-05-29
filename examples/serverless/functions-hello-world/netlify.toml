@@ -1,5 +1,7 @@
 [build]
   publish = "public"
+  ignore = "git diff $CACHED_COMMIT_REF $COMMIT_REF -- examples/serverless/functions-hello-world"
+
 [dev]
   publish = "public"
 
