@@ -12,7 +12,6 @@
   "license": "ISC",
   "devDependencies": {
     "@11ty/eleventy": "^2.0.1",
-    "@11tyrocks/eleventy-plugin-lightningcss": "^1.4.0",
     "@netlify/netlify-marketing-tokens": "^1.1.0",
     "sass": "^1.77.2"
   }
