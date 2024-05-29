@@ -1,0 +1,7 @@
+{
+    "name": "netlify-example-hello-functions",
+    "version": "1.0.0",
+    "description": "A site to show a hello world example of using Netlify Functions",
+    "author": "Netlify",
+    "license": "ISC"
+}
