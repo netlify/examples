@@ -19,6 +19,8 @@ layout: "_layouts/base.liquid"
   <button>Button</button>
   <button disabled>Disabled button</button>
 
+  [Short pages](/short-page) should look good in this layout too/
+
 </section>
 <hr>
 <section>

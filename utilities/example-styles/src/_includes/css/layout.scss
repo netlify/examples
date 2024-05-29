@@ -1,5 +1,8 @@
 body {
   text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 
@@ -40,6 +43,7 @@ footer {
   color:#000;
   padding:2em 0 10em;
   margin: 0 -2em;
+  margin-top: auto;
   
   & nav {
     max-width: var(--content-width);
