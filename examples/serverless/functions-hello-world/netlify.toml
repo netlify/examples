@@ -1,7 +1,5 @@
 [build]
   publish = "public"
-  command = "echo No build command"
-
 [dev]
   publish = "public"
 
