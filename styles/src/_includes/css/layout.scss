@@ -29,9 +29,6 @@ footer nav {
 
 }
 
-header {
-  padding-bottom: 6em;
-}
 
 main {
   padding-bottom: 6em;
@@ -62,6 +59,11 @@ footer {
 section {
   text-align: left;
   max-width: 600px;
-  margin:2em auto;
+  margin:2em auto 4em;
+  // border: solid 1px red;
 }
 
+header section {
+  margin-top: 3em;
+  margin-bottom: 5em;
+}

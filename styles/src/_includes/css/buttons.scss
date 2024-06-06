@@ -25,19 +25,22 @@ button:hover {
   transition: all 100ms;
 }
 
-button:disabled {
-  background-color:var(--blue-200);
-}
 
 a.btn:hover,
-a.btn:focus,
-button:disabled:hover {
+a.btn:focus {
   background-color:var(--blue-200);
   color: var(--blue-900);
   cursor: default;
 }
 
-
+button:disabled {
+  background-color:var(--blue-200);
+}
+button:disabled:hover,
+button:disabled:focus {
+  color: var(--blue-800);
+  cursor: not-allowed;
+}
 
 a.btn-secondary:link,
 a.btn-secondary:visited {
