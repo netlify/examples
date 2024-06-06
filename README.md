@@ -2,12 +2,10 @@
 
 # Netlify Examples
 
-WORK IN PROGRESS — A PRIVATE REPOSITORY FOR NOW
-
 A collection of examples and demos for people building the web with Netlify
-
 
 ## Repo organization
 
-- `/examples` — a collection of deployable examples
-- `/utilities` - tools to help make creating examples easier
+- [/examples](examples) — a collection of deployable examples
+- [/boilerplates](boilerplates) — Scaffolds for creating new demos with popular frameworks
+- [/styles](styles) - Styles for demos and examples to use for consistency. ([See site for usage](https://example-styles.netlify.app))
