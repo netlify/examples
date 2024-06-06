@@ -1,5 +1,6 @@
 ---
 layout: "_layouts/base.liquid"
+title: "Netlify examples - styles reference"
 ---
 
 <section>
