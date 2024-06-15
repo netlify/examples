@@ -10,9 +10,9 @@ export default function head({ title, metaDescription, url, openGraphImageName }
     <meta name="description" content="${metaDescription}" />
 
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;900&display=swap" rel="stylesheet" />
+    <link rel="preload" href="https://example-styles.netlify.app/fonts/PacaembuVar-latin.woff2" as="font" type="font/woff2" />
+    <link rel="preload" href="https://example-styles.netlify.app/fonts/MulishVar-latin.woff2" as="font" type="font/woff2" />
+    <link rel="stylesheet" href="https://example-styles.netlify.app/styles.css">
 
     <!-- Favicons -->
     <meta name="theme-color" content="#ffffff" />
@@ -49,7 +49,6 @@ export default function head({ title, metaDescription, url, openGraphImageName }
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-X2FMMZSSS9');
     </script>
   </head>
