@@ -30,7 +30,7 @@ Review the [reference](/reference) page to review how this stylesheet formats st
 <header>
   <nav>
     <a href="https://www.netlify.com/">
-      <img src="/images/logo-netlify-small-monochrome-darkmode.svg" alt="Netlify">
+      <img src="https://example-styles.netlify.app/images/logo-netlify-small-monochrome-darkmode.svg" alt="Netlify" class="nf-logo">
     </a>
     <ul>
       <li>Active page</li>
