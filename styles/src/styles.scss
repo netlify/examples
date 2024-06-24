@@ -27,7 +27,6 @@ body {
 footer .nf-logo,
 header .nf-logo {
   height: var(--step-5);
-  fill: red;
   color: #fff;
 }
 
@@ -48,19 +47,8 @@ a:visited {
 }
 a:hover,
 a:focus {
- text-decoration-color: cyan;
+ text-decoration-color: var(--teal-200);
  text-underline-offset: 0.3em;
  transition: all 100ms;
 }
 
-footer {
-  & a:link,
-  & a:visited {
-    color: #000;
-    text-decoration-color: #00000055;
-  }
-  & a:hover,
-  & a:focus {
-  text-decoration-color: cyan;
-  }
-}

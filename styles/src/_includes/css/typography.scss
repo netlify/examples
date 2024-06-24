@@ -44,3 +44,30 @@ ul, ol {
 li::marker {
   color: var(--blue-200);
 }
+
+
+// footer
+
+footer {
+
+  font-size: 0.85em;
+
+  h3 {
+    color: #000;
+    font-size: 1.2em;
+    font-family: var(--font-primary);
+    font-weight: 800;
+    padding-block: var(--space-s);
+  }
+
+  a:link,
+  a:visited {
+    color: var(--neutral-dark-300);
+    text-decoration: none;
+  }
+  a:hover,
+  a:focus {
+    color: var(--neutral-dark-900);
+    text-decoration: underline;
+  }
+}
