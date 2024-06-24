@@ -4,7 +4,7 @@ title: "Netlify examples - style resources"
 ---
 
 <section>
-  <h2>Usage</h2>  
+  <h2 id="usage">Usage</h2>  
   <p>
     A minified CSS file is available to use directly in your sites by linking to <a href="https://example-styles.netlify.app/styles.css">this stylesheet</a> URL. To ease the performance hit of sourcing the fonts from another domain via this CSS, we should preload those too
   </p>
@@ -62,5 +62,16 @@ Review the [reference](/reference) page to review how this stylesheet formats st
 </footer>
 ```
 
+</section>
+<hr>
+<section>
+
+  <h2>Codepen</h2>
+  <p>
+    For convenience, you can experiment with using example styles using a Codepen template.
+  </p>
+  <p>
+    <a href="https://codepen.io/pen?template=OJYzMOY" class="btn-primary">Create new Codepen from template</a>
+  </p>
 
 </section>
