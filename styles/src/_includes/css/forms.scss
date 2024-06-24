@@ -1,6 +1,6 @@
 form {
   background-color: var(--shade-down-2);
-  border-radius: 3px;
+  border-radius: var(--radius-3);
   padding: 2em;
 }
 
@@ -15,7 +15,7 @@ select {
   border: none;
   color: var(--blue-900);
   background-color: var(--blue-000);;
-  border-radius: 3px;
+  border-radius: var(--radius-1);
   padding: 0.3em 0.4em;
   margin-bottom: 0.8em;
 }
