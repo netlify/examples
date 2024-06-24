@@ -8,6 +8,11 @@
   --font-heading: var(--font-secondary);
   --font-monospace: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, "DejaVu Sans Mono", monospace;
 
+  /* color variants */
+  --shade-down-1: #00000008;
+  --shade-down-2: #00000015;
+  --shade-down-3: #00000022;
+
   /* Responsive type sizes */
   --step--1: clamp(0.625rem, 0.5729rem + 0.2083vi, 0.7292rem);
   --step-0: clamp(0.75rem, 0.6875rem + 0.25vi, 0.875rem);
@@ -19,7 +24,6 @@
   --step-6: clamp(2.2395rem, 2.0529rem + 0.7465vi, 2.6127rem);
 
   /* gradients */
-
   --gradient-main: var(--blue-900) 10vh,  var(--blue-800) 80vh;
 
   
@@ -29,6 +33,9 @@
   --radius-3: 10px;
   --grid-line-size: 10px;
   --content-width: 600px;
+
+  /* icon data */
+  --icon-chevron: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8cGF0aCBmaWxsPSIjMTgxYTFjIiBkPSJNMjMzLjQgNDA2LjZjMTIuNSAxMi41IDMyLjggMTIuNSA0NS4zIDBsMTkyLTE5MmMxMi41LTEyLjUgMTIuNS0zMi44IDAtNDUuM3MtMzIuOC0xMi41LTQ1LjMgMEwyNTYgMzM4LjcgODYuNiAxNjkuNGMtMTIuNS0xMi41LTMyLjgtMTIuNS00NS4zIDBzLTEyLjUgMzIuOCAwIDQ1LjNsMTkyIDE5MnoiLz4KPC9zdmc+);
 
   
 }

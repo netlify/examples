@@ -11,24 +11,13 @@ title: "Netlify examples - styles reference"
 
   In addition, a number of common utility classes are provided to help express more detailed designs.
 
+
+
 </section>
 <hr>
 <section>
 
 ## HTML elements
-
-
-### Sections and paragraphs
-
-Wrapping elements in a `<section>` applies the line-length constraint and centers content in the page.
-
-Paragraphs `<p>` have been given some spacing. 
-
-A horizontal rule `<hr>` can be used to add some subtle visual separation.
-
-</section>
-<hr>
-<section>
 
 ### Headings
 
@@ -44,6 +33,27 @@ A horizontal rule `<hr>` can be used to add some subtle visual separation.
   ### h3. Third level header
   #### h4. Fourth level header
 
+</section>
+<hr>
+<section>
+
+
+
+### Sections and paragraphs
+
+Wrapping elements in a `<section>` applies the line-length constraint and centers content in the page.
+
+Paragraphs `<p>` have been given some spacing. 
+
+A horizontal rule `<hr>` can be used to add some subtle visual separation.
+
+<p>
+<small>
+  
+  Small-print or [side comments](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/small) can be added using the `<small>` element as usual.
+
+</small>
+</p>
 
 
 </section>
@@ -112,6 +122,59 @@ A horizontal rule `<hr>` can be used to add some subtle visual separation.
 <hr>
 <section>
 
+## Form elements
+
+Using `input` elements nested inside `labels` for implicit association. 
+
+```html
+<form>
+
+  <!-- Text inputs -->
+  <label>Text input label
+    <input type="text" placeholder="text input">
+  </label>
+  
+  <!-- Password inputs -->
+  <label>Password input label
+    <input type="password" placeholder="password input">
+  </label>
+
+  <!-- Select inputs -->
+  <label>Select input label
+    <select>
+      <option value="1" selected>Option one</option>
+      <option value="2">Option two</option>
+      <option value="3">Option three</option>
+    </select>
+  </label>
+
+  <!-- Submit button -->
+  <input type="submit" value="Submit button">
+  
+</form>
+```
+
+<form>
+  <label>Text input label
+    <input type="text" placeholder="text input">
+  </label>
+  <label>Password input label
+    <input type="password" placeholder="password input">
+  </label>
+  <label>Select input label
+    <select>
+      <option value="1" selected>Option one</option>
+      <option value="2">Option two</option>
+      <option value="3">Option three</option>
+    </select>
+  </label>
+  <input type="submit" value="Submit button">
+</form>
+</section>
+<hr>
+<section>
+
+
 ## Utility classes
 
 Handy for some additional styling control and UI elements.
@@ -129,4 +192,3 @@ If a [button element](#links-and-buttons) is not appropriate, anchor tags can be
   <a href="#" class="btn-primary">Primary button link</a>
   <a href="#" class="btn-secondary">Secondary button link</a>
 </p>
-
