@@ -15,6 +15,11 @@ export default function head({ title, metaDescription, url, openGraphImageName }
 
     <!-- Netlify demo styles -->
     <link rel="stylesheet" href="https://example-styles.netlify.app/styles.css">
+    <!-- Code highlight styles -->
+    <link rel="stylesheet" href="/styles.css">
+
+
+
 
     <!-- Favicons -->
     <meta name="theme-color" content="#ffffff" />

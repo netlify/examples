@@ -16,7 +16,7 @@ export default {
       modify elements.
     </p>
       <p>
-      In this example, we transform an HTML page, replacing the <code>src</code> of <code><img></code> tags
+      In this example, we transform an HTML page, replacing the <code>src</code> of <code>img</code> tags
       with a placeholder image. We also add content with the user's location. This
       shows how to do user personalization when the pages may be static.      
     </p>

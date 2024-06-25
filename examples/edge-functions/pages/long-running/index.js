@@ -9,6 +9,8 @@ export default {
       <h1>Long-running Netlify Edge Functions</h1>
       <p>Edge Functions are limited to 50ms of CPU time, but this does not include time spent waiting or 
         making network calls. As long as a function returns headers within 40 seconds it can run indefinitely. 
+      </p>
+      <p>
         If you need to make API calls or perform other work that takes longer than this, you can return a stream 
         from the function and write to it when you have the data.
       </p>
@@ -37,10 +39,10 @@ export default (request: Request, context: Context) => {
         <li>${repoLink("long-running.ts")}</li>
       </ul>
 
-      <div class="protip">
+      <blockquote>
         <h2>Pro tip!</h2>
         <p>Need to send updates to the browser from a long-running edge function? Check out the <a href="/example/server-sent-events">server-sent events (SSE)</a> example.</p>
-      </div>
+      </blockquote>
     </section>
   `;
   },

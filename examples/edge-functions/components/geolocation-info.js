@@ -1,29 +1,14 @@
 export default function geolocation({ city, countryCode, countryName, latitude, longitude, timezone }) {
   return `
-    <ul class="geolocation">
-      <li class="geolocation__item">
-        <img src="https://flagcdn.com/96x72/${countryCode?.toLowerCase()}.png" class="geolocation__flag" alt="${countryName}" />
-      </li>
-      <li class="geolocation__item">
-        <span>Your country name</span>
-        <span>${countryName}</span>
-      </li>
-      <li class="geolocation__item">
-        <span>Your country code</span>
-        <span>${countryCode}</span>
-      </li>
-      <li class="geolocation__item">
-        <span>Your city</span>
-        <span>${city}</span>
-      </li>
-      <li class="geolocation__item">
-        <span>Your coordinates</span>
-        <span>${latitude}N, ${longitude}W</span>
-      </li>
-      <li class="geolocation__item">
-        <span>Your timezone</span>
-        <span>${timezone}</span>
-      </li>
-    </ul>
+    <blockquote>
+      <img src="https://flagcdn.com/96x72/${countryCode?.toLowerCase()}.png" style="height:2em;" alt="${countryName}" />
+      <dl>
+        <dt>Your country name</dt><dd>${countryName}</dd>
+        <dt>Your country code</dt><dd>${countryCode}</dd>
+        <dt>Your city</dt><dd>${city}</dd>
+        <dt>Your coordinatse</dt><dd>${latitude}, ${longitude}</dd>
+        <dt>Your timezone</dt><dd>${timezone}</dd>
+      </dl>
+    </blockquote>
   `;
 }

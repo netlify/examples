@@ -37,10 +37,10 @@ export default async (request: Request, context: Context) => {
         <li>${repoLink("sse.ts")}</li>
       </ul>
 
-      <div class="protip">
+      <blockquote>
         <h2>Pro tip!</h2>
         <p>Need to wait a long time before starting to stream a response? Check out the <a href="/example/slow-stream">slow streaming</a> example.</p>
-      </div>
+      </blockquote>
     </section>
   `;
   },

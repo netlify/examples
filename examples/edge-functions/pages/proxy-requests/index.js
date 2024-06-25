@@ -7,7 +7,7 @@ export default {
     return `
     <section>
       <h1>Proxy requests to another source</h1>
-      <p>You can use <a href="https://developer.mozilla.org/en-US/docs/Web/API/fetch" target="_BLANK" rel=noopener>fetch()</a> to make requests to other sources via an Edge Function.</p>
+      <p>You can use <a href="https://developer.mozilla.org/en-US/docs/Web/API/fetch" target="_BLANK" rel=noopener><code>fetch()</code></a> to make requests to other sources via an Edge Function.</p>
       <pre><code>import { Context } from "@netlify/edge-functions";
 
 export default async (request: Request, context: Context) => {
@@ -27,11 +27,11 @@ export default async (request: Request, context: Context) => {
         <li>${repoLink("proxy-requests.ts")}</li>
       </ul>
 
-      <div class="protip">
+      <blockquote>
         <h2>Pro tip!</h2>
         <p>Curious about <code>Response.json()</code> in the code example above? Check out how you can return a <a href="/example/json">JSON response</a> using Edge Functions.</p>
       </div>
-    </section>
+    </blockquote>
 `;
   },
 };

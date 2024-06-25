@@ -16,6 +16,9 @@ export default async (request: Request, context: Context) => {
   return response;
 };</code></pre>
       <h2>See this in action</h2>
+      <p>
+        Use the links below to navigate to versions of this page with or wothout the custom header, which you'll be able to inspect in your browser dev tools,
+      </p>
       <ul>
         <li><a href="/example/set-response-header">This page, without a custom HTTP response header</a></li>
         <li><a href="/example/set-response-header?method=set-response-header">This page, but with a custom HTTP response header added</a></li>

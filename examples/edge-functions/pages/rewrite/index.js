@@ -21,10 +21,10 @@ export default async (request: Request, context: Context) => {
       <li>${repoLink("rewrite.ts")}</li>
     </ul>
 
-    <div class="protip">
+    <blockquote>
       <h2>Pro tip!</h2>
       <p>You can combine <a href="/example/localized-content">geolocation data</a> with URL rewrites to serve different URLs powering internationalized content.</p>
-    </div>
+    </blockquote>
     </section>
   `;
   },

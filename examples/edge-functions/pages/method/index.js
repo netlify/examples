@@ -23,13 +23,17 @@ export default async (request: Request, context: Context) => {
 export const config: Config = {
   method: ["POST", "PUT"]
 }</code></pre>
+
     <h2>See this in action</h2>
     <p>Since the Edge Function is configured to respond to <code>PUT</code> and <code>POST</code>, accessing the Edge Function through a browser will result in a 404.
-    <br/>To validate that the Edge Function works, you can use cURL in your terminal:
-
-    <br/><code>curl  -X POST https://edge-functions-examples.netlify.app/example/method</code></li>
-    <br/><code>curl -X PUT https://edge-functions-examples.netlify.app/example/method</code>
     </p>
+    <p>To validate that the Edge Function works, you can use cURL in your terminal:</p>
+
+  <pre><code>
+  curl -X POST https://edge-functions-examples.netlify.app/example/method
+  curl -X PUT https://edge-functions-examples.netlify.app/example/method
+  </code></pre>
+    
     <ul>
       <li>${repoLink("method.ts")}</li>
     </ul>
