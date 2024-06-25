@@ -49,3 +49,16 @@ ul, ol {
 li::marker {
   color: var(--blue-200);
 }
+
+dl {
+  margin: 1em 0;  
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.4em 1em;
+}
+dt {
+  font-weight: 700;
+}
+dt::after {
+  content: ":"
+}
