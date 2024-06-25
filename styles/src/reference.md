@@ -88,6 +88,15 @@ A horizontal rule `<hr>` can be used to add some subtle visual separation.
 
   > Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque perspiciatis placeat sit deserunt suscipit quisquam eaque hic dolorum libero magnam! Ducimus quis adipisci amet mollitia atque dicta iste aut ratione?
 
+
+  <blockquote>
+  <h2>Titles in blockquotes</h2>
+  <p>
+   Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque perspiciatis placeat sit deserunt suscipit quisquam eaque hic dolorum libero magnam! Ducimus quis adipisci amet mollitia atque dicta iste aut ratione?
+  </p>
+  </blockquote>
+
+
   ### Lists
   
   Ordered and unordered lists get a little breathing room. We also style the number or bullet with a tiny bit of color variation.
