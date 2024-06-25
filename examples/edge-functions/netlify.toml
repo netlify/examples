@@ -4,6 +4,7 @@ framework = "#static"
 [build]
 command = "echo No build for this site, we are living on the edge"
 publish = "public"
+ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF ."
 
 [context.production]
 environment = { MY_IMPORTANT_VARIABLE = "this is a very important secret" }
