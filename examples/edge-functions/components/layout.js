@@ -4,13 +4,20 @@ import footer from "./footer.js";
 import deployButton from "./deploy-button.js";
 
 const explainer = `
+<hr>
 <section>
   <h2>What are Edge Functions?</h2>
-  <p>Using JavaScript and TypeScript, <a href="https://www.netlify.com/products/?utm_campaign=devex&utm_source=edge-functions-examples&utm_medium=web&utm_content=Edge%20Functions%20Product%20Page#netlify-edge-functions" target="_blank" rel="noopener">Netlify Edge Functions</a> give you the power to modify network requests to localize content, serve relevant ads, authenticate visitors, A/B test content, and much more! And this all happens at the <strong>Edge</strong> — directly from the worldwide location closest to each user.</p>
-  <p>To use Edge Functions on Netlify, add JavaScript or TypeScript files to an edge-functions directory in your project.</p>
+  <p>Using JavaScript and TypeScript, <a href="https://www.netlify.com/products/?utm_campaign=devex&utm_source=edge-functions-examples&utm_medium=web&utm_content=Edge%20Functions%20Product%20Page#netlify-edge-functions" target="_blank" rel="noopener">Netlify Edge Functions</a> give you the power to modify network requests to localize content, serve relevant ads, authenticate visitors, A/B test content, and much more! 
+  <p>
+  This all happens at the <strong>Edge</strong> — directly from the worldwide location closest to each user.</p>
+  </p>
+
+  <blockquote>
+  <p>To use Edge Functions on Netlify, add JavaScript or TypeScript files to a <code>/netlify/edge-functions</code> directory in your project.</p>
   <p><a href="https://docs.netlify.com/edge-functions/overview/?utm_campaign=devex&utm_source=edge-functions-examples&utm_medium=web&utm_content=Edge%20Functions%20Docs" target="_blank" rel="noopener">Learn more in the docs</a>.</p>
-</section>
-`;
+  </blockquote>
+  </section>
+  `;
 
 export default function layout(data) {
   return `
@@ -24,18 +31,11 @@ export default function layout(data) {
   })}
   <body>
   ${header({ title: data.title })}
-  <main class="main">
-
-
-
-    ${
-      data.url.pathname !== "/"
-        ? ""
-        : `<h1>Edge Functions on Netlify</h1><p>Explore a library of reference examples for learning about Edge Functions on Netlify.</p>`
-    }
+  <main>
+    
     ${data.url.pathname !== "/" ? "" : explainer}
 
-    <section class="home__section">  
+    <section>  
     ${data.content}
     </section>
     <p>
@@ -48,8 +48,10 @@ export default function layout(data) {
     <hr/>
     <section>
       <h3>Deploy this site to Netlify</h3>
-      <p>Try out Edge Functions on Netlify today! Click the button below to deploy this site with all of its demos to your Netlify account.</p>
-      ${deployButton()}
+      <p>
+        Try out Edge Functions on Netlify today! Click the button below to deploy this site with all of its demos to your Netlify account.
+      </p>
+      <p>${deployButton()}</p>
     </section>
 
   </main>

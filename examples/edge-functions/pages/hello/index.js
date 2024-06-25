@@ -18,14 +18,16 @@ export default {
 };</code></pre>
       <h2>See this in action</h2>
       <ul>
-        <li><a href="/hello">View the response from the Edge Function</a></li>
-        <li>${repoLink("hello.js")}</li>
+        <li>${repoLink("hello.js")}</li>  
+        <li><a href="/hello">View the response from this Edge Function</a></li>
       </ul>
 
-      <div class="protip">
-        <h2>Pro tip!</h2>
-        <p>Need to return JSON data from an Edge Function? Check out the <a href="/example/json">JSON response</a> method on the Context object!</p>
-      </div>
+      <blockquote>
+      <h4>Pro tip!</h4>
+        <p>
+          Need to return JSON data from an Edge Function? Check out the <a href="/example/json">JSON response</a> method on the Context object!
+        </p>
+      </blockquote>
     </section>
   `;
   },

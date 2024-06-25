@@ -12,6 +12,8 @@ export default function head({ title, metaDescription, url, openGraphImageName }
     <!-- Fonts -->
     <link rel="preload" href="https://example-styles.netlify.app/fonts/PacaembuVar-latin.woff2" as="font" type="font/woff2" />
     <link rel="preload" href="https://example-styles.netlify.app/fonts/MulishVar-latin.woff2" as="font" type="font/woff2" />
+
+    <!-- Netlify demo styles -->
     <link rel="stylesheet" href="https://example-styles.netlify.app/styles.css">
 
     <!-- Favicons -->
@@ -20,7 +22,7 @@ export default function head({ title, metaDescription, url, openGraphImageName }
     <link rel="mask-icon" href="/mask-icon.svg" color="#000000" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.json" />
-    <link rel="stylesheet" href="/styles.css" />
+  
 
     <!-- Open Graph -->
     <meta name="twitter:card" content="summary_large_image" />

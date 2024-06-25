@@ -36,6 +36,11 @@ blockquote {
   padding: 2em;
   margin: 2em 0;
   font-size: var(--step-0);
+
+  h1, h2, h3, h4 {
+    font-size: 1.4em;
+    padding-top: 0;
+  }
 }
 
 ul, ol {
