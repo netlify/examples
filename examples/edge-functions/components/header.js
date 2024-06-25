@@ -6,14 +6,14 @@ export default function header({ title }) {
           <img src="https://example-styles.netlify.app/images/logo-netlify-small-monochrome-darkmode.svg" alt="Netlify" class="nf-logo">
         </a>
         <ul>
-           <ul><a href="/">Edge Functions Examples</a></li>
+           ${title == "Home" ? "" : `<ul><li>${title}</li></ul>`}
+          <ul><a href="/">Edge Functions Examples</a></li>
         </ul>
       </nav>
       <section>
         <h1>Edge Functions on Netlify</h1>
         <p>Reference examples for learning about Edge Functions on Netlify.</p>
       </section>
-  
     </header>
     <hr>
   `;
