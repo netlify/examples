@@ -46,15 +46,16 @@ Review the [reference](/reference) page to review how this stylesheet formats st
 
 <h3>Footer</h3>  
 
-```
+```html
 <footer>
-  <div>
-    <a href="https://www.netlify.com/"><img src="/images/logo-netlify-small-monochrome-lightmode.svg" class="nf-logo" alt="Netlify logo"></a>
-    <div>
-      <a href="https://youtube.com/Netlify"><Icon name="youtube" title="YouTube" width="24" height="24" /></a>
-      <a href="https://x.com/Netlify"><Icon name="twitter" title="Twitter" width="24" height="24" /></a>
-      <a href="https://linkedin.com/company/Netlify"><Icon name="linkedin" title="LinkedIn" width="24" height="24" /></a>
-      <a href="https://answers.netlify.com"><Icon name="discourse" title="Forums" width="24" height="24" /></a>
+  <div class="f-btwn">
+    <a href="https://www.netlify.com/"><img src="https://example-styles.netlify.app//images/logo-netlify-small-monochrome-lightmode.svg" class="nf-logo" alt="Netlify logo"></a>
+    <div class="social-icons">
+      <a href="https://youtube.com/Netlify"><img src="https://example-styles.netlify.app/icons/youtube.svg" alt="YouTube"></a>
+      <a href="https://github.com/netlify/examples"><img src="https://example-styles.netlify.app/icons/github.svg" alt="GitHub"></a>
+      <a href="https://x.com/Netlify"><img src="https://example-styles.netlify.app/icons/twitter.svg" alt="X"></a>
+      <a href="https://linkedin.com/company/Netlify"><img src="https://example-styles.netlify.app/icons/linkedin.svg" alt="LinkedIn"></a>
+      <a href="https://answers.netlify.com"><img src="https://example-styles.netlify.app/icons/discourse.svg" alt="Netlify Answers"></a>
     </div>
   </div>
   <div class="links-container">
@@ -66,6 +67,7 @@ Review the [reference](/reference) page to review how this stylesheet formats st
         <li><a href="https://developers.netlify.com/cli/">Netlify CLI</a></li>
         <li><a href="https://developers.netlify.com/feed/">Activity Feed</a></li>
         <li><a href="https://docs.netlify.com">Documentation</a></li>
+        <li><a href="https://netlify.com/conference/">Compose Conference</a></li>
       </ul>
     </section>
     <section>
@@ -74,7 +76,7 @@ Review the [reference](/reference) page to review how this stylesheet formats st
         <li><a href="https://netlify.com/blog/">Blog</a></li>
         <li><a href="https://netlify.com/about/">About</a></li>
         <li><a href="https://netlify.com/careers/">Careers</a></li>
-        <li><a href="https://netlify.com/conference/">Compose Conference</a></li>
+    
         <li><a href="https://netlify.com/press/">Press</a></li>
         <li><a href="https://swag.netlify.com/">Netlify Store</a></li>
         <li><a href="https://netlify.com/sustainability/">Sustainability</a></li>
@@ -98,10 +100,10 @@ Review the [reference](/reference) page to review how this stylesheet formats st
       <li><a href="https://netlify.com/security/">Security</a></li>
       <li><a href="https://netlify.com/gdpr-ccpa/">GDPR/CCPA</a></li>
       <li><a href="mailto:fraud@netlify.com?subject=Abuse%20report&body=Please%20include%20the%20site%20URL%20and%20reason%20for%20your%20report%2C%20and%20we%20will%20reply%20promptly.">Abuse</a></li>
-    </ul>
-    <div>© 2024 Netlify</div>
-  </small>
-</footer>
+      </ul>
+      <div>© 2024 Netlify</div>
+    </small>
+  </footer>
 ```
 
 </section>

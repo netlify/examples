@@ -52,3 +52,24 @@ a:focus {
  transition: all 100ms;
 }
 
+.social-icons {
+  display: flex;
+  gap: 1em;
+  justify-content: space-between;
+  margin-bottom:2em;
+
+  a:link,
+  a:visited {
+    display: inline-block;
+    opacity: 0.3;
+
+  }
+  a:focus,
+  a:hover {
+    opacity: 1;
+  }
+  img {
+    width: 24px;
+    height: 24px;
+  }
+}
