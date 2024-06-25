@@ -25,14 +25,6 @@
   <main>
     {{content}}
   </main>
-  <footer>
-    <nav>
-      <ul>
-        <li><a href="https://www.netlify.com/"><img class="nf-logo" src="/images/logo-netlify-small-monochrome-lightmode.svg" alt="Netlify"></a></li>
-        <li><a href="https://github.com/netlify/examples">Netlify Examples</a></li>
-        <li><a href="https://developers.netlify.com">Netlify Developer Hub</a></li>
-      </ul>
-    </nav>
-  </footer>
+  {% render "footer.liquid" %}  
   </body>
 </html>

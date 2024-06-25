@@ -1,50 +1,49 @@
-a.btn:link,
-a.btn:visited,
+a.btn-primary:link,
+a.btn-primary:visited,
+a.btn-secondary:link,
+a.btn-secondary:visited,
+input[type=submit],
 button {
-  border-style: none;;
   background-color:var(--blue-000);
   color: var(--blue-800);
   padding: 0.3em 1em;
   margin: 1em auto;
-  border-style:none;
+  border: 2px solid var(--blue-000);
   border-radius: var(--radius-1);
   font-weight: 600;
   font-size: 0.9em;
   font-family: var(--font-heading);
   text-decoration: none;
+  display: inline-block;
   transition: all 300ms;
+  cursor: pointer;
+}
+
+a.btn-secondary:link,
+a.btn-secondary:visited {
+  color: var(--blue-000);
+  background-color: transparent
 }
 
 
-a.btn:hover,
-a.btn:focus,
-button:hover {
+
+a.btn-primary:hover,
+a.btn-primary:focus,
+a.btn-secondary:hover,
+a.btn-secondary:focus,
+input[type=submit]:not(:disabled):hover,
+input[type=submit]:not(:disabled):focus,
+button:not(:disabled):hover,
+button:not(:disabled):focus {
   background-color: var(--teal-200);
+  border-color: var(--teal-200);
   color: var(--blue-900);
   cursor: pointer;
   transition: all 100ms;
 }
 
 
-a.btn:hover,
-a.btn:focus {
-  background-color:var(--blue-200);
-  color: var(--blue-900);
-  cursor: default;
-}
-
 button:disabled {
   background-color:var(--blue-200);
-}
-button:disabled:hover,
-button:disabled:focus {
-  color: var(--blue-800);
-  cursor: not-allowed;
-}
-
-a.btn-secondary:link,
-a.btn-secondary:visited {
-  background-color: var(--blue-900);
-  color: var(--blue-000);
-  transition: all 300ms;
+  border-color:var(--blue-200);
 }
