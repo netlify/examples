@@ -23,7 +23,7 @@ export default {
       </ul>
 
       <blockquote>
-      <h4>Pro tip!</h4>
+        <h2>Pro tip!</h2>
         <p>
           Need to return JSON data from an Edge Function? Check out the <a href="/example/json">JSON response</a> method on the Context object!
         </p>
