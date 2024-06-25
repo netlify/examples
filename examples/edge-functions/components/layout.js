@@ -37,12 +37,12 @@ export default function layout(data) {
 
     <section>  
     ${data.content}
-    </section>
     <p>
-      ${
-        data.url.pathname !== "/" ? `<a href="/">Explore more examples</a>` : ""
-      }
+    ${
+      data.url.pathname !== "/" ? `<a href="/" class="btn-primary">Explore more examples</a>` : ""
+    }
     </p>
+    </section>
 
     ${data.url.pathname !== "/" ? explainer : ""}
     <hr/>
