@@ -22,10 +22,10 @@ export default async (request: Request, context: Context) => {
         <li>${repoLink("json.ts")}</li>
       </ul>
 
-      <div class="protip">
+      <blockquote>
         <h2>Pro tip!</h2>
-        <p>Need to return text/html from an Edge Function? Check out the <a href="/example/hello">Hello, world</a> example.</p>
-      </div>
+   <p>Need to return text/html from an Edge Function? Check out the <a href="/example/hello">Hello, world</a> example.</p>
+      </blockquote>
     </section>
   `;
   },
