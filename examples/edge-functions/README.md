@@ -7,50 +7,50 @@ Explore these examples here: https://edge-functions-examples.netlify.app/
 
 ## Responses
 
-- [Hello, world](/pages/hello)
-- [Return JSON](/pages/json)
-- [Return an image](/pages/image)
+- [Hello, world](pages/hello)
+- [Return JSON](pages/json)
+- [Return an image](pages/image)
 
 ## Rewrites and proxies
 
-- [Rewrite responses from another URL](/pages/rewrite)
-- [Proxy requests to another source](/pages/proxy-requests)
+- [Rewrite responses from another URL](pages/rewrite)
+- [Proxy requests to another source](pages/proxy-requests)
 
 ## HTTP Headers
 
-- [Set custom HTTP request headers](/pages/set-request-header)
-- [Set custom HTTP response headers](/pages/set-response-header)
+- [Set custom HTTP request headers](pages/set-request-header)
+- [Set custom HTTP response headers](pages/set-response-header)
 
 ## Transforming responses
 
-- [HTML transformation](/pages/htmlrewriter)
-- [Text transformation](/pages/transform)
-- [Content includes](/pages/include)
+- [HTML transformation](pages/htmlrewriter)
+- [Text transformation](pages/transform)
+- [Content includes](pages/include)
 
 ## Geolocation
 
-- [Determine a user's location](/pages/geolocation)
-- [Block content according to country](/pages/country-block)
-- [Serve localized content](/pages/localized-content)
+- [Determine a user's location](pages/geolocation)
+- [Block content according to country](pages/country-block)
+- [Serve localized content](pages/localized-content)
 
 ## Cookies
 
-- [Set cookies](/pages/cookies-set)
-- [Read cookies](/pages/cookies-read)
-- [Delete cookies](/pages/cookies-delete)
-- [Set up an A/B test using cookies](/pages/abtest)
+- [Set cookies](pages/cookies-set)
+- [Read cookies](pages/cookies-read)
+- [Delete cookies](pages/cookies-delete)
+- [Set up an A/B test using cookies](pages/abtest)
 
 ## Streams
-- [Long-running edge functions](/pages/long-running)
-- [Server-sent events](/pages/server-sent-events)
+- [Long-running edge functions](pages/long-running)
+- [Server-sent events](pages/server-sent-events)
 
 ## WebAssembly
-- [Edge WebAssembly](/pages/wasm)
+- [Edge WebAssembly](pages/wasm)
 
 ## Environment and debugging
 
-- [Write to the logs](/pages/log)
-- [Use environment variables](/pages/environment)
+- [Write to the logs](pages/log)
+- [Use environment variables](pages/environment)
 
 ---
 
