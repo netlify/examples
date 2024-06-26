@@ -76,7 +76,6 @@ Review the [reference](/reference) page to review how this stylesheet formats st
         <li><a href="https://netlify.com/blog/">Blog</a></li>
         <li><a href="https://netlify.com/about/">About</a></li>
         <li><a href="https://netlify.com/careers/">Careers</a></li>
-    
         <li><a href="https://netlify.com/press/">Press</a></li>
         <li><a href="https://swag.netlify.com/">Netlify Store</a></li>
         <li><a href="https://netlify.com/sustainability/">Sustainability</a></li>
@@ -85,11 +84,11 @@ Review the [reference](/reference) page to review how this stylesheet formats st
     <section>
       <h3>Contact Us</h3>
       <ul role="list">
-        <li><a id="cta-footer-sales" href="https://netlify.com/enterprise/contact/">Sales</a></li>
-        <li><a id="cta-footer-support" href="https://netlify.com/support/">Support</a></li>
-        <li><a id="cta-footer-status" href="https://netlifystatus.com/">Status</a></li>
-        <li><a id="cta-footer-answers" href="https://answers.netlify.com/">Forums</a></li>
-        <li><a id="cta-footer-agencyDirectory" href="https://netlify.com/agency-directory/">Hire an Agency</a></li>
+        <li><a href="https://netlify.com/enterprise/contact/">Sales</a></li>
+        <li><a href="https://netlify.com/support/">Support</a></li>
+        <li><a href="https://netlifystatus.com/">Status</a></li>
+        <li><a href="https://answers.netlify.com/">Forums</a></li>
+        <li><a href="https://netlify.com/agency-directory/">Hire an Agency</a></li>
       </ul>
     </section>
   </div>
@@ -105,6 +104,19 @@ Review the [reference](/reference) page to review how this stylesheet formats st
     </small>
   </footer>
 ```
+
+<h3 id="syntax-highlighting">Syntax highlighting</h3>
+
+Provided by [highlight.js](https://highlightjs.org), this can be used either during the build (ideally), or client-side for simplicity in demos and examples. A custom palatte is included in the CSS provided from this site.
+
+Add the following the the `<head>` of your HTML:
+
+```html
+  <!-- syntax highlighting  -->
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@latest/build/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+```
+
 
 </section>
 <hr>

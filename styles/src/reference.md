@@ -149,6 +149,46 @@ A horizontal rule `<hr>` can be used to add some subtle visual separation.
 <hr>
 <section>
 
+## Syntax highlighting
+
+Provided by [highlight.js](https://highlightjs.org), this can be used either during the build (ideally), or client-side for simplicity in demos and examples. A custom palatte is included in the CSS provided from this site.
+
+
+Add [the provided tags](/#syntax-highlighting) to the `<head>` of your HTML.
+
+The result will style your code blocks like this:
+
+
+```js
+/*
+ example from elsewhere
+*/
+import type { Context } from "@netlify/edge-functions";
+
+export default async (request: Request, context: Context) => {
+  let index = 0
+  const encoder = new TextEncoder();
+  const body = new ReadableStream({
+    start(controller) {
+      setInterval(() => {
+        controller.enqueue(encoder.encode());
+      }, 1000);
+    },
+  });
+  return new Response(body, {
+    headers: {
+      "Content-Type": "text/event-stream",
+    },
+  });
+};
+```
+
+
+
+</section>
+<hr>
+<section>
+
 ## Form elements
 
 Using `input` elements nested inside `labels` for implicit association. 
@@ -245,7 +285,7 @@ A visual container can be applied with the use of the `panel` class. This enclos
 
 Adding the class `flex-btwn` applies the following CSS to an element:
 
-```CSS
+```css
 .flex-btwn {
   display: flex;
   justify-content: space-between;
