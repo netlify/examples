@@ -67,8 +67,8 @@ A horizontal rule `<hr>` can be used to add some subtle visual separation.
   Button styles are available to use direclty on button elements or by adding a class to an anchor element.
 
 ```html
-  <button>Button</button>
-  <button disabled>Disabled button</button>
+<button>Button</button>
+<button disabled>Disabled button</button>
 ```
 
   <button>Button</button>
@@ -302,7 +302,6 @@ This can be helpful for the common layout task of spacing some items out across 
   <li>Across</li>
   <li>Element</li>
 </ul>
-
 ```
 
 <ul class="flex-btwn">

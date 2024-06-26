@@ -3,6 +3,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  gap:0;
 }
 
 
@@ -40,8 +41,8 @@ main {
 
 section {
   text-align: left;
-  max-width: 600px;
-  margin:2em auto 4em;
+  max-width: 70ch;
+  margin: 2em auto 4em;
 }
 
 header section {
@@ -52,14 +53,12 @@ header section {
 /* Footer */ 
 
 footer {
-
   background-color: #fff;
-  padding: 5em 2em;
+  padding: 4em;
   margin: 0 -2rem;
 
   > div {
     text-align: left;
-    max-width: 600px;
     margin:2em auto;
   }
 
@@ -94,7 +93,6 @@ footer {
       flex-wrap: wrap;
       justify-content:flex-start;
       gap: 1em;
-
     }
     
   }

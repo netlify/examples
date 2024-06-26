@@ -14,14 +14,18 @@
   --shade-down-3: #00000022;
 
   /* Responsive type sizes */
-  --step--1: clamp(0.625rem, 0.5729rem + 0.2083vi, 0.7292rem);
-  --step-0: clamp(0.75rem, 0.6875rem + 0.25vi, 0.875rem);
-  --step-1: clamp(0.9rem, 0.825rem + 0.3vi, 1.05rem);
-  --step-2: clamp(1.08rem, 0.99rem + 0.36vi, 1.26rem);
-  --step-3: clamp(1.296rem, 1.188rem + 0.432vi, 1.512rem);
-  --step-4: clamp(1.5552rem, 1.4256rem + 0.5184vi, 1.8144rem);
-  --step-5: clamp(1.8662rem, 1.7107rem + 0.6221vi, 2.1773rem);
-  --step-6: clamp(2.2395rem, 2.0529rem + 0.7465vi, 2.6127rem);
+
+  /* @link https://utopia.fyi/type/calculator?c=320,12,1.2,2600,18,1.2,6,1,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
+
+  --step--1: clamp(0.625rem, 0.5811rem + 0.2193vi, 0.9375rem);
+  --step-0: clamp(0.75rem, 0.6974rem + 0.2632vi, 1.125rem);
+  --step-1: clamp(0.9rem, 0.8368rem + 0.3158vi, 1.35rem);
+  --step-2: clamp(1.08rem, 1.0042rem + 0.3789vi, 1.62rem);
+  --step-3: clamp(1.296rem, 1.2051rem + 0.4547vi, 1.944rem);
+  --step-4: clamp(1.5552rem, 1.4461rem + 0.5457vi, 2.3328rem);
+  --step-5: clamp(1.8662rem, 1.7353rem + 0.6548vi, 2.7994rem);
+  --step-6: clamp(2.2395rem, 2.0823rem + 0.7858vi, 3.3592rem);
+
 
   /* gradients */
   --gradient-main: var(--blue-900) 10vh,  var(--blue-800) 80vh;
