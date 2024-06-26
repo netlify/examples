@@ -243,7 +243,7 @@ A visual container can be applied with the use of the `panel` class. This enclos
 
 ### Flexbox
 
-Adding the class `flex-btwn` applies he following CSS to an element:
+Adding the class `flex-btwn` applies the following CSS to an element:
 
 ```CSS
 .flex-btwn {
@@ -253,7 +253,7 @@ Adding the class `flex-btwn` applies he following CSS to an element:
 }
 ```
 
-This can be helpful for the common layout taksk of spracing some items out across a containign element, for example:
+This can be helpful for the common layout task of spacing some items out across a containing element, for example:
 
 ```html
 <ul class="flex-btwn">
