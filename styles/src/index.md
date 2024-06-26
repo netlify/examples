@@ -48,7 +48,7 @@ Review the [reference](/reference) page to review how this stylesheet formats st
 
 ```html
 <footer>
-  <div class="f-btwn">
+  <div class="flex-btwn">
     <a href="https://www.netlify.com/"><img src="https://example-styles.netlify.app//images/logo-netlify-small-monochrome-lightmode.svg" class="nf-logo" alt="Netlify logo"></a>
     <div class="social-icons">
       <a href="https://youtube.com/Netlify"><img src="https://example-styles.netlify.app/icons/youtube.svg" alt="YouTube"></a>

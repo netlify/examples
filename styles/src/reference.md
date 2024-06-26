@@ -101,6 +101,8 @@ A horizontal rule `<hr>` can be used to add some subtle visual separation.
   
   Ordered and unordered lists get a little breathing room. We also style the number or bullet with a tiny bit of color variation.
 
+  #### Ordered lists
+
 ```html
 <ol>
   <li>Ordered lists</li>
@@ -113,6 +115,7 @@ A horizontal rule `<hr>` can be used to add some subtle visual separation.
   1. Show numbered items 
   1. With this formatting
 
+#### Unordered lists
 
 ```html
 <ul>
@@ -122,10 +125,25 @@ A horizontal rule `<hr>` can be used to add some subtle visual separation.
 </ul>
 ```
 
-
   - Unordered lists
   - Show bullet items 
   - With this formatting
+
+  #### Description lists
+
+  ```html
+  <dl>
+    <dt>Description term</dt><dd>Description data</dd>
+    <dt>Description term</dt><dd>Description data</dd>
+    <dt>Description term</dt><dd>Description data</dd>
+  </dl>
+  ```
+
+  <dl>
+    <dt>Description term</dt><dd>Description data</dd>
+    <dt>Description term</dt><dd>Description data</dd>
+    <dt>Description term</dt><dd>Description data</dd>
+  </dl>
 
 </section>
 <hr>
@@ -201,3 +219,55 @@ If a [button element](#links-and-buttons) is not appropriate, anchor tags can be
   <a href="#" class="btn-primary">Primary button link</a>
   <a href="#" class="btn-secondary">Secondary button link</a>
 </p>
+
+### Presentation blocks
+
+#### Panels
+
+A visual container can be applied with the use of the `panel` class. This encloses the element in a subtle shaded box, without effected in the markup semantics, like so:
+
+```html
+<div class="panel">
+  <p>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit...
+  </p>
+</div>
+```
+
+<div class="panel">
+  <p>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque perspiciatis placeat sit deserunt suscipit quisquam eaque hic dolorum libero magnam! Ducimus quis adipisci amet mollitia atque dicta iste aut ratione?
+  </p>
+</div>
+
+
+### Flexbox
+
+Adding the class `flex-btwn` applies he following CSS to an element:
+
+```CSS
+.flex-btwn {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+}
+```
+
+This can be helpful for the common layout taksk of spracing some items out across a containign element, for example:
+
+```html
+<ul class="flex-btwn">
+  <li>Items</li>
+  <li>Spread</li>
+  <li>Across</li>
+  <li>Element</li>
+</ul>
+
+```
+
+<ul class="flex-btwn">
+  <li>Items</li>
+  <li>Spread</li>
+  <li>Across</li>
+  <li>Element</li>
+</ul>
