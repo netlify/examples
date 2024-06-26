@@ -131,7 +131,7 @@ Review the [reference](/reference) page to review how this stylesheet formats st
     For convenience, you can experiment with using example styles using a Codepen template.
   </p>
   <p>
-    <a href="https://codepen.io/pen?template=OJYzMOY" class="btn-primary">Create new Codepen from template</a>
+    <a href="https://codepen.io/pen?template=jOoQpOv" class="btn-primary">Create new Codepen from template</a>
   </p>
 
 </section>
