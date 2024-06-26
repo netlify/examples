@@ -18,6 +18,23 @@ title: "Netlify examples - style resources"
 Review the [reference](/reference) page to review how this stylesheet formats standard HTML elements and also for some additional utility classes which it makes available.
 
 </section>
+
+<section>
+
+  <h3 id="syntax-highlighting">Syntax highlighting</h3>
+
+  Provided by [highlight.js](https://highlightjs.org), this can be used either during the build (ideally), or client-side for simplicity in demos and examples. A custom palatte is included [in the CSS provided from this site](https://example-styles.netlify.app/styles.css).
+
+  Add the following the the `<head>` of your HTML for a client-side drop-in:
+
+  ```html
+  <!-- syntax highlighting  -->
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@latest/build/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  ```
+
+
+</section>
 <hr>
 <section>
   <h2>HTML snippets</h2>
@@ -104,19 +121,6 @@ Review the [reference](/reference) page to review how this stylesheet formats st
     </small>
   </footer>
 ```
-
-<h3 id="syntax-highlighting">Syntax highlighting</h3>
-
-Provided by [highlight.js](https://highlightjs.org), this can be used either during the build (ideally), or client-side for simplicity in demos and examples. A custom palatte is included in the CSS provided from this site.
-
-Add the following the the `<head>` of your HTML:
-
-```html
-  <!-- syntax highlighting  -->
-  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@latest/build/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
-```
-
 
 </section>
 <hr>
