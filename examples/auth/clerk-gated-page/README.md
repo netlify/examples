@@ -1,10 +1,8 @@
 ![Netlify Examples](https://github.com/netlify/examples/assets/5865/4145aa2f-b915-404f-af02-deacee24f7bf)
 
-# Client-side auth with Clerk
+# Gated content with Clerk
 
-The site shows the simplest form of client-side authentication using Clerk's JavaScript SDK. It allows users to sign up, log in, and log out.
-
-When authenticated, the user's email address is displayed on the page and the sign in button is replaced with a sign out button.
+This example builds on the [simple auth example using Clerk](https://github.com/netlify/examples/tree/main/examples/auth/clerk-js) to show a simple approach for gating content using Clerk.
 
 ## Speedily deploy your own version
 
@@ -15,7 +13,7 @@ Deploy your own version of this example site, by clicking the Deploy to Netlify 
 - Create an automated deployment pipeline to watch for changes on your repo
 - Build and deploy your new site
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/netlify/examples/&create_from_path=examples/auth/clerk-js&utm_campaign=netlify-examples)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/netlify/examples/&create_from_path=examples/auth/clerk-gated-page&utm_campaign=netlify-examples)
 
 ## Install and run locally
 
@@ -39,7 +37,7 @@ Move into the project directory for this example to continue.
 
 You will need a Clerk account and application to use this example. Visit [clerk.com](https://clerk.com/) to sign up and create an application.
 
-Then follow the steps on the [JavaScript Quickstart guide](https://clerk.com/docs/quickstarts/javascript) to get the script tag to include in the `index.html` file, replacing the code below.
+Follow the steps on the [JavaScript Quickstart guide](https://clerk.com/docs/quickstarts/javascript) to get the script tag to include in `index.html`, `gated-content.html`, and `__gate__.html`, replacing the code below.
 
 ```html
 <!-- TODO: Set the publishable key and script `src` for your Clerk account -->
@@ -50,6 +48,14 @@ Then follow the steps on the [JavaScript Quickstart guide](https://clerk.com/doc
   src="<!-- TODO -->"
   type="text/javascript"
 ></script>
+```
+
+Copy `.env.sample` to `.env` and replace the `CLERK_PEM_PUBLIC_KEY` value with the value from your Clerk application. [Visit the backend request handling guide](https://clerk.com/docs/backend-requests/handling/manual-jwt#get-your-instances-public-key) to see how you can get the public PEM key.
+
+```bash
+CLERK_PEM_PUBLIC_KEY="-----BEGIN PUBLIC KEY-----
+TODO: Replace with your Clerk public key
+-----END PUBLIC KEY-----"
 ```
 
 ### Start development server
