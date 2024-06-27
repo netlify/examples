@@ -39,23 +39,32 @@
         </div>
         <div class="user-info">
           <div id="user-info"></div>
-          <button id="auth-trigger">Sign in</button>
+          <button id="auth-trigger">Loading ...</button>
         </div>
       </nav>
     </header>
 
     <div>
       <h1>Gated Content Example</h1>
-      <p>
-        This is a site with a simple auth solution using <a href="https://clerk.dev/">Clerk</a>.
-        Sign in and out using the button in the header.
-      </p>
-      <p>
-        The gated page (linked in the nav) is only available if you are signed in. Otherwise, the
-        content of the page is shown as protected and the sign in form will be shown. This gate is
-        provided by the <code>auth-middleware.ts</code> edge function and the
-        <code>__gate__.html</code> page.
-      </p>
+      <section>
+        <p>
+          This is a site with a simple auth solution using <a href="https://clerk.dev/">Clerk</a>.
+          Sign in and out using the button in the header.
+        </p>
+        <p>
+          You must replace the <code>&lt;script&gt;</code> in all HTML files. Find the appropriate
+          code in
+          <a href="https://clerk.com/docs/quickstarts/javascript" target="_blank"
+            >Clerk's JavaScript Quickstart guide</a
+          >.
+        </p>
+        <p>
+          The gated page (linked in the nav) is only available if you are signed in. Otherwise, the
+          content of the page is shown as protected and the sign in form will be shown. This gate is
+          provided by the <code>auth-middleware.ts</code> edge function and the
+          <code>__gate__.html</code> page.
+        </p>
+      </section>
     </div>
   </body>
 </html>
