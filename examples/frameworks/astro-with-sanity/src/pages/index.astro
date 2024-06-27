@@ -1,0 +1,23 @@
+---
+export const prerender = false;
+import { sanityClient } from 'sanity:client';
+
+const posts = await sanityClient.fetch(`*[_type == "post" && defined(slug)]`);
+---
+
+<html>
+  <body>
+    <h1>Blog</h1>
+    <ul>
+      {
+        posts.map((post) => {
+          return (
+            <li>
+              <a href={'/posts/' + post.slug.current}>{post.title}</a>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </body>
+</html>
