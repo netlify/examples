@@ -1,13 +1,13 @@
 ---
 export const prerender = false;
+import Layout from "../layouts/PageLayout.astro";
 import { sanityClient } from 'sanity:client';
 
 const posts = await sanityClient.fetch(`*[_type == "post" && defined(slug)]`);
 ---
-
-<html>
-  <body>
-    <h1>Blog</h1>
+<Layout>
+<section>
+    <h2>Blog</h2>
     <ul>
       {
         posts.map((post) => {
@@ -18,6 +18,8 @@ const posts = await sanityClient.fetch(`*[_type == "post" && defined(slug)]`);
           );
         })
       }
-    </ul>
-  </body>
-</html>
+  </ul>
+</section>
+</Layout>
+    
+  
