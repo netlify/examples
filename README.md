@@ -5,6 +5,7 @@
 A collection of examples and demos for people building the web with Netlify
 
 - Serverless functions, hello world — [Site](https://example-functions-hello-world.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/serverless/functions-hello-world)
+- Astro with Sanity - [Site](https://example-astro-sanity.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/frameworks/astro-with-sanity)
 - Astro with Qwik - [Site](https://example-astro-qwik.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/frameworks/astro-with-qwik)
 
 
