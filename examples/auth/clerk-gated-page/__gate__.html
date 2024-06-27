@@ -1,9 +1,24 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Clerk + Netlify Example</title>
+
+    <link
+      rel="preload"
+      href="https://example-styles.netlify.app/fonts/PacaembuVar-latin.woff2"
+      as="font"
+      type="font/woff2"
+    />
+    <link
+      rel="preload"
+      href="https://example-styles.netlify.app/fonts/MulishVar-latin.woff2"
+      as="font"
+      type="font/woff2"
+    />
+    <link rel="stylesheet" href="https://example-styles.netlify.app/styles.css" />
+    <link rel="stylesheet" href="./styles.css" />
 
     <script
       async
@@ -12,28 +27,25 @@
       src="https://evident-monkey-36.clerk.accounts.dev/npm/@clerk/clerk-js@4/dist/clerk.browser.js"
       type="text/javascript"
     ></script>
+    <script src="./auth.js"></script>
   </head>
   <body>
+    <header>
+      <nav>
+        <div class="nav-links">
+          <a class="site-name" href="/">Clerk + Netlify</a>
+          <a href="/gated-content">Gated Page</a>
+        </div>
+        <div class="user-info">
+          <div id="user-info"></div>
+          <button id="auth-trigger">Sign in</button>
+        </div>
+      </nav>
+    </header>
+
     <div>
       <h1>Protected Content</h1>
       <p>You've reached a protected page. Please sign in to access this content.</p>
     </div>
-
-    <script>
-      async function waitForClerk() {
-        if (typeof Clerk === "undefined") {
-          return setTimeout(waitForClerk, 50);
-        }
-        initClerk();
-      }
-
-      async function initClerk() {
-        await Clerk.load();
-        // Open the sign-in modal automatically
-        await Clerk.openSignIn();
-      }
-
-      waitForClerk();
-    </script>
   </body>
 </html>
