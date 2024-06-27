@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clerk + Netlify Example</title>
+
+    <script
+      async
+      crossorigin="anonymous"
+      data-clerk-publishable-key="pk_test_ZXZpZGVudC1tb25rZXktMzYuY2xlcmsuYWNjb3VudHMuZGV2JA"
+      src="https://evident-monkey-36.clerk.accounts.dev/npm/@clerk/clerk-js@4/dist/clerk.browser.js"
+      type="text/javascript"
+    ></script>
+  </head>
+  <body>
+    <header>
+      <div id="user-info"></div>
+      <button id="auth-trigger">Sign in</button>
+    </header>
+
+    <div>
+      <h1>Clerk + Netlify Example</h1>
+      <p id="intro-message">This is an example of how to use Clerk with Netlify.</p>
+      <p><a href="/gated-content">Gated page &gt;</a></p>
+    </div>
+
+    <script>
+      async function waitForClerk() {
+        if (typeof Clerk === "undefined") {
+          return setTimeout(waitForClerk, 50);
+        }
+        initClerk();
+      }
+
+      async function initClerk() {
+        await Clerk.load();
+        Clerk.addListener(() => toggleUI());
+      }
+
+      waitForClerk();
+
+      async function toggleUI() {
+        const currentUser = await Clerk.user;
+        console.log({ currentUser });
+        const userInfo = document.getElementById("user-info");
+        const authTrigger = document.getElementById("auth-trigger");
+
+        if (currentUser) {
+          userInfo.innerText = currentUser.emailAddresses[0].emailAddress;
+          authTrigger.innerText = "Sign out";
+          authTrigger.onclick = () => Clerk.signOut();
+        } else {
+          userInfo.innerText = "";
+          authTrigger.innerText = "Sign in";
+          authTrigger.onclick = () => Clerk.openSignIn();
+        }
+      }
+    </script>
+  </body>
+</html>
