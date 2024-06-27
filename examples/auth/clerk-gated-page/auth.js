@@ -19,7 +19,10 @@ async function toggleUI() {
   if (currentUser) {
     userInfo.innerText = currentUser.emailAddresses[0].emailAddress;
     authTrigger.innerText = "Sign out";
-    authTrigger.onclick = () => Clerk.signOut();
+    authTrigger.onclick = async () => {
+      await Clerk.signOut();
+      window.location.reload();
+    };
   } else {
     userInfo.innerText = "";
     authTrigger.innerText = "Sign in";
