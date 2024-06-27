@@ -17,14 +17,18 @@
       as="font"
       type="font/woff2"
     />
-    <link rel="stylesheet" href="https://example-styles.netlify.app/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://example-styles.netlify.app/styles.css"
+    />
     <link rel="stylesheet" href="./styles.css" />
 
+    <!-- TODO: Set the publishable key and script `src` for your Clerk account -->
     <script
       async
       crossorigin="anonymous"
-      data-clerk-publishable-key="pk_test_ZXZpZGVudC1tb25rZXktMzYuY2xlcmsuYWNjb3VudHMuZGV2JA"
-      src="https://evident-monkey-36.clerk.accounts.dev/npm/@clerk/clerk-js@4/dist/clerk.browser.js"
+      data-clerk-publishable-key="<!-- TODO -->"
+      src="<!-- TODO -->"
       type="text/javascript"
     ></script>
     <script src="./auth.js"></script>
@@ -43,7 +47,8 @@
     <div>
       <h1>Simple Auth using Clerk</h1>
       <p>
-        This is a site with a simple auth solution using <a href="https://clerk.dev/">Clerk</a>.
+        This is a site with a simple auth solution using
+        <a href="https://clerk.dev/">Clerk</a>.
       </p>
       <p>Sign in and out using the button in the header.</p>
     </div>
