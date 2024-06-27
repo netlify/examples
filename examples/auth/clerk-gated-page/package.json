@@ -1,7 +1,7 @@
 {
-  "name": "clerk-dev-netlify-example",
+  "name": "clerk-netlify-gated-page-example",
   "version": "1.0.0",
-  "repository": "https://github.com/netlify/clerk-dev-netlify-example",
+  "repository": "https://github.com/netlify/examples/blob/main/examples/auth/clerk-gated-page",
   "author": "Sean C Davis <sean.davis@netlify.com>",
   "license": "MIT",
   "dependencies": {
