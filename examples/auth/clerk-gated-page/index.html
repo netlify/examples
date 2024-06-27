@@ -32,7 +32,10 @@
   <body>
     <header>
       <nav>
-        <div></div>
+        <div class="nav-links">
+          <a class="site-name" href="/">Clerk + Netlify</a>
+          <a href="/gated-content">Gated Page</a>
+        </div>
         <div class="user-info">
           <div id="user-info"></div>
           <button id="auth-trigger">Sign in</button>
@@ -41,9 +44,17 @@
     </header>
 
     <div>
-      <h1>Clerk + Netlify Example</h1>
-      <p id="intro-message">This is an example of how to use Clerk with Netlify.</p>
-      <p><a href="/gated-content">Gated page &gt;</a></p>
+      <h1>Gated Content Example</h1>
+      <p>
+        This is a site with a simple auth solution using <a href="https://clerk.dev/">Clerk</a>.
+        Sign in and out using the button in the header.
+      </p>
+      <p>
+        The gated page (linked in the nav) is only available if you are signed in. Otherwise, the
+        content of the page is shown as protected and the sign in form will be shown. This gate is
+        provided by the <code>auth-middleware.ts</code> edge function and the
+        <code>__gate__.html</code> page.
+      </p>
     </div>
   </body>
 </html>
