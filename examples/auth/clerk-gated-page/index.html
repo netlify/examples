@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clerk + Netlify Example</title>
+
+    <link
+      rel="preload"
+      href="https://example-styles.netlify.app/fonts/PacaembuVar-latin.woff2"
+      as="font"
+      type="font/woff2"
+    />
+    <link
+      rel="preload"
+      href="https://example-styles.netlify.app/fonts/MulishVar-latin.woff2"
+      as="font"
+      type="font/woff2"
+    />
+    <link rel="stylesheet" href="https://example-styles.netlify.app/styles.css" />
+    <link rel="stylesheet" href="./styles.css" />
+
+    <!-- TODO: Set the publishable key and script `src` for your Clerk account -->
+    <script
+      async
+      crossorigin="anonymous"
+      data-clerk-publishable-key="<!-- TODO -->"
+      src="<!-- TODO -->"
+      type="text/javascript"
+    ></script>
+    <script src="./auth.js"></script>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="nav-links">
+          <a class="site-name" href="/">Clerk + Netlify</a>
+          <a href="/gated-content">Gated Page</a>
+        </div>
+        <div class="user-info">
+          <div id="user-info"></div>
+          <button id="auth-trigger">Loading ...</button>
+        </div>
+      </nav>
+    </header>
+
+    <div>
+      <h1>Gated Content Example</h1>
+      <section>
+        <p>
+          This is a site with a simple auth solution using <a href="https://clerk.dev/">Clerk</a>.
+          Sign in and out using the button in the header.
+        </p>
+        <p>
+          You must replace the <code>&lt;script&gt;</code> in all HTML files. Find the appropriate
+          code in
+          <a href="https://clerk.com/docs/quickstarts/javascript" target="_blank"
+            >Clerk's JavaScript Quickstart guide</a
+          >.
+        </p>
+        <p>
+          The gated page (linked in the nav) is only available if you are signed in. Otherwise, the
+          content of the page is shown as protected and the sign in form will be shown. This gate is
+          provided by the <code>auth-middleware.ts</code> edge function and the
+          <code>__gate__.html</code> page.
+        </p>
+      </section>
+    </div>
+  </body>
+</html>

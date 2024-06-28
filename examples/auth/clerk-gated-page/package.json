@@ -1,0 +1,10 @@
+{
+  "name": "clerk-netlify-gated-page-example",
+  "version": "1.0.0",
+  "repository": "https://github.com/netlify/examples/blob/main/examples/auth/clerk-gated-page",
+  "author": "Sean C Davis <sean.davis@netlify.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@netlify/edge-functions": "^2.8.1"
+  }
+}

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clerk + Netlify Example</title>
+
+    <link
+      rel="preload"
+      href="https://example-styles.netlify.app/fonts/PacaembuVar-latin.woff2"
+      as="font"
+      type="font/woff2"
+    />
+    <link
+      rel="preload"
+      href="https://example-styles.netlify.app/fonts/MulishVar-latin.woff2"
+      as="font"
+      type="font/woff2"
+    />
+    <link rel="stylesheet" href="https://example-styles.netlify.app/styles.css" />
+    <link rel="stylesheet" href="./styles.css" />
+
+    <!-- TODO: Set the publishable key and script `src` for your Clerk account -->
+    <script
+      async
+      crossorigin="anonymous"
+      data-clerk-publishable-key="<!-- TODO -->"
+      src="<!-- TODO -->"
+      type="text/javascript"
+    ></script>
+    <script src="./auth.js"></script>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="nav-links">
+          <a class="site-name" href="/">Clerk + Netlify</a>
+          <a href="/gated-content">Gated Page</a>
+        </div>
+        <div class="user-info">
+          <div id="user-info"></div>
+          <button id="auth-trigger">Loading ...</button>
+        </div>
+      </nav>
+    </header>
+
+    <div>
+      <h1>Protected Content</h1>
+      <p>You've reached a protected page. Please sign in to access this content.</p>
+    </div>
+  </body>
+</html>
