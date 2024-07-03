@@ -10,8 +10,8 @@ title: "Netlify examples - style resources"
   </p>
 
 ```
-<link rel="preload" href="https://example-styles.netlify.app/fonts/PacaembuVar-latin.woff2" as="font" type="font/woff2" />
-<link rel="preload" href="https://example-styles.netlify.app/fonts/MulishVar-latin.woff2" as="font" type="font/woff2" />
+<link rel="preload" href="https://example-styles.netlify.app/fonts/PacaembuVar-latin.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href="https://example-styles.netlify.app/fonts/MulishVar-latin.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://example-styles.netlify.app/styles.css">
 ```
 
