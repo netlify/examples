@@ -8,10 +8,7 @@
   --font-heading: var(--font-secondary);
   --font-monospace: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, "DejaVu Sans Mono", monospace;
 
-  /* color variants */
-  --shade-down-1: #00000008;
-  --shade-down-2: #00000015;
-  --shade-down-3: #00000022;
+
 
   /* Responsive type sizes */
 
@@ -26,20 +23,35 @@
   --step-5: clamp(1.8662rem, 1.7353rem + 0.6548vi, 2.7994rem);
   --step-6: clamp(2.2395rem, 2.0823rem + 0.7858vi, 3.3592rem);
 
-
-  /* gradients */
-  --gradient-main: var(--blue-900) 10vh,  var(--blue-800) 80vh;
-
   
   /* Dimensions */
   --radius-1: 4px;
   --radius-2: 6px;
   --radius-3: 10px;
   --grid-line-size: 10px;
-  --content-width: 600px;
 
   /* icon data */
   --icon-chevron: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8cGF0aCBmaWxsPSIjMTgxYTFjIiBkPSJNMjMzLjQgNDA2LjZjMTIuNSAxMi41IDMyLjggMTIuNSA0NS4zIDBsMTkyLTE5MmMxMi41LTEyLjUgMTIuNS0zMi44IDAtNDUuM3MtMzIuOC0xMi41LTQ1LjMgMEwyNTYgMzM4LjcgODYuNiAxNjkuNGMtMTIuNS0xMi41LTMyLjgtMTIuNS00NS4zIDBzLTEyLjUgMzIuOCAwIDQ1LjNsMTkyIDE5MnoiLz4KPC9zdmc+);
 
+    /* color variants */
+    --text-color-primary: #ffffffdd;
+    --text-color-vibrant: #ffffff;
+    --shade-down-1: #00000008;
+    --shade-down-2: #00000015;
+    --shade-down-3: #00000022;
+
+      /* gradients */
+    --gradient-main: var(--blue-900) 10vh,  var(--blue-800) 80vh;
+    
+}
+
+.light-mode {
   
+  --gradient-main: var(--blue-100) 5vh, white 20vh;
+  --text-color-primary:  #000000aa;
+  --text-color-vibrant:  #000;
+  --shade-down-1: #00000008;
+  --shade-down-2: #00000015;
+  --shade-down-3: #00000022;
+
 }

@@ -4,12 +4,12 @@ a.btn-secondary:link,
 a.btn-secondary:visited,
 input[type=submit],
 button {
-  background-color:var(--blue-000);
+  background-color:var(--teal-200);
   color: var(--blue-800);
+  border: 1px solid var(--teal-200);
   padding: 0.3em 1em;
   margin: 1em auto;
-  border: 2px solid var(--blue-000);
-  border-radius: var(--radius-1);
+  border-radius: var(--radius-2);
   font-weight: 600;
   font-size: 0.9em;
   font-family: var(--font-heading);
@@ -22,7 +22,8 @@ button {
 a.btn-secondary:link,
 a.btn-secondary:visited {
   color: var(--blue-000);
-  background-color: transparent
+  background-color: transparent;
+  border-color: white;
 }
 
 
@@ -31,19 +32,17 @@ a.btn-primary:hover,
 a.btn-primary:focus,
 a.btn-secondary:hover,
 a.btn-secondary:focus,
-input[type=submit]:not(:disabled):hover,
-input[type=submit]:not(:disabled):focus,
 button:not(:disabled):hover,
 button:not(:disabled):focus {
-  background-color: var(--teal-200);
-  border-color: var(--teal-200);
-  color: var(--blue-900);
+  background-color:white;
+  color: var(--blue-800);
+  border: 1px solid white;
   cursor: pointer;
   transition: all 100ms;
 }
 
 
 button:disabled {
-  background-color:var(--blue-200);
-  border-color:var(--blue-200);
+  opacity: 0.4;
+  cursor:not-allowed;
 }
