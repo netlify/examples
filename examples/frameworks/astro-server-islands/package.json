@@ -12,7 +12,7 @@
   "dependencies": {
     "@astrojs/check": "^0.7.0",
     "@astrojs/netlify": "^5.3.2",
-    "astro": "^0.0.0-server-islands-20240621194657",
+    "astro": "^0.0.0-server-islands-20240703133809",
     "typescript": "^5.5.2"
   }
 }
