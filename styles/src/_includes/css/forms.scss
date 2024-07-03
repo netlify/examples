@@ -1,12 +1,12 @@
 form {
-  background-color: white;
+  background-color: var(--shade-down-2);
   border-radius: var(--radius-3);
   padding: 2em;
 }
 
 label {
   font-size: 0.9em;
-  color: black;
+  color: var(--text-color-primary);
 }
 
 input:not([type=submit]),
@@ -28,15 +28,13 @@ input[type=password]{
 }
 
 input[type=submit] {
-  background-color: var(--blue-700);
-  border-color: var(--blue-700);
-  color: white;
   padding: 0.4em 1em;
 }
 
 input[type=submit]:not(:disabled):hover,
 input[type=submit]:not(:disabled):focus {
-  background-color: var(--blue-800);
+  background-color: white;
+  border-color: white;
 }
 
 select {
