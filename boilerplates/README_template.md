@@ -1,12 +1,12 @@
-
-[View this example site here]:https://example-astro-sanity.netlify.app/
-[This example site is accompanied by a guide in the Netlify developer hub]:https://developers.netlify.com/guides/how-to-use-sanity-cms-with-astro/
-[Deploy to Netlify]:https://app.netlify.com/start/deploy?repository=https://github.com/netlify/examples/&create_from_path=examples/frameworks/astro-with-sanity&utm_campaign=dx-examples
+<!-- TODO: UPDATE LINKS -->
+[View this example site here]:https://example-SOME_EXAMPLE.netlify.app/
+[This example site is accompanied by a guide in the Netlify developer hub]:https://developers.netlify.com/
+[Deploy to Netlify]:https://app.netlify.com/start/deploy?repository=https://github.com/netlify/examples/&create_from_path=PATH-TO-EXAMPLE-IN-REPO&utm_campaign=dx-examples
 
 
 ![Netlify Examples](https://github.com/netlify/examples/assets/5865/4145aa2f-b915-404f-af02-deacee24f7bf)
 
-# Using Astro with Sanity on Netlify
+# EXAMPLE <!-- TODO: UPDATE EAMPLE TITLE -->
 
 - [View this example site here]
 - [This example site is accompanied by a guide in the Netlify developer hub]
