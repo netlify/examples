@@ -1,3 +1,5 @@
+![Netlify Examples](https://github.com/netlify/examples/assets/5865/4145aa2f-b915-404f-af02-deacee24f7bf)
+
 # Getting Started with Netlify Astro and Qwik
 
 A simple example site to accompany this guide:
@@ -18,4 +20,8 @@ Deploy your own version of this example site, by clicking the button below. This
 - Build and deploy your new site
 
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/netlify/examples/&create_from_path=examples/frameworks/astro-with-quick&utm_campaign=dx-examples)
+
+## More examples
+
+Explore other examples of using the Netlify platform and primitives, with or without a frameworks in this [examples repo](https://github.com/netlify/examples)
 
