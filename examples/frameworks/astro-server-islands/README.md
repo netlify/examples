@@ -1,5 +1,5 @@
 <!-- TODO: UPDATE LINKS -->
-[View this example site here]:https://example-SOME_EXAMPLE.netlify.app/
+[View this example site here]:https://example-astro-server-islands.netlify.app/
 [This example site is accompanied by a guide in the Netlify developer hub]:https://developers.netlify.com/
 [Deploy to Netlify]:https://app.netlify.com/start/deploy?repository=https://github.com/netlify/examples/&create_from_path=examples/frameworks/astro-server-islands&utm_campaign=dx-examples
 
