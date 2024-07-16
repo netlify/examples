@@ -6,7 +6,7 @@
 
 ![Netlify Examples](https://github.com/netlify/examples/assets/5865/4145aa2f-b915-404f-af02-deacee24f7bf)
 
-# Asteo server islands example 
+# Astro server islands example 
 
 - [View this example site here]
 - [This example site is accompanied by a guide in the Netlify developer hub]
