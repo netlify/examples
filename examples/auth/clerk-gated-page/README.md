@@ -62,6 +62,6 @@ TODO: Replace with your Clerk public key
 
 Now you're ready to start the development server. Run the following command from the project directory.
 
-    netlify dev -d .
+    netlify dev
 
 This will open the browser to `http://localhost:8888` with your local development server running.
