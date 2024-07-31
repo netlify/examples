@@ -31,7 +31,7 @@ Install the Netlify CLI to let you locally serve your site using Netlify's featu
 
 Move into the project directory for this example to continue.
 
-    cd examples/auth/clerk-js
+    cd examples/auth/clerk-gated-page
 
 ### Setup Clerk account
 
@@ -62,6 +62,6 @@ TODO: Replace with your Clerk public key
 
 Now you're ready to start the development server. Run the following command from the project directory.
 
-    netlify dev
+    netlify dev -d .
 
 This will open the browser to `http://localhost:8888` with your local development server running.
