@@ -41,6 +41,7 @@ You will need a Clerk account and application to use this example. Visit [clerk.
 
 Then follow the steps on the [JavaScript Quickstart guide](https://clerk.com/docs/quickstarts/javascript) to get the script tag to include in the `index.html` file, replacing the code below.
 
+
 ```html
 <!-- TODO: Set the publishable key and script `src` for your Clerk account -->
 <script
@@ -56,6 +57,6 @@ Then follow the steps on the [JavaScript Quickstart guide](https://clerk.com/doc
 
 Now you're ready to start the development server. Run the following command from the project directory.
 
-    netlify dev
+    netlify dev -d .
 
 This will open the browser to `http://localhost:8888` with your local development server running.
