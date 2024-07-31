@@ -38,7 +38,7 @@ hr {
 
 a:link,
 a:visited {
-  color: #fff;
+  color: var(--text-color-vibrant);
   text-decoration: underline;
   text-decoration-color: #ffffff77;
   text-decoration-thickness: 1px;

@@ -1,0 +1,16 @@
+---
+import Fallback from '../components/Fallback.astro';
+import Panel from '../components/Panel.astro';
+import Quote from '../components/Quote.astro';
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Astro Server Islands">
+	<section>
+		<h1>Astro Server Islands</h1>
+		<Quote server:defer>
+			<Fallback slot="fallback"/>
+		</Quote>
+		<Panel/>
+	</section>
+</Layout>

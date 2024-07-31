@@ -5,27 +5,36 @@ form {
 }
 
 label {
-  font-size: 0.8em;
+  font-size: 0.9em;
+  color: var(--text-color-primary);
 }
 
 input:not([type=submit]),
 select {
   width: 100%;
   font-size: 1.1em;
-  border: none;
-  color: var(--blue-900);
-  background-color: var(--blue-000);;
-  border-radius: var(--radius-1);
-  padding: 0.3em 0.4em;
+  border: solid 1px black;
+  border-radius: var(--radius-2);
+  padding: 0.3em 0.8em;
   margin-bottom: 0.8em;
 }
 
+
 input[type=text],
 input[type=password]{
-  box-shadow: inset 0 3px 10px #00000055;
   &::placeholder {
-    color: var(--blue-300);
+    color: var(--neutral-light-500);
   }
+}
+
+input[type=submit] {
+  padding: 0.4em 1em;
+}
+
+input[type=submit]:not(:disabled):hover,
+input[type=submit]:not(:disabled):focus {
+  background-color: white;
+  border-color: white;
 }
 
 select {

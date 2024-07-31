@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -6,9 +7,10 @@
     <link rel="preload" href="/fonts/MulishVar-latin.woff2" as="font" type="font/woff2" />
     <link rel="stylesheet" href="/styles.css">
     <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@latest/build/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
     <title>{{title}}</title>
   </head>
-  <body>
+  <body >
   <header>
     <nav>
       <a href="https://www.netlify.com/"><img class="nf-logo" src="/images/logo-netlify-small-monochrome-darkmode.svg" alt="Netlify"></a>
@@ -27,6 +29,5 @@
     {{content}}
   </main>
   {% render "footer.liquid" %}  
-  <script>hljs.highlightAll();</script>
   </body>
 </html>

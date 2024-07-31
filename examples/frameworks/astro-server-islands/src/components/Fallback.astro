@@ -1,0 +1,29 @@
+<blockquote>Loading...</blockquote>
+
+<style>
+  blockquote {
+    position: relative;
+    overflow: hidden;
+  }
+
+  blockquote::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, var(--shade-down-1) 25%, var(--shade-down-2) 50%, var(--shade-down-1) 75%);
+    animation: loading 1.5s infinite;
+  }
+
+  @keyframes loading {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+  }
+</style>

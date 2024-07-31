@@ -7,3 +7,8 @@
 [dev] 
   publish = "dist"
   command = "pnpm run dev"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
