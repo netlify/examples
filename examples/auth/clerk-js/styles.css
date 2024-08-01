@@ -1,0 +1,12 @@
+a.site-name {
+  font-size: 1rem;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
