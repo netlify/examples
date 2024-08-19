@@ -9,9 +9,8 @@
 # Disallowed AI bots example
 
 - [View this example site here]
-- [This example site is accompanied by a guide in the Netlify developer hub]
 
-This examnple prevent AI bots from crawling your site content by populating a robots.txt file and also, since not all bots play nicely, filtering requests using an Edge Function.
+This example prevents AI bots from crawling your site content by populating a robots.txt file and also, since not all bots play nicely, filtering requests using an Edge Function.
 
 ## Clone and deploy this example
 
