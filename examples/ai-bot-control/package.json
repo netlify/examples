@@ -1,0 +1,9 @@
+{
+  "name": "ai-bot-control",
+  "version": "1.0.0",
+  "main": "build.js",
+  "scripts": {
+    "build": "node build.js"
+  },
+  "license": "ISC"
+}

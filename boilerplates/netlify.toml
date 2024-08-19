@@ -1,0 +1,7 @@
+[build] 
+  publish = "www"
+  command = "npm run build"
+
+  # Don't trigger a build of this site if the code commits were in a different part of the monorepo
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF ."
+
