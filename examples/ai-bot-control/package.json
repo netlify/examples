@@ -5,5 +5,8 @@
   "scripts": {
     "build": "node build.js"
   },
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@netlify/edge-functions": "^2.10.0"
+  }
 }
