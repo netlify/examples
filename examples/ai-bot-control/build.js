@@ -7,7 +7,7 @@
 */
 
 // We'll be writing a file, so we'll need this. 
-const fs = require('node:fs');
+const fs = require('fs');
 
 
 // Source a list of know User Agent strings used by AI crawlers.
