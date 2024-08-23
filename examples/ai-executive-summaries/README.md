@@ -6,7 +6,6 @@
 
 
 
-
 ## About this example
 
 This example shows how to use webhooks for project updates from Linear and use Anthropic to generate AI summaries of those updates. Then, a weekly scheduled function runs to generate the executive summary of all of the project updates from the past week.
