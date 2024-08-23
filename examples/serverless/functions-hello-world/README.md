@@ -17,7 +17,7 @@ This site shows a very simple "Hello World" example of developing and running se
 - [Docs: Netlify Functions](https://docs.netlify.com/functions/overview/?utm_campaign=dx-examples&utm_source=example-site&utm_medium=web&utm_content=example-hello-functions)
 - [Accessing your function logs](https://docs.netlify.com/functions/logs/?utm_campaign=dx-examples&utm_source=example-site&utm_medium=web&utm_content=example-hello-functions)
 - [Learn serverless in the functions playground](https://functions.netlify.com/?utm_campaign=dx-examples&utm_source=example-site&utm_medium=web&utm_content=example-hello-functions)
-            
+
 
 
 ## Speedily deploy your own version

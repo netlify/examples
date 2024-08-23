@@ -2,7 +2,8 @@
 
 # AI Executive Summaries of Linear Project Updates
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/f15f03f9-55d8-4adc-97d5-f6e085141610/deploy-status)](https://app.netlify.com/sites/example-ai-executive-summaries/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/c259de40-5b8a-4fbe-8d0c-710fc4db58a1/deploy-status)](https://app.netlify.com/sites/example-ai-executive-summaries/deploys)
+
 
 
 
