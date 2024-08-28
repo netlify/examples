@@ -1,0 +1,12 @@
+[template.environment]
+  WEBHOOK_SECRET = "Env var WEBHOOK_SECRET from linear dev settings"
+  ANTHROPIC_API_KEY = "An Anthropic API key to send LLM requests to Anthropic"
+  INTERNAL_API_KEY = "An arbitrary secret key to prevent any external access to the API"
+
+[build]
+  publish = "public"
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF ."
+
+[dev]
+  publish = "public"
+
