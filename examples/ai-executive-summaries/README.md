@@ -10,6 +10,7 @@
 
 This example shows how to use webhooks for project updates from Linear and use Anthropic to generate AI summaries of those updates. Then, a weekly scheduled function runs to generate the executive summary of all of the project updates from the past week.
 
+- [Guided Walkthrough of Example](https://developers.netlify.com/guides/executive-summaries-across-linear-projects-using-anthropics-claude?utm_campaign=dx-examples&utm_source=example-site&utm_medium=web&utm_content=example-ai-executive-summaries)
 - [About Netlify Functions](https://www.netlify.com/products/functions/?utm_campaign=dx-examples&utm_source=example-site&utm_medium=web&utm_content=example-ai-executive-summaries)
 - [Docs: Netlify Functions](https://docs.netlify.com/functions/overview/?utm_campaign=dx-examples&utm_source=example-site&utm_medium=web&utm_content=example-ai-executive-summaries)
 - [About Linear Webhooks](https://developers.linear.app/docs/graphql/webhooks)
