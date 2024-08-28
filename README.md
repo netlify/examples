@@ -9,6 +9,7 @@ A collection of examples and demos for people building the web with Netlify
 - Astro Server Islands - [Site](https://example-astro-server-islands.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/frameworks/astro-server-islands)
 - Astro with Sanity - [Site](https://example-astro-sanity.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/frameworks/astro-with-sanity)
 - Astro with Qwik - [Site](https://example-astro-qwik.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/frameworks/astro-with-qwik)
+- AI Executive Summaries - [Site](https://example-ai-executive-summaries.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/example-ai-executive-summaries)
 
 
 ## Repo organization
