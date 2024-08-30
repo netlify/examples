@@ -2,7 +2,7 @@
 
 # User-generated uploads example with Astro and Netlify Blobs
 
-- [View this example site here]
+[View this example site here](https://example-user-uploads-astro-blobs.netlify.app/)
 
 This site shows how you can use Netlify Blobs in an Astro project to store and display assets uploaded by users. It uses a random, mocked auth service and enables a logged-in user to upload an avatar image that gets displayed in the header.
 
