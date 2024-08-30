@@ -1,5 +1,6 @@
 ---
 import Header from "./Header.astro";
+import Footer from "./Footer.astro";
 
 interface Props {
   title: string;
@@ -32,9 +33,21 @@ const { title } = Astro.props;
       rel="stylesheet"
       href="https://example-styles.netlify.app/styles.css"
     />
+    <style>
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+    </style>
   </head>
+
   <body>
-    <Header />
-    <slot />
+    <div>
+      <Header />
+      <slot />
+    </div>
+    <Footer />
   </body>
 </html>
