@@ -3,7 +3,6 @@ import Layout from "../layouts/Layout.astro";
 import { getCurrentUser } from "../utils/auth";
 
 const currentUser = await getCurrentUser({ cookies: Astro.cookies });
-console.log(currentUser);
 ---
 
 <Layout title="User Image Uploads with Astro + Netlify Blobs">
