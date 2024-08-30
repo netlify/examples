@@ -1,0 +1,15 @@
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.avatar {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 100%;
+  border: 1px solid #fff;
+  margin: 0 auto;
+  display: block;
+}

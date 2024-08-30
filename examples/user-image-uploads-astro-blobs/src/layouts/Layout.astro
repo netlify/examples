@@ -1,12 +1,15 @@
 ---
 import Header from "./Header.astro";
 import Footer from "./Footer.astro";
+import { getCurrentUser, type User } from "../utils/auth";
+import "../css/main.css";
 
 interface Props {
   title: string;
 }
 
 const { title } = Astro.props;
+const currentUser = await getCurrentUser({ cookies: Astro.cookies });
 ---
 
 <!doctype html>
@@ -33,19 +36,11 @@ const { title } = Astro.props;
       rel="stylesheet"
       href="https://example-styles.netlify.app/styles.css"
     />
-    <style>
-      body {
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-      }
-    </style>
   </head>
 
   <body>
     <div>
-      <Header />
+      <Header currentUser={currentUser} />
       <slot />
     </div>
     <Footer />

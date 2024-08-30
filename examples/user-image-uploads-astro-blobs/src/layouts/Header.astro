@@ -1,5 +1,11 @@
 ---
+import type { User } from "../utils/auth";
 
+interface Props {
+  currentUser?: User;
+}
+
+const { currentUser } = Astro.props;
 ---
 
 <header>
@@ -14,6 +20,23 @@
     <ul>
       <li><a href="/">Home</a></li>
       <li><a href="/profile">Profile</a></li>
+      {
+        currentUser && (
+          <li class="user-info">
+            <img src="/avatar" class="avatar" />
+            {currentUser.name}
+          </li>
+        )
+      }
     </ul>
   </nav>
 </header>
+
+<style>
+  .user-info {
+    margin-left: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+</style>

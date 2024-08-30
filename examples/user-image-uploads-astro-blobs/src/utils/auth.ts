@@ -14,7 +14,7 @@ const DEFAULT_COOKIE_OPTIONS: AstroCookieSetOptions | AstroCookieGetOptions = {
   httpOnly: true,
 };
 
-type User = {
+export type User = {
   name: string;
   email: string;
   id: string;
