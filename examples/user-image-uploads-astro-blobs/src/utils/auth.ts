@@ -58,3 +58,10 @@ export async function signIn(options: SignInOptions) {
     DEFAULT_COOKIE_OPTIONS as AstroCookieSetOptions
   );
 }
+
+export async function signOut(options: GetCurrentUserOptions) {
+  options.cookies.delete(
+    COOKIE_KEY,
+    DEFAULT_COOKIE_OPTIONS as AstroCookieSetOptions
+  );
+}
