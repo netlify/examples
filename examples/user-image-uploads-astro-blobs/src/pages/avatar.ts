@@ -2,7 +2,7 @@ import { getStore } from "@netlify/blobs";
 import type { APIRoute } from "astro";
 import { getCurrentUser } from "../utils/auth";
 
-export const GET: APIRoute = async ({ params, cookies }) => {
+export const GET: APIRoute = async ({ cookies }) => {
   const user = await getCurrentUser({ cookies });
   if (!user) {
     return new Response("User is not logged in", { status: 404 });

@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
 import { generateUser, getCurrentUser, signIn } from "../utils/auth";
 
-export const GET: APIRoute = async ({ params, request, redirect, cookies }) => {
+export const GET: APIRoute = async ({ redirect, cookies }) => {
   const currentUser = await getCurrentUser({ cookies });
   if (!currentUser) {
     const newUser = await generateUser();
