@@ -23,7 +23,11 @@ const { currentUser } = Astro.props;
       {
         currentUser && (
           <li class="user-info">
-            <img src="/avatar" class="avatar" />
+            <img
+              src="/avatar"
+              class="avatar"
+              onerror="this.parentElement.classList.add('missing-upload')"
+            />
             {currentUser.name}
           </li>
         )
@@ -38,5 +42,22 @@ const { currentUser } = Astro.props;
     display: flex;
     align-items: center;
     gap: 0.5rem;
+  }
+
+  .avatar {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 100%;
+    border: 1px solid #fff;
+    margin: 0 auto;
+    display: block;
+  }
+
+  .missing-upload {
+    margin-left: 0;
+  }
+
+  .missing-upload img {
+    display: none;
   }
 </style>

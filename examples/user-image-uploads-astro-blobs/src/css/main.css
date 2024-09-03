@@ -4,12 +4,3 @@ body {
   flex-direction: column;
   justify-content: space-between;
 }
-
-.avatar {
-  width: 2rem;
-  height: 2rem;
-  border-radius: 100%;
-  border: 1px solid #fff;
-  margin: 0 auto;
-  display: block;
-}
