@@ -1,6 +1,6 @@
 <!-- TODO: UPDATE LINKS -->
 [View this example site here]:https://example-disallow-ai-bots.netlify.app/
-[This example site is accompanied by a guide in the Netlify developer hub]:https://developers.netlify.com/
+[This example site is accompanied by a guide in the Netlify developer hub]:https://developers.netlify.com/guides/blocking-ai-bots-and-controlling-crawlers/
 [Deploy to Netlify]:https://app.netlify.com/start/deploy?repository=https://github.com/netlify/examples/&create_from_path=examples/ai-bot-control&utm_campaign=dx-examples
 
 
