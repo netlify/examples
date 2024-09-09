@@ -1,0 +1,75 @@
+.e_StorePicker_control {
+  padding: 2rem;
+  margin: 0 0 0 -1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  max-width: 500px;
+}
+
+.e_StorePicker_dialog::backdrop {
+  backdrop-filter: blur(2px);
+}
+
+.e_StorePicker_dialog {
+  border: none;
+  padding: 1rem 2rem;
+  max-height: 90vh;
+  border-radius: 1rem;
+  overflow: visible;
+}
+
+.e_StorePicker_wrapper {
+  display: block;
+  max-height: calc(90vh - 2rem);
+  max-width: 100%;
+  padding: 0 5px;
+  overflow: auto;
+}
+
+.e_StorePicker_list {
+  @media (max-width: 499px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  @media (min-width: 500px) and (max-width: 999px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  @media (min-width: 1000px) {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3rem;
+  }
+
+  display: grid;
+
+  list-style-type: none;
+  padding: 0;
+}
+
+.e_StorePicker_content {
+  position: relative;
+}
+
+.e_StorePicker_image {
+  display: block;
+  max-width: 200px;
+  width: 100%;
+  height: auto;
+}
+
+.e_StorePicker_address {
+  margin: 1rem 0;
+}
+
+.e_StorePicker_selected {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.e_StorePicker_selected:empty {
+  display: none;
+}

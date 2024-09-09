@@ -1,0 +1,35 @@
+{
+  "name": "tractor_v2_app",
+  "version": "1.0.0",
+  "scripts": {
+    "serve": "NODE_ENV=development rspack serve",
+    "build": "NODE_ENV=production rspack build"
+  },
+  "app": "./src/index.html",
+  "types": "dist/index.d.ts",
+  "importmap": {
+    "imports": {},
+    "inherit": [
+      "piral-base",
+      "piral-core"
+    ]
+  },
+  "dependencies": {
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-router": "^6.26.0",
+    "react-router-dom": "^6.26.0"
+  },
+  "devDependencies": {
+    "@module-federation/enhanced": "0.2.6",
+    "@rspack/cli": "^0.7.5",
+    "@rspack/core": "^0.7.5",
+    "@rspack/plugin-react-refresh": "^0.7.5",
+    "@types/node": "^20",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18",
+    "react-refresh": "^0.14.2",
+    "typescript": "^5",
+    "zephyr-webpack-plugin": "0.0.16"
+  }
+}
