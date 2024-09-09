@@ -1,0 +1,38 @@
+{
+  "name": "tractor_v2_checkout",
+  "version": "1.0.0",
+  "scripts": {
+    "serve": "NODE_ENV=development rspack serve",
+    "build": "NODE_ENV=production rspack build"
+  },
+  "source": "src/index.tsx",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "importmap": {
+    "imports": {
+      "canvas-confetti": "."
+    },
+    "inherit": [
+      "app"
+    ]
+  },
+  "dependencies": {
+    "canvas-confetti": "1.9.3",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-router": "^6.26.0",
+    "react-router-dom": "^6.26.0"
+  },
+  "devDependencies": {
+    "@module-federation/enhanced": "0.2.6",
+    "@rspack/cli": "^0.7.5",
+    "@rspack/core": "^0.7.5",
+    "@types/canvas-confetti": "1.6.4",
+    "@types/react": "^18",
+    "@types/react-router-dom": "^5",
+    "typescript": "^5",
+    "zephyr-webpack-plugin": "0.0.16"
+  }
+}

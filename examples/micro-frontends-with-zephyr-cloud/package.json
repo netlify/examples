@@ -1,0 +1,26 @@
+{
+  "name": "tractor-v2-react-mf",
+  "version": "1.0.0",
+  "description": "Tractor V2 Sample with React and Module Federation on Rspack",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/ryok90/tractor-v2-react-mf.git"
+  },
+  "scripts": {
+    "build": "pnpm run --parallel build",
+    "serve": "pnpm run --parallel serve"
+  },
+  "keywords": [
+    "react",
+    "module federation",
+    "rspack",
+    "micro frontends"
+  ],
+  "author": "Rodrigo Yokota",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ryok90/tractor-v2-react-mf/issues"
+  },
+  "homepage": "https://github.com/ryok90/tractor-v2-react-mf#readme"
+}
