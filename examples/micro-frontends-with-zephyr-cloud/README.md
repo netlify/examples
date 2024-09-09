@@ -1,5 +1,7 @@
 # Tractor 2.0 + Rspack + MF + Zephyr Sample
 
+🚧 WIP -> this example is a work-in-progress and will be updated soon
+
 
 A micro frontends sample implementation of [The Tractor Store](https://micro-frontends.org/tractor-store/) built with Module Federation and React. It's based on the [Piral version](https://github.com/piral-samples/tractor-v2).
 
