@@ -1,0 +1,75 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getCurrentUser } from "../utils/auth";
+
+const currentUser = await getCurrentUser({ cookies: Astro.cookies });
+---
+
+<Layout title="User Image Uploads with Astro + Netlify Blobs">
+  <section>
+    <h1>Example: User-generated image uploads</h1>
+
+    {
+      currentUser && (
+        <>
+          <section>
+            <p>
+              <strong>Current user</strong>
+            </p>
+            <ul>
+              <li>
+                Name: <code>{currentUser.name}</code>.
+              </li>
+              <li>
+                Email: <code>{currentUser.email}</code>.
+              </li>
+            </ul>
+            <p>
+              <a href="/logout">Sign out current user</a>
+            </p>
+          </section>
+          <section>
+            <form
+              action="/upload-avatar"
+              method="post"
+              enctype="multipart/form-data">
+              <h4>Upload avatar</h4>
+              <p>
+                Choose a file from your local machine and see it become the user
+                image in the header.
+              </p>
+              <p>
+                This is stord in a Netlify Blob, and the image is served from
+                from the <code>&#47;avatar</code> endpoint.
+              </p>
+              <input
+                type="file"
+                name="avatar_file"
+                accept="image/*"
+                style="margin-top: 1rem;"
+              />
+              <div>
+                <input
+                  type="submit"
+                  value="Upload avatar"
+                  id="avatar-upload-submit"
+                />
+              </div>
+            </form>
+          </section>
+        </>
+      )
+    }
+
+    {
+      !currentUser && (
+        <div>
+          <p>
+            You are not signed in.
+            <a href="/login">Create account and sign in process.</a>
+          </p>
+        </div>
+      )
+    }
+  </section>
+</Layout>

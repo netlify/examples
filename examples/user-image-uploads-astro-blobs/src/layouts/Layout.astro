@@ -1,0 +1,48 @@
+---
+import Header from "./Header.astro";
+import Footer from "./Footer.astro";
+import { getCurrentUser, type User } from "../utils/auth";
+import "../css/main.css";
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+const currentUser = await getCurrentUser({ cookies: Astro.cookies });
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <link
+      rel="preload"
+      href="https://example-styles.netlify.app/fonts/PacaembuVar-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="https://example-styles.netlify.app/fonts/MulishVar-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="stylesheet"
+      href="https://example-styles.netlify.app/styles.css"
+    />
+  </head>
+
+  <body>
+    <div>
+      <Header currentUser={currentUser} />
+      <slot />
+    </div>
+    <Footer />
+  </body>
+</html>
