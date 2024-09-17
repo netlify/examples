@@ -1,0 +1,31 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.custom-label {
+    margin-bottom: 8px;
+    font-family: ES Klarheit Grotesk, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.control-container {
+    margin-bottom: 12px;
+    padding: 4px 0;
+    border-bottom: 1px solid gray;
+}
+
+.control-container:last-child {
+    margin-bottom: 0;
+    border-bottom: none;
+}
+
+.text-generated {
+    font-style: italic;
+}
+
+.audio-playback {
+    max-width: 240px;
+    margin: 8px 0;
+}

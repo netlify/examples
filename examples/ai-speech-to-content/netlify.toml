@@ -1,0 +1,15 @@
+[template.environment]
+  GROQ_API_KEY = "An Groq API key to send requests to Groq"
+  API_HOST = "Netlify function hostname"
+
+[build]
+  publish = "public"
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF ."
+
+[dev]
+  publish = "public"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200

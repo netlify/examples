@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Permissions-Policy" content="microphone=()" />
+    <title>Speech to text</title>
+    <link rel="stylesheet" href="./speech-to-text.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackbitapp.netlify.app/speech-to-text.css"
+    />
+  </head>
+  <body>
+    <div class="control-container">
+      <div class="custom-label">Current Value:</div>
+      <p class="text" id="current-value"></p>
+    </div>
+    <div class="control-container">
+      <div class="custom-label">Result:</div>
+      <p class="text-generated" id="generated-value"></p>
+      <button id="save-value">Save</button>
+    </div>
+    <div class="control-container">
+      <div>
+        <button id="start-rec" type="button">Record</button>
+        <button id="stop-rec" type="button">Stop</button>
+      </div>
+      <audio class="audio-playback" id="audio-playback" controls></audio>
+    </div>
+    <script src="speech-to-text.ts" type="module" />
+  </body>
+</html>
