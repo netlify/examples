@@ -2,7 +2,7 @@ import type { Context } from "@netlify/functions";
 import Groq from "groq-sdk/index.mjs";
 
 const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY,
+  apiKey: Netlify.env.get('GROQ_API_KEY'),
 });
 
 export default async (request: Request, context: Context) => {
