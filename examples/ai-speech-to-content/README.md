@@ -2,7 +2,7 @@
 
 # AI Speech To Content with Groq
 
-[![Netlify Status]()
+[![Netlify Status](https://api.netlify.com/api/v1/badges/c259de40-5b8a-4fbe-8d0c-710fc4db58a1/deploy-status)](https://app.netlify.com/sites/example-ai-executive-summaries/deploys)
 
 
 ## About this example
@@ -24,8 +24,7 @@ Deploy your own version of this example site, by clicking the Deploy to Netlify 
 - Create an automated deployment pipeline to watch for changes on your repo
 - Build and deploy your new site
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)]()
-
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/netlify/examples/&create_from_path=examples/ai-speech-to-content&utm_campaign=dx-examples)
 
 ## Install and run the examples locally
 
@@ -37,7 +36,7 @@ You can clone this entire examples repo to explore this and other examples, and 
 git clone git@github.com:netlify/examples
 
 # 2. Move into the project directory for this example
-cd examples/groq
+cd examples/ai-speech-to-content
 
 # 3. Install the dependencies
 npm i
