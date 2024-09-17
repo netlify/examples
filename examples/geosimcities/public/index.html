@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -64,7 +64,7 @@
       content.addEventListener("load", function () {
         const iframeUrl = new URL(this.contentWindow.location.href);
         const originalUrl = decodeURIComponent(
-          iframeUrl.searchParams.get("url"),
+          iframeUrl.searchParams.get("url")
         );
 
         document.title = this.contentDocument.title;
@@ -72,7 +72,7 @@
         history.pushState(
           {},
           document.title,
-          `/?url=${encodeURIComponent(originalUrl)}`,
+          `/?url=${encodeURIComponent(originalUrl)}`
         );
       });
     </script>
