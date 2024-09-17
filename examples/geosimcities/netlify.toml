@@ -2,3 +2,7 @@
 publish = "."
 command = ""
 ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF ."
+
+[template.environment]
+OPENAI_API_KEY = "CHANGE_ME"
+LANGBASE_API_KEY = "CHANGE_ME"
