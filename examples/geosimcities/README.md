@@ -1,10 +1,10 @@
 ![Netlify Examples](https://github.com/netlify/examples/assets/5865/4145aa2f-b915-404f-af02-deacee24f7bf)
 
-# User-generated uploads example with Astro and Netlify Blobs
+# GeoSimCities
 
-[View this example site here](https://example-user-uploads-astro-blobs.netlify.app/)
+Recreate the magic of [GeoCities](https://www.google.com/search?q=geocities) with Advanced AI, [Langbase](https://langbase.com/) and [Netlify](https://www.netlify.com/).
 
-This site shows how you can use Netlify Blobs in an Astro project to store and display assets uploaded by users. It uses a random, mocked auth service and enables a logged-in user to upload an avatar image that gets displayed in the header.
+[View the demo at geosimcities.netlify.app](https://geosimcities.netlify.app/).
 
 ## Clone and deploy this example
 
@@ -15,25 +15,25 @@ Deploy your own version of this example site, by clicking the button below. This
 - Create an automated deployment pipeline to watch for changes on your repo
 - Build and deploy your new site
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/netlify/examples/&create_from_path=examples/user-image-uploads-astro-blobs&utm_campaign=netlify-examples)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/netlify/examples/&create_from_path=examples/geosimcities&utm_campaign=netlify-examples)
 
-## Install and run locally
+## Local development
 
-You can clone this entire examples repo to explore this and other examples, and to run them locally.
+Let's get set up running this project locally.
 
-### Clone the project
+### Clone new project
 
-Begin by cloning the examples repository to your local development environment:
+If you've used the button above to deploy the project to Netlify, then first locate the repository in your remote Git provider account and clone it to your local development environment.
+
+    git clone git@github.com:<your-account>/geosimcities
+    cd geosimcities
+
+### Clone from examples repository
+
+Or you can clone the examples repository and navigate to this example.
 
     git clone git@github.com:netlify/examples
-
-Install the Netlify CLI to let you locally serve your site using Netlify's features
-
-    npm i -g netlify-cli
-
-Move into the project directory for this example to continue.
-
-    cd examples/user-image-uploads-astro-blobs
+    cd examples/geosimcities
 
 ### Install dependencies
 
@@ -43,9 +43,13 @@ Next, install the project dependencies by running the following command from the
 
 ### Start development server
 
+Install the Netlify CLI to let you locally serve your site using Netlify's features
+
+    npm i -g netlify-cli
+
 Now you're ready to start the development server. Run the following command from the project directory.
 
-    netlify dev --target-port 4321
+    netlify dev
 
 This will open the browser to `http://localhost:8888` with your local development server running.
 
