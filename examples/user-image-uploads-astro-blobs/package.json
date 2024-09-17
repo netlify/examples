@@ -1,0 +1,24 @@
+{
+  "name": "user-image-uploads-astro-blobs",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "dev:ntl": "netlify dev --target-port 4321",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.3",
+    "@astrojs/netlify": "^5.5.1",
+    "@netlify/blobs": "^8.0.1",
+    "astro": "^4.15.1",
+    "typescript": "^5.5.4"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "netlify-cli": "^17.34.3"
+  }
+}
