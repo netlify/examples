@@ -51,4 +51,4 @@ This will open the browser to `http://localhost:8888` with your local developmen
 
 ## More examples
 
-Explore other examples of using the Netlify platform and primitives, with or without a frameworks in this [examples repo](https://github.com/netlify/examples)
+Explore other examples of using the Netlify platform and primitives (with or without a framework) in this [examples repo](https://github.com/netlify/examples).
