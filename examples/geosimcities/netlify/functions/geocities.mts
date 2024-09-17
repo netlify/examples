@@ -1,3 +1,4 @@
+import { Context } from "@netlify/functions";
 import { Pipe } from "langbase";
 
 const pipe = new Pipe({
@@ -11,7 +12,7 @@ export default async (request: Request, context: Context) => {
         {
           role: "user",
           content: decodeURIComponent(
-            new URL(request.url).searchParams.get("url") || "",
+            new URL(request.url).searchParams.get("url") || ""
           ),
         },
       ],

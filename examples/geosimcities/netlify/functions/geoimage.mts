@@ -22,6 +22,10 @@ export default async (req: Request) => {
       response_format: "b64_json",
     });
 
+    if (!response.data || !response.data[0] || !response.data[0].b64_json) {
+      return new Response("Error generating image", { status: 500 });
+    }
+
     const image = Buffer.from(response.data[0].b64_json, "base64");
 
     return new Response(image, {
