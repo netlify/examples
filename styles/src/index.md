@@ -29,6 +29,7 @@ Review the [reference](/reference) page to review how this stylesheet formats st
 
   ```html
   <!-- syntax highlighting  -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@latest/build/styles/default.min.css>
   <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@latest/build/highlight.min.js"></script>
   <script>hljs.highlightAll();</script>
   ```
