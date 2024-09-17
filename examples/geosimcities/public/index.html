@@ -56,7 +56,6 @@
         });
 
         content.addEventListener('load', function() {
-            console.log("Hello")
             const iframeUrl = new URL(this.contentWindow.location.href);
             const originalUrl = decodeURIComponent(iframeUrl.searchParams.get('url'));
             
