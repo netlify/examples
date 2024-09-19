@@ -1,0 +1,37 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import { petImagePath } from '@/utils/assets'
+import NewPetComment from '@/components/NewPetComment.astro'
+import PetComments from '@/components/PetComments.astro'
+import { getTableData } from '@/utils/apiHelpers'
+import { productNewSnugglePath } from '@/utils/routes'
+
+export async function getStaticPaths() {
+  const pets = await getTableData("pets")
+
+  return pets.map(pet => {
+    return {
+      params: { id: pet.id },
+      props: { pet },
+    }
+  })
+}
+
+const { pet } = Astro.props;
+---
+<Layout title={`${pet.name} | Pets`} indexable={true}>
+  <h1 data-pagefind-meta="title">{pet.name}</h1>
+  <div>Hello, {pet.name}!</div>
+  <div>{pet.name} has {pet.snuggles} snuggle{pet.snuggles.length === 1 ? "" : "s"}! You should give him some more!</div>
+  <form action={productNewSnugglePath(pet)} method="post">
+    <button type="submit">Give Snuggle</button>
+  </form>
+  <div style={{margin: "auto", width: "50%"}}>
+    <img src={petImagePath(pet)} alt={pet.name} />
+  </div>
+  <!-- <pre>{JSON.stringify(pet, null, 2)}</pre> -->
+  <div>
+    <NewPetComment pet={pet} server:defer />
+    <PetComments pet={pet} server:defer />
+  </div>
+</Layout>

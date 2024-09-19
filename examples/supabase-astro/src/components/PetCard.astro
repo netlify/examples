@@ -1,9 +1,10 @@
 ---
 import { petPath } from '@/utils/routes'
 import { petImagePath } from '@/utils/assets'
+import type { Pet } from '@/utils/types'
 
 interface Props {
-  pet: {name: string; greeting: string; image: string}
+  pet: Pet
 }
 
 const { pet } = Astro.props

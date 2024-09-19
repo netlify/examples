@@ -1,0 +1,25 @@
+---
+import { productNewCommentPath } from '@/utils/routes'
+import type { Pet } from '@/utils/types'
+
+interface Props {
+  pet: Pet
+}
+
+const { pet } = Astro.props
+
+console.log('[DEBUG] NewPetComment.astro', pet.id)
+
+---
+
+{
+    <form action={productNewCommentPath(pet)} method="post">
+      <div>
+        <label for="comment" class="block">
+          Add a comment for this adorable pet!
+        </label>
+        <textarea id="comment" name="comment" class="border" style={{ color: "black" }} />
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+}
