@@ -4,7 +4,7 @@
 
 [View this example site here](https://example-user-uploads-astro-blobs.netlify.app/)
 
-This site shows how you can use Netlify Blobs in an Astro project to store and display assets uploaded by users. It uses a random, mocked auth service and enables a logged-in user to upload an avatar image that gets displayed in the header.
+This site shows how you can use Supabase in an Astro project to store and display assets uploaded by users. It displays various pets and lets you look at their pages.
 
 ## Clone and deploy this example
 
