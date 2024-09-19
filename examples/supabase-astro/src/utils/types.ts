@@ -5,4 +5,5 @@ export type Pet = {
   image: string
   created_at: string
   snuggles: number
+  bio: string
 }
