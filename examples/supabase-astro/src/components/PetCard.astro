@@ -10,12 +10,12 @@ interface Props {
 const { pet } = Astro.props
 ---
 
-<div class="border">
+<div style={{alignContent: "center"}}>
   <a href={petPath(pet)}>
-    <h2>{pet.name}</h2>
-    <div style={{margin: "auto", width: "50%"}}>
+    <div style={{margin: "auto"}}>
       <img src={petImagePath(pet)} alt={pet.name} />
-    </div>  
+    </div>
+    <h2>{pet.name}</h2>
   </a>
-  <p>{pet.greeting}</p>
+  <p>Greeting: {pet.greeting}</p>
 </div>

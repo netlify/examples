@@ -13,7 +13,7 @@ export const POST: APIRoute = async ({ params, redirect, cookies, request }) => 
   }
 
   const snuggles = pet.snuggles + 1
-  console.log({ pet, snuggles })
+
   const { error } = await supabase.from('pets').update({ snuggles: snuggles }).eq('id', pet.id)
 
   if (error) {
