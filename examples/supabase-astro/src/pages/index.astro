@@ -1,12 +1,7 @@
 ---
 import PetCard from '@/components/PetCard.astro'
-import ProductCard from '@/components/ProductCard.astro'
 import Layout from '@/layouts/Layout.astro'
-import { getCollection } from 'astro:content'
-import { supabase } from '@/utils/database'
 import { getTableData } from '@/utils/apiHelpers'
-
-const products = await getCollection('product')
 
 export const prerender = false
 
@@ -18,8 +13,5 @@ const pets = await getTableData("pets")
   <h1>Say Hello to these cute pets!</h1>
   <ul>
     {pets.map((pet)=> <PetCard pet={pet} />)}
-  </ul>
-  <ul>
-    {products.map((product) => <ProductCard product={product} />)}
   </ul>
 </Layout>
