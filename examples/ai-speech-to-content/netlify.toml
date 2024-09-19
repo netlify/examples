@@ -1,6 +1,5 @@
 [template.environment]
   GROQ_API_KEY = "An Groq API key to send requests to Groq"
-  API_HOST = "Netlify function hostname"
 
 [build]
   publish = "public"
