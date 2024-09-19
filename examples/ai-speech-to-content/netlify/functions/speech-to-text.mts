@@ -1,5 +1,5 @@
 import type { Context } from "@netlify/functions";
-import Groq from "groq-sdk/index.mjs";
+import Groq from "groq-sdk";
 
 const groq = new Groq({
   apiKey: Netlify.env.get('GROQ_API_KEY'),
