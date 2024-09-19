@@ -1,0 +1,39 @@
+---
+import { supabase } from '@/utils/database'
+import type { CollectionEntry } from 'astro:content'
+
+interface Props {
+  product: CollectionEntry<'product'>
+}
+
+const { product } = Astro.props
+
+console.log('[DEBUG] ProductReviews.astro', product.id)
+
+const { data, error } = await supabase.from('reviews').select().eq('product_id', product.id)
+
+if (error) {
+  console.error(error)
+}
+
+const reviews = data || []
+
+const avgRating = reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length
+---
+
+<div>
+  <h2>Reviews</h2>
+  {reviews.length > 0 && <p>Average Rating: {avgRating}</p>}
+
+  {reviews.length === 0 && <p>No reviews yet</p>}
+
+  {
+    reviews.map((review) => (
+      <div>
+        <p>{review.created_at}</p>
+        <p>{review.rating}</p>
+        {(review.comment?.length || 0) > 0 && <p>{review.comment}</p>}
+      </div>
+    ))
+  }
+</div>

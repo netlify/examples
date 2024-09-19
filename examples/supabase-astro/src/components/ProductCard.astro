@@ -1,0 +1,17 @@
+---
+import { productPath } from '@/utils/routes'
+import type { CollectionEntry } from 'astro:content'
+
+interface Props {
+  product: CollectionEntry<'product'>
+}
+
+const { product } = Astro.props
+---
+
+<div class="border">
+  <a href={productPath(product)}>
+    <h2>{product.data.title}</h2>
+  </a>
+  <p>{product.data.description}</p>
+</div>

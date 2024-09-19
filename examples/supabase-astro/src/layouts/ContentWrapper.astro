@@ -1,0 +1,19 @@
+---
+interface Props {
+  indexable?: boolean
+}
+
+const { indexable } = Astro.props
+---
+
+{
+  indexable ? (
+    <div data-pagefind-body>
+      <slot />
+    </div>
+  ) : (
+    <div>
+      <slot />
+    </div>
+  )
+}

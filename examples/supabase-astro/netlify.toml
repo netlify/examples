@@ -1,0 +1,9 @@
+# use the Netlify Image CDN for image transformations
+[[redirects]]
+from = "/images/full/:path"
+to = "/.netlify/images?url=/images/:path"
+status = 200
+[[redirects]]
+from = "/images/thumb/:path"
+to = "/.netlify/images?w=800&h=800&fit=cover&url=/images/:path"
+status = 200

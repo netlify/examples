@@ -1,0 +1,25 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import { productImagePath } from '@/utils/assets'
+import { getCollection } from 'astro:content'
+
+export async function getStaticPaths() {
+  const productEntries = await getCollection('product')
+  return productEntries.map((product) => ({
+    params: { slug: product.slug },
+    props: { product },
+  }))
+}
+
+const { product } = Astro.props
+
+console.log(`[DEBUG] /products/${product.slug}`)
+---
+
+<Layout title={`${product.data.title} | My Merch Store`} indexable={true}>
+  <h1 data-pagefind-meta="title">{product.data.title}</h1>
+  <div class="w-64">
+    <img src={productImagePath(product)} alt={product.data.title} />
+  </div>
+  <pre>{JSON.stringify(product, null, 2)}</pre>
+</Layout>
