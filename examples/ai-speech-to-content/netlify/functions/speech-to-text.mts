@@ -1,5 +1,5 @@
-import type { Context } from "@netlify/functions";
-import Groq from "groq-sdk/index.mjs";
+import type { Config, Context } from "@netlify/functions";
+import Groq from "groq-sdk";
 
 const groq = new Groq({
   apiKey: Netlify.env.get('GROQ_API_KEY'),
@@ -30,4 +30,8 @@ export default async (request: Request, context: Context) => {
   response.headers.append("Access-Control-Allow-Headers", "*");
   response.headers.append("Access-Control-Allow-Methods", "*");
   return response;
+};
+
+export const config: Config = {
+  path: "/api/speech-to-text",
 };
