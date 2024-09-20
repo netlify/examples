@@ -1,4 +1,5 @@
 import { supabase } from './database'
+import type { Pet } from './types'
 
 export async function getTableData(table: string) {
   const { data, error } = await supabase
@@ -21,4 +22,14 @@ export async function getPet(id: string) {
   }
 
   return data
+}
+
+export async function addSnuggle(pet: Pet) {
+  const snuggles = pet.snuggles + 1
+
+  const { error } = await supabase.from('pets').update({ snuggles: snuggles }).eq('id', pet.id)
+
+  if (error) {
+    console.error(error)
+  }
 }
