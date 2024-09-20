@@ -1,0 +1,21 @@
+---
+import { petPath } from '@/utils/routes'
+import { petImagePath } from '@/utils/assets'
+import type { Pet } from '@/utils/types'
+
+interface Props {
+  pet: Pet
+}
+
+const { pet } = Astro.props
+---
+
+<div style={{alignContent: "center"}}>
+  <a href={petPath(pet)}>
+    <div style={{margin: "auto"}}>
+      <img src={petImagePath(pet)} alt={pet.name} />
+    </div>
+    <h2>{pet.name}</h2>
+  </a>
+  <p>Greeting: {pet.greeting}</p>
+</div>
