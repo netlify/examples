@@ -11,7 +11,7 @@ export async function getTableData(table: string) {
   }
 }
 
-export async function getPet(id: string) {
+export async function getPet(id: number) {
   try {
     const data = await turso.execute({ sql: `SELECT * FROM pets WHERE id = ?`, args: [id] })
 
