@@ -1,5 +1,4 @@
-import { getPet } from '@/utils/apiHelpers'
-import { turso } from '@/utils/database'
+import { addSnuggle, getPet } from '@/utils/apiHelpers'
 import { petPath } from '@/utils/routes'
 import type { APIRoute } from 'astro'
 
@@ -12,10 +11,7 @@ export const POST: APIRoute = async ({ params, redirect, cookies, request }) => 
     return new Response('Where`d that pet go?', { status: 404 })
   }
 
-  await turso.execute({
-    sql: `UPDATE pets SET snuggles = snuggles + 1 WHERE id = ?`,
-    args: [pet.id],
-  })
+  await addSnuggle(pet)
 
   return redirect(petPath(pet), 303)
 }
