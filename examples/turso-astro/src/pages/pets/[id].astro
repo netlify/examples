@@ -24,7 +24,7 @@ const currentPet = await getPet(pet.id)
     <h1 data-pagefind-meta="title">{currentPet.name}</h1>
     <div>Say hi to {pet.name}!</div>
     <div>{currentPet.bio}</div>
-    <div>{currentPet.name} has {currentPet.snuggles} snuggle{currentPet.snuggles === 1 ? "" : "s"}! You should give him some more!</div>
+    <div>{currentPet.name} has {currentPet.snuggles} snuggle{currentPet.snuggles === 1 ? "" : "s"}! You should give them some more!</div>
     <div style={{width: "250px", margin:"auto"}}>
       <form action={productNewSnugglePath(pet)} method="post">
         <button type="submit">Give Snuggle</button>
