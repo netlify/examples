@@ -11,17 +11,17 @@ export async function getTableData(table: string) {
     console.error(error)
   }
 
-  return data || []
+  return (data || []) as Pet[]
 }
 
-export async function getPet(id: string) {
+export async function getPet(id: number) {
   const { data, error } = await supabase.from('pets').select().eq('id', id).single()
 
   if (error) {
     console.error(error)
   }
 
-  return data
+  return data as Pet
 }
 
 export async function addSnuggle(pet: Pet) {

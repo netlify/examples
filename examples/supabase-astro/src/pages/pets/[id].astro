@@ -1,37 +1,24 @@
 ---
 import Layout from '@/layouts/Layout.astro'
 import { petImagePath } from '@/utils/assets'
-import { getTableData } from '@/utils/apiHelpers'
 import { productNewSnugglePath } from '@/utils/routes'
 import { getPet } from '@/utils/apiHelpers'
 
-export async function getStaticPaths() {
-  const pets = await getTableData("pets")
+const { id } = Astro.params;
+const currentPet = await getPet(parseInt(id as string)) 
 
-  return pets.map(pet => {
-    return {
-      params: { id: pet.id },
-      props: { pet },
-    }
-  })
-}
-
-const { pet } = Astro.props;
-const currentPet = await getPet(pet.id) 
 ---
 <Layout title={`${currentPet.name} | Pets`} indexable={true}>
   <div style={{ margin: "auto auto 100px auto" }}>
     <h1 data-pagefind-meta="title">{currentPet.name}</h1>
-    <div>Say hi to {pet.name}!</div>
+    <div>Say hi to {currentPet.name}!</div>
     <div>{currentPet.bio}</div>
-    <div>{currentPet.name} has {currentPet.snuggles} snuggle{currentPet.snuggles.length === 1 ? "" : "s"}! You should give him some more!</div>
+    <div>{currentPet.name} has {currentPet.snuggles} snuggle{currentPet.snuggles === 1 ? "" : "s"}! You should give them some more!</div>
     <div style={{width: "250px", margin:"auto"}}>
-      <form action={productNewSnugglePath(pet)} method="post">
+      <form action={productNewSnugglePath(currentPet)} method="post">
         <button type="submit">Give Snuggle</button>
       </form>
     </div>
-    <div style={{margin: "auto", width: "50%"}}>
-      <img src={petImagePath(currentPet)} alt={currentPet.name} />
-    </div>
+    <img style={{margin: "auto", width: "50%"}} src={petImagePath(currentPet)} alt={currentPet.name} />
   </div>
 </Layout>
