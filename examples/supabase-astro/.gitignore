@@ -26,10 +26,5 @@ pnpm-debug.log*
 # Local Netlify folder
 .netlify
 
-# Indexed search for dev
-public/pagefind/
-
 # Supabase
-supabase/.branches
 supabase/.temp
-supabase/.env
