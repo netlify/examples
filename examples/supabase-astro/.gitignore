@@ -28,3 +28,8 @@ pnpm-debug.log*
 
 # Indexed search for dev
 public/pagefind/
+
+# Supabase
+supabase/.branches
+supabase/.temp
+supabase/.env

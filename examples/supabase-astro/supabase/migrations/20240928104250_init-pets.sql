@@ -1,0 +1,9 @@
+CREATE TABLE pets (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  name TEXT NOT NULL,
+  greeting TEXT NOT NULL,
+  bio TEXT NOT NULL,
+  image TEXT NOT NULL,
+  snuggles INTEGER NOT NULL DEFAULT 0,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
