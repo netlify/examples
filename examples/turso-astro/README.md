@@ -29,7 +29,7 @@ Begin by cloning the examples repository to your local development environment.
 
 Move into the project directory for this example to continue.
 
-    cd examples/supabase-astro
+    cd examples/turso-astro
 
 ### Install dependencies
 
@@ -43,13 +43,13 @@ Install the Netlify CLI to let you locally serve your site using Netlify's featu
 
 ### Set up the database
 
-To use this with your own Supabase project, you'll need to set up and seed a new database.
+To use this with your own Turso project, you'll need to set up and seed a new database.
 
-1. Create a new Supabase project.
-2. Run the SQL commands found in the `supabase/migrations` directory in the Supabase UI.
-3. To seed the database with data, you can import the contents of the `supabase/seed.csv` file in the Supabase UI.
+1. Create a new Turso project.
+2. Run the SQL commands found in the `turso/migrations` directory in the Turso UI.
+3. To seed the database with data, you can import the contents of the `turso/seed.csv` file in the Turso UI.
 
-ℹ️ _Note: This example was designed to be used with the Supabase extension for Netlify. If you aren't using the extension, you will need to set the `SUPABASE_DATABASE_URL` and `SUPABASE_ANON_KEY` environment variables in the `.env` file._
+ℹ️ _Note: You will need to set the `TURSO_DATABASE_URL` and `TURSO_AUTH_TOKEN` environment variables in the `.env` file._
 
 ### Start development server
 
