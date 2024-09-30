@@ -1,6 +1,5 @@
 ---
-import Layout from '@/layouts/Layout.astro'
-import { productNewSnugglePath } from '@/utils/routes'
+import Layout from '../../components/Layout.astro'
 import { turso } from '../../utils/database'
 
 const { id } = Astro.params;
@@ -15,22 +14,35 @@ if (data.rows.length === 0) {
   throw new Error("No pet found");
 }
 
-const currentPet = data.rows[0]
+const pet = data.rows[0]
 
 ---
-<Layout title={`${currentPet.name} | Pets`} indexable={true}>
-  <div style={{ margin: "auto auto 100px auto" }}>
-    <h1 data-pagefind-meta="title">{currentPet.name}</h1>
-    <div>Say hi to {currentPet.name}!</div>
-    <div>{currentPet.bio}</div>
-    <div>{currentPet.name} has {currentPet.snuggles} snuggle{currentPet.snuggles === 1 ? "" : "s"}! You should give them some more!</div>
-    <div style={{width: "250px", margin:"auto"}}>
-      <form action={productNewSnugglePath(currentPet)} method="post">
-        <button type="submit">Give Snuggle</button>
-      </form>
-    </div>
-    <img src={`/.netlify/images?url=/images/${currentPet.image}&w=1500&h=1000&fit=cover`} alt={currentPet.name} />
-  </div>
+<Layout title={`${pet.name} | Pets`}>
+  <section class="page-header">
+    <span>{pet.greeting}</span>
+    <h1>{pet.name}</h1>
+    <div class="bio">{pet.bio}</div>
+  </section>
+
+  <section>
+    <form action={`/api/pets/${pet.id}/snuggle`} method="post">
+      <h3>Snuggle {pet.name}!</h3>
+
+      <div>
+        {pet.name} has {pet.snuggles} snuggle{pet.snuggles === 1 ? "" : "s"}!
+        You should give them some more!
+      </div>
+
+      <button type="submit">Give {pet.name} a snuggle</button>
+    </form>
+  </section>
+
+  <section>
+    <img
+      src={`/.netlify/images?url=/images/${pet.image}&w=1500&h=1000&fit=cover`}
+      alt={pet.name}
+    />
+  </section>
 </Layout>
 
 <style>

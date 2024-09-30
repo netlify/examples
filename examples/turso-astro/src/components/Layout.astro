@@ -1,15 +1,10 @@
 ---
-import ContentWrapper from '@/layouts/ContentWrapper.astro'
-import Footer from '@/layouts/Footer.astro'
-import Header from '@/layouts/Header.astro'
-import '@/styles/main.css'
-
+import Footer from './Footer.astro'
+import Header from './Header.astro'
 interface Props {
   title: string
-  indexable?: boolean
 }
-
-const { title, indexable } = Astro.props
+const { title } = Astro.props
 ---
 
 <!doctype html>
@@ -37,13 +32,20 @@ const { title, indexable } = Astro.props
       href="https://example-styles.netlify.app/styles.css"
     />
   </head>
-  <body class="min-h-screen justify-between flex flex-col">
+  <body>
     <div>
       <Header />
-      <ContentWrapper indexable={indexable}>
-        <slot />
-      </ContentWrapper>
+      <slot />
     </div>
     <Footer />
   </body>
 </html>
+
+<style>
+  body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100vh;
+  }
+</style>
