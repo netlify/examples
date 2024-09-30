@@ -1,21 +1,27 @@
 ---
 import PetCard from '@/components/PetCard.astro'
 import Layout from '@/layouts/Layout.astro'
-import { getTableData } from '@/utils/apiHelpers'
+import { turso } from '../utils/database'
 
 export const prerender = false
 
-const pets = await getTableData("pets")
+const data = await turso.execute(`SELECT * FROM pets order by created_at desc`)
+const pets = data.rows || []
 
 ---
 
 <Layout title="Pet Snuggles">
-  <h1>Say Hello to these cute pets!</h1>
+  <h1>Give these pets some snuggles!</h1>
   <section class="container mx-auto mt-4">
-    <ul
-      class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8"
-    >
-      {pets.map((pet)=> <PetCard pet={pet} />)}
-    </ul>
+    {pets.map((pet)=> <PetCard pet={pet} />)}
   </section>
 </Layout>
+
+<style>
+  section {
+    max-width: 54rem;
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(2, 1fr);
+  }
+</style>

@@ -1,17 +1,21 @@
 ---
 import Layout from '@/layouts/Layout.astro'
-import { petImagePath } from '@/utils/assets'
-import { getTableData } from '@/utils/apiHelpers'
 import { productNewSnugglePath } from '@/utils/routes'
-import { getPet } from '@/utils/apiHelpers'
-import { type Pet } from '@/utils/types'
+import { turso } from '../../utils/database'
 
 const { id } = Astro.params;
-const currentPet = (await getPet(parseInt(id as string)) ?? {
-  name: "Unknown",
-  bio: "This pet is a mystery!",
-  snuggles: 0,
-}) as Pet
+if (!id) {
+  throw new Error("No pet id provided");
+}
+
+const data = await turso.execute({ sql: `SELECT * FROM pets WHERE id = ?`, args: [id] })
+
+if (data.rows.length === 0) {
+  console.error(`No pet found with id ${id}`)
+  throw new Error("No pet found");
+}
+
+const currentPet = data.rows[0]
 
 ---
 <Layout title={`${currentPet.name} | Pets`} indexable={true}>
@@ -25,6 +29,43 @@ const currentPet = (await getPet(parseInt(id as string)) ?? {
         <button type="submit">Give Snuggle</button>
       </form>
     </div>
-    <img style={{margin: "auto", width: "50%"}} src={petImagePath(currentPet)} alt={currentPet.name} />
+    <img src={`/.netlify/images?url=/images/${currentPet.image}&w=1500&h=1000&fit=cover`} alt={currentPet.name} />
   </div>
 </Layout>
+
+<style>
+  .page-header {
+    text-align: center;
+  }
+
+  h1 {
+    margin: 0 0 2rem;
+    padding: 0;
+  }
+
+  span {
+    background-color: var(--neutral-dark-900);
+    border-radius: 0.25rem;
+    display: inline-block;
+    font-size: 0.85rem;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+  }
+
+  .bio {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    margin-bottom: 1rem;
+    padding: 0;
+    font-size: 1.5rem;
+  }
+
+  img {
+    border-radius: 0.5rem;
+    display: block;
+    width: 100%;
+  }
+</style>

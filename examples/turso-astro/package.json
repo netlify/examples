@@ -5,12 +5,9 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "dev:ntl": "netlify dev --target-port 4321",
     "build": "astro check && astro build",
     "preview": "astro preview",
-    "astro": "astro",
-    "create-test-user": "npx tsx ./src/scripts/create-test-user.ts",
-    "index:dev": "yarn build && npx pagefind --site dist && rm -rf public/pagefind && cp -R dist/pagefind public/"
+    "astro": "astro"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.3",
