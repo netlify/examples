@@ -1,0 +1,15 @@
+1. Go to Turso site. (https://app.turso.tech) (credentials are in 1password)
+2. Create a database group with name you select
+
+CLI Options:
+3. Log into turso using turso auth login
+# after creating database group, you can run this command to create a new database and seed it with data from a csv file
+# currently created db called, public, but could probably use another name
+4. turso db create public --from-csv turso/seed.csv --csv-table-name temp-table
+
+5. Open Outerbase for your database in the Turso UI
+6. Initialize pets table using sql query found in migrations/init-pets.sql
+7. Use sql query found in migrations/add-pets-data.sql to insert data into pets table.
+8. Drop temp-table from your database.
+
+9. Create token for your database. (Click triple dot in your database overview). Add token and url to environment variables for your site.
