@@ -3,6 +3,8 @@ import type { Tables } from '../../../turso/types';
 import Layout from '../../components/Layout.astro'
 import { turso } from '../../utils/database'
 
+export const prerender = false;
+
 const { id } = Astro.params;
 if (!id) {
   throw new Error("No pet id provided");
