@@ -11,11 +11,7 @@ export const POST: APIRoute = async ({ params, redirect, cookies, request }) => 
 
   const data = await turso.execute({ sql: `SELECT * FROM pets WHERE id = ?`, args: [id] })
 
-  if (data.rows.length === 0) {
-    console.error(`No pet found with id ${id}`)
-    return
-  }
-  const pet = data.rows[0]
+  const pet = data?.rows?.[0]
 
   if (!pet) {
     return new Response('Where`d that pet go?', { status: 404 })

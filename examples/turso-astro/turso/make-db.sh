@@ -1,0 +1,1 @@
+turso db create public --from-csv turso/seed.csv --csv-table-name pets 

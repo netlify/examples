@@ -2,11 +2,12 @@
 import PetCard from '../components/PetCard.astro'
 import Layout from '../components/Layout.astro'
 import { turso } from '../utils/database'
+import type { Tables } from '../../turso/types'
 
 export const prerender = false
 
 const data = await turso.execute(`SELECT * FROM pets order by created_at desc`)
-const pets = data.rows || []
+const pets = (data.rows || []) as unknown as Tables<"pets">[]
 
 ---
 
