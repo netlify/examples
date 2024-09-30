@@ -6,7 +6,7 @@ import type { Tables } from '../../turso/types'
 
 export const prerender = false
 
-const data = await turso.execute(`SELECT * FROM pets order by created_at desc`)
+const data = await turso.execute(`SELECT * FROM pets order by snuggles desc`)
 const pets = (data.rows || []) as unknown as Tables<"pets">[]
 
 ---

@@ -6,6 +6,7 @@ export type Database = {
       pets: {
         Row: {
           bio: string
+          created_at: string
           greeting: string
           id: string
           image: string
@@ -14,6 +15,7 @@ export type Database = {
         }
         Insert: {
           bio: string
+          created_at: string
           greeting: string
           id?: string
           image: string
@@ -22,6 +24,7 @@ export type Database = {
         }
         Update: {
           bio?: string
+          created_at: string
           greeting?: string
           id?: string
           image?: string
