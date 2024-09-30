@@ -28,3 +28,8 @@ pnpm-debug.log*
 
 # Indexed search for dev
 public/pagefind/
+
+# Turso
+turso/.branches
+turso/.temp
+turso/.env
