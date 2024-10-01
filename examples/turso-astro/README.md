@@ -1,10 +1,10 @@
 ![Netlify Examples](https://github.com/netlify/examples/assets/5865/4145aa2f-b915-404f-af02-deacee24f7bf)
 
-# Supabase example with Astro
+# Turso example with Astro
 
-[View this example site here](https://supabase-astro-test.netlify.app/)
+[View this example site here](https://turso-astro-test.netlify.app/)
 
-This site shows how you can use Supabase in an Astro project to store and display assets uploaded by users. It displays various pets and lets you look at their pages.
+This site shows how you can use Turso in an Astro project to store and display assets uploaded by users. It displays various pets and lets you look at their pages.
 
 ## Clone and deploy this example
 
@@ -15,7 +15,7 @@ Deploy your own version of this example site, by clicking the button below. This
 - Create an automated deployment pipeline to watch for changes on your repo
 - Build and deploy your new site
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/netlify/examples/&create_from_path=examples/supabase-astro&utm_campaign=netlify-examples)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/netlify/examples/&create_from_path=examples/turso-astro&utm_campaign=netlify-examples)
 
 ## Install and run locally
 
@@ -29,7 +29,7 @@ Begin by cloning the examples repository to your local development environment.
 
 Move into the project directory for this example to continue.
 
-    cd examples/supabase-astro
+    cd examples/turso-astro
 
 ### Install dependencies
 
@@ -43,13 +43,13 @@ Install the Netlify CLI to let you locally serve your site using Netlify's featu
 
 ### Set up the database
 
-To use this with your own Supabase project, you'll need to set up and seed a new database.
+To use this with your own Turso project, you'll need to set up and seed a new database.
 
-1. Create a new Supabase project.
-2. Run the SQL commands found in the `supabase/migrations` directory in the Supabase UI.
-3. To seed the database with data, you can import the contents of the `supabase/seed.csv` file in the Supabase UI.
+1. Create a new Turso group and database.
+2. Open the Outerbase UI for your Turso database.
+3. Run the SQL commands found in the `turso/migrations` **in order** within the **Queries** tab in the Outerbase UI. This will create the `pets` table and add the seed data.
 
-ℹ️ _Note: This example was designed to be used with the Supabase extension for Netlify. If you aren't linked to a Netlify site using the extension, you will need to set the `SUPABASE_DATABASE_URL` and `SUPABASE_ANON_KEY` environment variables in the `.env` file._
+ℹ️ _Note: This example was designed to be used with the Turso extension for Netlify. If you aren't linked to a Netlify site using the extension, you will need to set the `TURSO_DATABASE_URL` and `TURSO_AUTH_TOKEN` environment variables in the `.env` file._
 
 ### Start development server
 

@@ -1,0 +1,83 @@
+---
+import type { Pet } from '../../../turso/types'
+import Layout from '../../components/Layout.astro'
+import { turso } from '../../utils/database'
+
+export const prerender = false
+
+const { id } = Astro.params
+if (!id) {
+  throw new Error('No pet id provided')
+}
+
+const data = await turso.execute({ sql: `SELECT * FROM pets WHERE id = ?`, args: [id] })
+
+if (data.rows.length === 0) {
+  console.error(`No pet found with id ${id}`)
+  throw new Error('No pet found')
+}
+
+const pet = data.rows[0] as unknown as Pet
+---
+
+<Layout title={`${pet.name} | Pets`}>
+  <section class="page-header">
+    <span>{pet.greeting}</span>
+    <h1>{pet.name}</h1>
+    <div class="bio">{pet.bio}</div>
+  </section>
+
+  <section>
+    <form action={`/api/pets/${pet.id}/snuggle`} method="post">
+      <h3>Snuggle {pet.name}!</h3>
+
+      <div>
+        {pet.name} has {pet.snuggles} snuggle{pet.snuggles === 1 ? '' : 's'}! You should give them
+        some more!
+      </div>
+
+      <button type="submit">Give {pet.name} a snuggle</button>
+    </form>
+  </section>
+
+  <section>
+    <img src={`/.netlify/images?url=/images/${pet.image}&w=1500&h=1000&fit=cover`} alt={pet.name} />
+  </section>
+</Layout>
+
+<style>
+  .page-header {
+    text-align: center;
+  }
+
+  h1 {
+    margin: 0 0 2rem;
+    padding: 0;
+  }
+
+  span {
+    background-color: var(--neutral-dark-900);
+    border-radius: 0.25rem;
+    display: inline-block;
+    font-size: 0.85rem;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+  }
+
+  .bio {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    margin-bottom: 1rem;
+    padding: 0;
+    font-size: 1.5rem;
+  }
+
+  img {
+    border-radius: 0.5rem;
+    display: block;
+    width: 100%;
+  }
+</style>

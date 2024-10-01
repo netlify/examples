@@ -1,0 +1,64 @@
+/* --- Layout --- */
+
+section {
+  @apply py-8;
+}
+
+/* --- Headings --- */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply font-bold;
+}
+
+h1 {
+  @apply mb-4
+    text-4xl;
+}
+
+h2 {
+  @apply mb-3
+    text-3xl;
+}
+
+h3 {
+  @apply mb-2
+    text-2xl;
+}
+
+h4 {
+  @apply mb-1
+    text-xl;
+}
+
+/* --- Links & Buttons --- */
+
+a {
+  @apply text-blue-500
+    underline;
+}
+
+button,
+input[type='submit'] {
+  @apply bg-blue-500
+    border-blue-500
+    hover:bg-blue-700
+    hover:border-blue-700
+    text-white
+    px-4
+    py-2
+    rounded-sm;
+}
+
+/* --- Forms --- */
+
+input {
+  @apply border
+    m-2
+    p-2
+    rounded-sm;
+}
