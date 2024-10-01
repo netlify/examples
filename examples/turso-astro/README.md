@@ -45,11 +45,11 @@ Install the Netlify CLI to let you locally serve your site using Netlify's featu
 
 To use this with your own Turso project, you'll need to set up and seed a new database.
 
-1. Create a new Turso project.
-2. Run the SQL commands found in the `turso/migrations` directory in the Turso UI.
-3. To seed the database with data, you can import the contents of the `turso/seed.csv` file in the Turso UI.
+1. Create a new Turso group and database.
+2. Open the Outerbase UI for your Turso database.
+3. Run the SQL commands found in the `turso/migrations` **in order** within the **Queries** tab in the Outerbase UI. This will create the `pets` table and add the seed data.
 
-ℹ️ _Note: You will need to set the `TURSO_DATABASE_URL` and `TURSO_AUTH_TOKEN` environment variables in the `.env` file._
+ℹ️ _Note: This example was designed to be used with the Turso extension for Netlify. If you aren't linked to a Netlify site using the extension, you will need to set the `TURSO_DATABASE_URL` and `TURSO_AUTH_TOKEN` environment variables in the `.env` file._
 
 ### Start development server
 

@@ -49,7 +49,7 @@ To use this with your own Supabase project, you'll need to set up and seed a new
 2. Run the SQL commands found in the `supabase/migrations` directory in the Supabase UI.
 3. To seed the database with data, you can import the contents of the `supabase/seed.csv` file in the Supabase UI.
 
-ℹ️ _Note: This example was designed to be used with the Supabase extension for Netlify. If you aren't using the extension, you will need to set the `SUPABASE_DATABASE_URL` and `SUPABASE_ANON_KEY` environment variables in the `.env` file._
+ℹ️ _Note: This example was designed to be used with the Supabase extension for Netlify. If you aren't linked to a Netlify site using the extension, you will need to set the `SUPABASE_DATABASE_URL` and `SUPABASE_ANON_KEY` environment variables in the `.env` file._
 
 ### Start development server
 
