@@ -1,9 +1,11 @@
 ---
 import Footer from './Footer.astro'
 import Header from './Header.astro'
+
 interface Props {
   title: string
 }
+
 const { title } = Astro.props
 ---
 
@@ -27,10 +29,7 @@ const { title } = Astro.props
       type="font/woff2"
       crossorigin
     />
-    <link
-      rel="stylesheet"
-      href="https://example-styles.netlify.app/styles.css"
-    />
+    <link rel="stylesheet" href="https://example-styles.netlify.app/styles.css" />
   </head>
   <body>
     <div>

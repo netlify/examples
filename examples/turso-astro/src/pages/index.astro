@@ -7,14 +7,13 @@ import type { Tables } from '../../turso/types'
 export const prerender = false
 
 const data = await turso.execute(`SELECT * FROM pets order by snuggles desc`)
-const pets = (data.rows || []) as unknown as Tables<"pets">[]
-
+const pets = (data.rows || []) as unknown as Tables<'pets'>[]
 ---
 
 <Layout title="Pet Snuggles">
   <h1>Give these pets some snuggles!</h1>
-  <section class="container mx-auto mt-4">
-    {pets.map((pet)=> <PetCard pet={pet} />)}
+  <section>
+    {pets.map((pet) => <PetCard pet={pet} />)}
   </section>
 </Layout>
 

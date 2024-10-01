@@ -1,25 +1,25 @@
 ---
-import type { Tables } from '../../../turso/types';
+import type { Tables } from '../../../turso/types'
 import Layout from '../../components/Layout.astro'
 import { turso } from '../../utils/database'
 
-export const prerender = false;
+export const prerender = false
 
-const { id } = Astro.params;
+const { id } = Astro.params
 if (!id) {
-  throw new Error("No pet id provided");
+  throw new Error('No pet id provided')
 }
 
 const data = await turso.execute({ sql: `SELECT * FROM pets WHERE id = ?`, args: [id] })
 
 if (data.rows.length === 0) {
   console.error(`No pet found with id ${id}`)
-  throw new Error("No pet found");
+  throw new Error('No pet found')
 }
 
-const pet = data.rows[0] as unknown as Tables<"pets">
-
+const pet = data.rows[0] as unknown as Tables<'pets'>
 ---
+
 <Layout title={`${pet.name} | Pets`}>
   <section class="page-header">
     <span>{pet.greeting}</span>
@@ -32,8 +32,8 @@ const pet = data.rows[0] as unknown as Tables<"pets">
       <h3>Snuggle {pet.name}!</h3>
 
       <div>
-        {pet.name} has {pet.snuggles} snuggle{pet.snuggles === 1 ? "" : "s"}!
-        You should give them some more!
+        {pet.name} has {pet.snuggles} snuggle{pet.snuggles === 1 ? '' : 's'}! You should give them
+        some more!
       </div>
 
       <button type="submit">Give {pet.name} a snuggle</button>
@@ -41,10 +41,7 @@ const pet = data.rows[0] as unknown as Tables<"pets">
   </section>
 
   <section>
-    <img
-      src={`/.netlify/images?url=/images/${pet.image}&w=1500&h=1000&fit=cover`}
-      alt={pet.name}
-    />
+    <img src={`/.netlify/images?url=/images/${pet.image}&w=1500&h=1000&fit=cover`} alt={pet.name} />
   </section>
 </Layout>
 

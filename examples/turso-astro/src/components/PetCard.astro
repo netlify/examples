@@ -1,21 +1,18 @@
 ---
-import type { Tables } from "../../turso/types.ts";
+import type { Tables } from '../../turso/types.ts'
 
 interface Props {
-  pet: Tables<"pets">;
+  pet: Tables<'pets'>
 }
 
 const { pet } = Astro.props
 ---
 
 <a href={`/pets/${pet.id}`}>
-  <img
-    src={`/.netlify/images?url=/images/${pet.image}&w=400&h=300&fit=cover`}
-    alt={pet.name}
-  />
+  <img src={`/.netlify/images?url=/images/${pet.image}&w=400&h=300&fit=cover`} alt={pet.name} />
   <span>{pet.greeting}</span>
   <h2>{pet.name}</h2>
-  <p class="snuggles">{pet.snuggles} snuggle{pet.snuggles === 1 ? "" : "s"}</p>
+  <p class="snuggles">{pet.snuggles} snuggle{pet.snuggles === 1 ? '' : 's'}</p>
 </a>
 
 <style>
