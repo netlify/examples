@@ -1,5 +1,5 @@
 ---
-import type { Tables } from '../../../turso/types'
+import type { Pet } from '../../../turso/types'
 import Layout from '../../components/Layout.astro'
 import { turso } from '../../utils/database'
 
@@ -17,7 +17,7 @@ if (data.rows.length === 0) {
   throw new Error('No pet found')
 }
 
-const pet = data.rows[0] as unknown as Tables<'pets'>
+const pet = data.rows[0] as unknown as Pet
 ---
 
 <Layout title={`${pet.name} | Pets`}>
