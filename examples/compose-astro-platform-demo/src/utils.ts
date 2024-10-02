@@ -52,7 +52,7 @@ export function cacheHeaders(maxAgeDays = 365, cacheTags?: string[]): Record<str
     // Tell browsers to always revalidate
     'Cache-Control': 'public, max-age=0, must-revalidate',
     // Tell Netlify CDN the max allowed cache duration
-    'Netlify-CDN-Cache-Control': `public, max-age=${maxAgeDays * 86_400}, must-revalidate`,
+    'Netlify-CDN-Cache-Control': `public, max-age=${maxAgeDays * 86_400}, must-revalidate, durable`,
   };
   if ((cacheTags || []).length > 0) {
     headers['Cache-Tag'] = (cacheTags || []).join(',');

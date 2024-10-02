@@ -10,7 +10,7 @@ const { Content: RevalidationContent } = await revalidationPage.render();
 
 const { title } = revalidationPage.data;
 
-const tags = ['/caching', 'all-ssr-pages'];
+const tags = ['blog', 'blog-post:dbae7f7', 'southeast-asia', 'south-asia'];
 const headers = cacheHeaders(365, tags);
 
 Object.entries(headers).forEach(([k, v]) => {
