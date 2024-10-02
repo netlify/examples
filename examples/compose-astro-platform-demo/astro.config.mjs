@@ -37,4 +37,7 @@ export default defineConfig({
   ],
   output: 'hybrid',
   adapter: netlify(),
+  experimental: {
+    serverIslands: true,
+  },
 });
