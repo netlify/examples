@@ -5,15 +5,15 @@ import { getEntry } from 'astro:content';
 
 export const prerender = false;
 
-const page = await getEntry('page', 'revalidation');
-const { Content } = await page.render();
+const revalidationPage = await getEntry('page', 'revalidation');
+const { Content: RevalidationContent } = await revalidationPage.render();
 
-const { title } = page.data;
+const { title } = revalidationPage.data;
 
-const tags = ['/revalidation', 'all-ssr-pages'];
+const tags = ['/caching', 'all-ssr-pages'];
 const headers = cacheHeaders(365, tags);
 
-Object.entries(headers).map(([k, v]) => {
+Object.entries(headers).forEach(([k, v]) => {
   Astro.response.headers.set(k, v);
 });
 
@@ -27,10 +27,10 @@ const exampleTag = tags[randomInt(0, tags.length - 1)];
   </span>
   <h1 class="mb-10">{title}</h1>
   <div class="prose">
-    {page.data.subheading && <p>{page.data.subheading}</p>}
+    {revalidationPage.data.subheading && <p>{revalidationPage.data.subheading}</p>}
 
     <div>
-      <h2>Revalidation</h2>
+      <h2>Caching</h2>
       <p>
         Use the button below to invalidate a random tag out of this page's tags, then refresh the
         page.
@@ -43,7 +43,7 @@ const exampleTag = tags[randomInt(0, tags.length - 1)];
       </div>
     </div>
 
-    <Content />
+    <RevalidationContent />
   </div>
 </Layout>
 
