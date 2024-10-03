@@ -5,6 +5,15 @@ subheading: Netlify's blob storage makes it easy to store and retrieve any kind 
 
 ## Blob x blobs example
 
-This is a client-side React application loaded as an Astro island for editing, uploading and viewing blob shapes to the blob store.
+This is a client-side React application loaded as an [Astro
+island](https://docs.astro.build/en/concepts/islands/) for editing, uploading and viewing blob
+shapes to the blob store.
 
-Generate a random blob shape, and then click the upload button to store the shape in the blob store. You can then select the shape from the dropdown menu to view it.
+With Astro, you can implement client-side interactivity with any framework (or frameworks!) of your
+choice: React, Vue, Svelte, Solid.js - it's up to you.
+
+Uploading is implemented with [Astro Actions](https://docs.astro.build/en/guides/actions), which
+allow the client to submit mutations to the server without any boilerplate. And it just works on Netlify!
+
+Generate a random blob shape, and then click the upload button to store the shape in the blob store.
+You can then select the shape from the dropdown menu to view it.

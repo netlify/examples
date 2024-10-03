@@ -2,6 +2,7 @@ import type { BlobProps } from '@/types.ts';
 import { generateBlob, uploadDisabled } from '@/utils';
 import type { Dispatch, SetStateAction } from 'react';
 import { useEffect, useState } from 'react';
+import { actions } from 'astro:actions';
 import ShapePreview from './ShapePreview.tsx';
 
 interface Props {
@@ -23,14 +24,10 @@ export default function NewShape(props: Props) {
       console.error('No blob data to upload');
       return;
     }
-    const response = await fetch('/api/blobs', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(blobData.parameters),
-    });
-    const data = await response.json();
-    if (data.message) {
-      console.log(data.message);
+
+    const { message } = await actions.submitShape.orThrow(blobData.parameters);
+    if (message) {
+      console.log(message);
     }
     setWasUploaded(true);
     setLastMutationTime(Date.now());
