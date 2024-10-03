@@ -1,0 +1,7 @@
+---
+await new Promise(resolve => setTimeout(resolve, 2000));
+---
+
+<blockquote>
+  This message should load from the server after a 2 second delay and should not block the rest of the page from rendering.
+</blockquote>
