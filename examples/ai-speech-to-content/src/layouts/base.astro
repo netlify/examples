@@ -73,15 +73,5 @@
         <div>© 2024 Netlify</div>
       </small>
     </footer>
-    <script is:inline>
-      window.addEventListener('stackbitObjectsChanged', (event) => {
-        event.preventDefault();
-
-        // prevent refresh when unrelated objects are updated
-        if (event.detail.changedObjectIds.some((o) => event.detail.visibleObjectIds.includes(o))) {
-          window.location.reload();
-        }
-      });
-    </script>
 </body>
 </html>
