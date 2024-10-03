@@ -3,6 +3,8 @@ import Layout from "../components/Layout.astro";
 import PetCard from "../components/PetCard.astro";
 import { supabase } from "../utils/database";
 
+export const prerender = false;
+
 const { data: pets, error } = await supabase
   .from("pets")
   .select("*")
