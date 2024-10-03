@@ -1,0 +1,19 @@
+{
+  "name": "pet-snuggles-supabase",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.3",
+    "@astrojs/netlify": "^5.5.3",
+    "@supabase/supabase-js": "^2.45.4",
+    "astro": "^4.15.9",
+    "typescript": "^5.6.2"
+  }
+}

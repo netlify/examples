@@ -1,0 +1,61 @@
+---
+import type { Pet } from '../../turso/types.ts'
+
+interface Props {
+  pet: Pet
+}
+
+const { pet } = Astro.props
+---
+
+<a href={`/pets/${pet.id}`}>
+  <img src={`/.netlify/images?url=/images/${pet.image}&w=400&h=300&fit=cover`} alt={pet.name} />
+  <span>{pet.greeting}</span>
+  <h2>{pet.name}</h2>
+  <p class="snuggles">{pet.snuggles} snuggle{pet.snuggles === 1 ? '' : 's'}</p>
+</a>
+
+<style>
+  a {
+    border: 1px solid var(--blue-500);
+    border-radius: 0.5rem;
+    display: block;
+    padding: 1rem;
+  }
+
+  a:hover {
+    border: 1px solid var(--teal-200);
+    transition: border 0.2s ease-in-out;
+  }
+
+  img {
+    border-radius: 0.5rem;
+    display: block;
+    margin-bottom: 1rem;
+    width: 100%;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    padding: 0;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  span {
+    background-color: var(--blue-900);
+    border-radius: 0.25rem;
+    display: inline-block;
+    font-size: 0.85rem;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+  }
+
+  .snuggles {
+    background-color: transparent;
+  }
+</style>

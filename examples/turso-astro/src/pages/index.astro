@@ -1,0 +1,27 @@
+---
+import PetCard from '../components/PetCard.astro'
+import Layout from '../components/Layout.astro'
+import { turso } from '../utils/database'
+import type { Pet } from '../../turso/types'
+
+export const prerender = false
+
+const data = await turso.execute(`SELECT * FROM pets order by snuggles desc`)
+const pets = (data.rows || []) as unknown as Pet[]
+---
+
+<Layout title="Pet Snuggles">
+  <h1>Give these pets some snuggles!</h1>
+  <section>
+    {pets.map((pet) => <PetCard pet={pet} />)}
+  </section>
+</Layout>
+
+<style>
+  section {
+    max-width: 54rem;
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(2, 1fr);
+  }
+</style>

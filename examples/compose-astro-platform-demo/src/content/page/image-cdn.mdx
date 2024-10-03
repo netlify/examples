@@ -1,0 +1,68 @@
+---
+title: Netlify Image CDN
+subheading: The Netlify Image CDN brings the ability to automatically optimize local and remote images.
+---
+
+import { Image } from 'astro:assets';
+import corgi from '../../assets/corgi.jpg';
+import ImageDiff from '../../components/ImageDiff.astro';
+
+## Using the built-in Astro image component
+
+Astro's `<Image />` component will automatically use Netlify Image CDN to serve optimized images.
+
+```astro
+---
+import { Image } from 'astro:assets';
+import corgi from '../assets/corgi.jpg';
+---
+
+<Image src={corgi} alt="Corgi" /* ... additional props */ />
+```
+
+<figure>
+  <Image src={corgi} alt="Corgi" />
+  <figcaption>
+    Credit: photo by [Alvan Nee](https://unsplash.com/@alvannee) on
+    [Unsplash](https://unsplash.com/photos/long-coated-white-and-brown-dog-lvFlpqEvuRM)
+  </figcaption>
+</figure>
+
+## Original vs. optimized image: can you tell the difference?
+
+A regular `<img />` tag is shown below to demonstrate a framework-agnostic example.
+
+```html
+<!-- Left: the original image -->
+<img src="/images/corgi.jpg" alt="full-size corgi image" />
+
+<!-- Right: using Netlify Image CDN endpoint for a responsive image -->
+<img
+  srcset="
+    /.netlify/images?url=/images/corgi.jpg&w=640   640w,
+    /.netlify/images?url=/images/corgi.jpg&w=1280 1280w,
+    /.netlify/images?url=/images/corgi.jpg&w=2048 2048w
+  "
+  sizes="(max-width: 1024px) 100vw, 1024px"
+  alt="optimized corgi image"
+/>
+```
+
+<ImageDiff
+  leftImg={{ src: '/images/corgi.jpg', alt: 'full-size corgi image', caption: 'Original image' }}
+  rightImg={{
+    srcset:
+      '/.netlify/images?url=/images/corgi.jpg&w=640 640w, /.netlify/images?url=/images/corgi.jpg&w=1280 1280w, /.netlify/images?url=/images/corgi.jpg&w=2048 2048w',
+    sizes: '(max-width: 1024px) 100vw, 1024px',
+    alt: 'optimized corgi image',
+    caption: 'Optimized image served from the CDN',
+  }}
+/>
+
+### Local development
+
+In local development, optimization is performed locally without automatic format detection.
+
+### unpic-img
+
+Aside from Astro's `Image` or rolling your own `<img />` tags, you can also use the excellent [unpic-img](https://unpic.pics/) package.
