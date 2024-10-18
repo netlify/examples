@@ -15,6 +15,7 @@ import favicon from '~/assets/favicon.svg';
 import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
 import {PageLayout} from '~/components/PageLayout';
+import {CartProvider, useCart} from '~/components/CartProvider';
 import {FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
 
 export type RootLoader = typeof loader;
@@ -105,7 +106,7 @@ async function loadCriticalData({context}: LoaderFunctionArgs) {
  * Make sure to not throw any errors here, as it will cause the page to 500.
  */
 function loadDeferredData({context}: LoaderFunctionArgs) {
-  const {storefront, customerAccount, cart} = context;
+  const {storefront} = context;
 
   // defer the footer query (below the fold)
   const footer = storefront
@@ -121,11 +122,22 @@ function loadDeferredData({context}: LoaderFunctionArgs) {
       return null;
     });
   return {
-    cart: cart.get(),
-    isLoggedIn: customerAccount.isLoggedIn(),
     footer,
   };
 }
+
+const CartAwareAnalyticsProvider = ({
+  children,
+  ...props
+}: Omit<Parameters<typeof Analytics.Provider>[0], 'cart'>) => {
+  const cart = useCart();
+
+  return (
+    <Analytics.Provider {...props} cart={cart ?? null}>
+      {children}
+    </Analytics.Provider>
+  );
+};
 
 export function Layout({children}: {children?: React.ReactNode}) {
   const nonce = useNonce();
@@ -141,16 +153,15 @@ export function Layout({children}: {children?: React.ReactNode}) {
       </head>
       <body>
         {data ? (
-          <Analytics.Provider
-            cart={data.cart}
-            shop={data.shop}
-            consent={data.consent}
-          >
-            <PageLayout {...data}>{children}</PageLayout>
-          </Analytics.Provider>
+          <CartProvider>
+            <CartAwareAnalyticsProvider shop={data.shop} consent={data.consent}>
+              <PageLayout {...data}>{children}</PageLayout>
+            </CartAwareAnalyticsProvider>
+          </CartProvider>
         ) : (
           children
         )}
+
         <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />
       </body>

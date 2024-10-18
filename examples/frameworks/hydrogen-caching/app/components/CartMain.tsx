@@ -1,14 +1,13 @@
 import {useOptimisticCart} from '@shopify/hydrogen';
 import {Link} from '@remix-run/react';
-import type {CartApiQueryFragment} from 'storefrontapi.generated';
 import {useAside} from '~/components/Aside';
 import {CartLineItem} from '~/components/CartLineItem';
-import {CartSummary} from './CartSummary';
+import {CartSummary} from '~/components/CartSummary';
+import {useCart} from '~/components/CartProvider';
 
 export type CartLayout = 'page' | 'aside';
 
 export type CartMainProps = {
-  cart: CartApiQueryFragment | null;
   layout: CartLayout;
 };
 
@@ -16,10 +15,13 @@ export type CartMainProps = {
  * The main cart component that displays the cart items and summary.
  * It is used by both the /cart route and the cart aside dialog.
  */
-export function CartMain({layout, cart: originalCart}: CartMainProps) {
+export function CartMain({layout}: CartMainProps) {
+  const originalCart = useCart();
   // The useOptimisticCart hook applies pending actions to the cart
   // so the user immediately sees feedback when they modify the cart.
   const cart = useOptimisticCart(originalCart);
+
+  if (!originalCart) return <p>Loading cart ...</p>;
 
   const linesCount = Boolean(cart?.lines?.nodes?.length || 0);
   const withDiscount =

@@ -1,24 +1,18 @@
-import {Suspense} from 'react';
-import {Await, NavLink} from '@remix-run/react';
+import {NavLink} from '@remix-run/react';
 import {type CartViewPayload, useAnalytics} from '@shopify/hydrogen';
-import type {HeaderQuery, CartApiQueryFragment} from 'storefrontapi.generated';
+import type {HeaderQuery} from 'storefrontapi.generated';
 import {useAside} from '~/components/Aside';
+import {useCart} from '~/components/CartProvider';
+import {useCustomer} from '~/components/CustomerProvider';
 
 interface HeaderProps {
   header: HeaderQuery;
-  cart: Promise<CartApiQueryFragment | null>;
-  isLoggedIn: Promise<boolean>;
   publicStoreDomain: string;
 }
 
 type Viewport = 'desktop' | 'mobile';
 
-export function Header({
-  header,
-  isLoggedIn,
-  cart,
-  publicStoreDomain,
-}: HeaderProps) {
+export function Header({header, publicStoreDomain}: HeaderProps) {
   const {shop, menu} = header;
   return (
     <header className="header">
@@ -31,7 +25,7 @@ export function Header({
         primaryDomainUrl={header.shop.primaryDomain.url}
         publicStoreDomain={publicStoreDomain}
       />
-      <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
+      <HeaderCtas />
     </header>
   );
 }
@@ -91,22 +85,16 @@ export function HeaderMenu({
   );
 }
 
-function HeaderCtas({
-  isLoggedIn,
-  cart,
-}: Pick<HeaderProps, 'isLoggedIn' | 'cart'>) {
+function HeaderCtas() {
+  const customer = useCustomer();
   return (
     <nav className="header-ctas" role="navigation">
       <HeaderMenuMobileToggle />
       <NavLink prefetch="intent" to="/account" style={activeLinkStyle}>
-        <Suspense fallback="Sign in">
-          <Await resolve={isLoggedIn} errorElement="Sign in">
-            {(isLoggedIn) => (isLoggedIn ? 'Account' : 'Sign in')}
-          </Await>
-        </Suspense>
+        {customer != null ? 'Account' : 'Sign in'}
       </NavLink>
       <SearchToggle />
-      <CartToggle cart={cart} />
+      <CartToggle />
     </nav>
   );
 }
@@ -155,17 +143,10 @@ function CartBadge({count}: {count: number | null}) {
   );
 }
 
-function CartToggle({cart}: Pick<HeaderProps, 'cart'>) {
-  return (
-    <Suspense fallback={<CartBadge count={null} />}>
-      <Await resolve={cart}>
-        {(cart) => {
-          if (!cart) return <CartBadge count={0} />;
-          return <CartBadge count={cart.totalQuantity || 0} />;
-        }}
-      </Await>
-    </Suspense>
-  );
+function CartToggle() {
+  const cart = useCart();
+  if (!cart) return <CartBadge count={0} />;
+  return <CartBadge count={cart.totalQuantity || 0} />;
 }
 
 const FALLBACK_HEADER_MENU = {

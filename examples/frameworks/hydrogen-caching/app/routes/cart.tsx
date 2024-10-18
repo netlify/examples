@@ -1,14 +1,29 @@
-import {Await, type MetaFunction, useRouteLoaderData} from '@remix-run/react';
-import {Suspense} from 'react';
+import {type MetaFunction, useLoaderData} from '@remix-run/react';
 import type {CartQueryDataReturn} from '@shopify/hydrogen';
 import {CartForm} from '@shopify/hydrogen';
-import {json, type ActionFunctionArgs} from '@netlify/remix-runtime';
+import {
+  json,
+  type ActionFunctionArgs,
+  type LoaderFunctionArgs,
+} from '@netlify/remix-runtime';
 import {CartMain} from '~/components/CartMain';
-import type {RootLoader} from '~/root';
 
 export const meta: MetaFunction = () => {
   return [{title: `Hydrogen | Cart`}];
 };
+
+export async function loader({context}: LoaderFunctionArgs) {
+  const {cart} = context;
+  const existingCart = await cart.get();
+  if (existingCart) {
+    return json(existingCart);
+  }
+
+  const {cart: createdCart} = await cart.create({});
+  // The Cart ID might change after each mutation, so update it each time.
+  const headers = cart.setCartId(createdCart.id);
+  return json(createdCart, {headers});
+}
 
 export async function action({request, context}: ActionFunctionArgs) {
   const {cart} = context;
@@ -81,22 +96,10 @@ export async function action({request, context}: ActionFunctionArgs) {
 }
 
 export default function Cart() {
-  const rootData = useRouteLoaderData<RootLoader>('root');
-  if (!rootData) return null;
-
   return (
     <div className="cart">
       <h1>Cart</h1>
-      <Suspense fallback={<p>Loading cart ...</p>}>
-        <Await
-          resolve={rootData.cart}
-          errorElement={<div>An error occurred</div>}
-        >
-          {(cart) => {
-            return <CartMain layout="page" cart={cart} />;
-          }}
-        </Await>
-      </Suspense>
+      return <CartMain layout="page" />;
     </div>
   );
 }
