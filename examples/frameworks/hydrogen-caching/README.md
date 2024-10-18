@@ -1,4 +1,4 @@
-# Hydrogen template: Skeleton
+# Hydrogen example storefront with advanced caching patterns
 
 Hydrogen is Shopify’s stack for headless commerce. Hydrogen is designed to dovetail with
 [Remix](https://remix.run/), Shopify’s full stack web framework. This template contains a **minimal
@@ -28,6 +28,8 @@ Deploy your own version of this example site, by clicking the button below. This
 
 Explore other examples of using the Netlify platform and primitives (with or without a framework) in this [examples repo](https://github.com/netlify/examples).
 
+See also [our Hydrogen template without caching](https://github.com/netlify/hydrogen-template).
+
 ## What's included
 
 - Remix 2
@@ -42,6 +44,14 @@ Explore other examples of using the Netlify platform and primitives (with or wit
 - GraphQL generator
 - TypeScript and JavaScript flavors
 - Minimal setup of components and routes
+- SSR page response caching by with Stale-While-Revalidate by default, with per-page overridable
+  configuration
+- SSR resource route response caching (used for CSR) with Stale-While-Revalidate by default, with
+  per-page overridable configuration
+- Caching configured to vary appropriately on scaffolded pages (i.e. products vary on variant
+  options, search varies on query, etc.)
+- Cache tag set on product pages with Shopify product ID
+- Shopify webhook handler which invalidates the product's page when a product is updated
 
 ## Getting started
 
