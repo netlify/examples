@@ -15,6 +15,7 @@
   "prettier": "@shopify/prettier-config",
   "dependencies": {
     "@netlify/edge-functions": "^2.10.0",
+    "@netlify/functions": "^2.8.1",
     "@netlify/remix-edge-adapter": "^3.4.2",
     "@netlify/remix-runtime": "^2.3.1",
     "@remix-run/react": "^2.12.0",
