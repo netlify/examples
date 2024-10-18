@@ -1,10 +1,19 @@
-import {json, type LoaderFunctionArgs} from '@netlify/remix-runtime';
+import {
+  json,
+  type HeadersFunction,
+  type LoaderFunctionArgs,
+} from '@netlify/remix-runtime';
 import {Form, NavLink, Outlet, useLoaderData} from '@remix-run/react';
 import {CUSTOMER_DETAILS_QUERY} from '~/graphql/customer-account/CustomerDetailsQuery';
+import {NO_CACHE} from '~/lib/page-cache';
 
 export function shouldRevalidate() {
   return true;
 }
+
+export const headers: HeadersFunction = () => ({
+  ...NO_CACHE,
+});
 
 export async function loader({context}: LoaderFunctionArgs) {
   const {data, errors} = await context.customerAccount.query(
@@ -19,7 +28,7 @@ export async function loader({context}: LoaderFunctionArgs) {
     {customer: data.customer},
     {
       headers: {
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        ...NO_CACHE,
       },
     },
   );

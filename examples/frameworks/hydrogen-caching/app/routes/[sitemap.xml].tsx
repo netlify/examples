@@ -1,6 +1,7 @@
 import {flattenConnection} from '@shopify/hydrogen';
 import type {LoaderFunctionArgs} from '@netlify/remix-runtime';
 import type {SitemapQuery} from 'storefrontapi.generated';
+import {CACHE_1_DAY} from '~/lib/page-cache';
 
 /**
  * the google limit is 50K, however, the storefront API
@@ -38,9 +39,8 @@ export async function loader({
 
   return new Response(sitemap, {
     headers: {
+      ...CACHE_1_DAY,
       'Content-Type': 'application/xml',
-
-      'Cache-Control': `max-age=${60 * 60 * 24}`,
     },
   });
 }

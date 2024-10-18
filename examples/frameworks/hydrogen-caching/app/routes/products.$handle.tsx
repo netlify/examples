@@ -1,5 +1,10 @@
 import {Suspense} from 'react';
-import {defer, redirect, type LoaderFunctionArgs} from '@netlify/remix-runtime';
+import {
+  defer,
+  redirect,
+  type HeadersFunction,
+  type LoaderFunctionArgs,
+} from '@netlify/remix-runtime';
 import {Await, useLoaderData, type MetaFunction} from '@remix-run/react';
 import type {ProductFragment} from 'storefrontapi.generated';
 import {
@@ -16,6 +21,11 @@ import {ProductForm} from '~/components/ProductForm';
 export const meta: MetaFunction<typeof loader> = ({data}) => {
   return [{title: `Hydrogen | ${data?.product.title ?? ''}`}];
 };
+
+export const headers: HeadersFunction = ({parentHeaders, loaderHeaders}) => ({
+  ...Object.fromEntries(parentHeaders),
+  ...Object.fromEntries(loaderHeaders),
+});
 
 export async function loader(args: LoaderFunctionArgs) {
   // Start fetching non-critical data without blocking time to first byte

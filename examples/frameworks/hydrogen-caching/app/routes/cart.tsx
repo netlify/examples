@@ -7,6 +7,7 @@ import {
   type LoaderFunctionArgs,
 } from '@netlify/remix-runtime';
 import {CartMain} from '~/components/CartMain';
+import {NO_CACHE} from '~/lib/page-cache';
 
 export const meta: MetaFunction = () => {
   return [{title: `Hydrogen | Cart`}];
@@ -16,13 +17,15 @@ export async function loader({context}: LoaderFunctionArgs) {
   const {cart} = context;
   const existingCart = await cart.get();
   if (existingCart) {
-    return json(existingCart);
+    return json(existingCart, {headers: {...NO_CACHE}});
   }
 
   const {cart: createdCart} = await cart.create({});
   // The Cart ID might change after each mutation, so update it each time.
   const headers = cart.setCartId(createdCart.id);
-  return json(createdCart, {headers});
+  return json(createdCart, {
+    headers: {...Object.fromEntries(headers), ...NO_CACHE},
+  });
 }
 
 export async function action({request, context}: ActionFunctionArgs) {

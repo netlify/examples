@@ -2,11 +2,13 @@ import {
   json,
   type LoaderFunctionArgs,
   type ActionFunctionArgs,
+  type HeadersFunction,
 } from '@netlify/remix-runtime';
 import {useLoaderData, type MetaFunction} from '@remix-run/react';
 import {getPaginationVariables, Analytics} from '@shopify/hydrogen';
 import {SearchForm} from '~/components/SearchForm';
 import {SearchResults} from '~/components/SearchResults';
+import {CACHE_1_HOUR_SWR} from '~/lib/page-cache';
 import {
   type RegularSearchReturn,
   type PredictiveSearchReturn,
@@ -16,6 +18,11 @@ import {
 export const meta: MetaFunction = () => {
   return [{title: `Hydrogen | Search`}];
 };
+
+export const headers: HeadersFunction = ({parentHeaders, loaderHeaders}) => ({
+  ...Object.fromEntries(parentHeaders),
+  ...Object.fromEntries(loaderHeaders),
+});
 
 export async function loader({request, context}: LoaderFunctionArgs) {
   const url = new URL(request.url);
@@ -29,7 +36,12 @@ export async function loader({request, context}: LoaderFunctionArgs) {
     return {term: '', result: null, error: error.message};
   });
 
-  return json(await searchPromise);
+  return json(await searchPromise, {
+    headers: {
+      ...CACHE_1_HOUR_SWR,
+      'Netlify-Vary': 'query=q|limit|predictive',
+    },
+  });
 }
 
 /**
