@@ -14,6 +14,11 @@ import {
 } from '@shopify/hydrogen';
 import type {SelectedOption} from '@shopify/hydrogen/storefront-api-types';
 import {getVariantUrl} from '~/lib/variants';
+import {
+  CACHE_1_HOUR_SWR,
+  getProductCacheTag,
+  getProductNetlifyVary,
+} from '~/lib/page-cache';
 import {ProductPrice} from '~/components/ProductPrice';
 import {ProductImage} from '~/components/ProductImage';
 import {ProductForm} from '~/components/ProductForm';
@@ -34,7 +39,18 @@ export async function loader(args: LoaderFunctionArgs) {
   // Await the critical data required to render initial state of the page
   const criticalData = await loadCriticalData(args);
 
-  return defer({...deferredData, ...criticalData});
+  const {product} = criticalData;
+
+  return defer(
+    {...deferredData, ...criticalData},
+    {
+      headers: {
+        ...CACHE_1_HOUR_SWR,
+        'Cache-Tag': getProductCacheTag(product.id),
+        'Netlify-Vary': getProductNetlifyVary(product),
+      },
+    },
+  );
 }
 
 /**
