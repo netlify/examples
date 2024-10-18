@@ -1,6 +1,7 @@
 import {type LoaderFunctionArgs} from '@netlify/remix-runtime';
 import {useRouteError, isRouteErrorResponse} from '@remix-run/react';
 import {parseGid} from '@shopify/hydrogen';
+import {CACHE_1_DAY} from '~/lib/page-cache';
 
 export async function loader({request, context}: LoaderFunctionArgs) {
   const url = new URL(request.url);
@@ -13,9 +14,8 @@ export async function loader({request, context}: LoaderFunctionArgs) {
   return new Response(body, {
     status: 200,
     headers: {
+      ...CACHE_1_DAY,
       'Content-Type': 'text/plain',
-
-      'Cache-Control': `max-age=${60 * 60 * 24}`,
     },
   });
 }

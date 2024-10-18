@@ -1,5 +1,9 @@
 import {useNonce, getShopAnalytics, Analytics} from '@shopify/hydrogen';
-import {defer, type LoaderFunctionArgs} from '@netlify/remix-runtime';
+import {
+  defer,
+  type HeadersFunction,
+  type LoaderFunctionArgs,
+} from '@netlify/remix-runtime';
 import {
   Links,
   Meta,
@@ -17,6 +21,11 @@ import appStyles from '~/styles/app.css?url';
 import {PageLayout} from '~/components/PageLayout';
 import {CartProvider, useCart} from '~/components/CartProvider';
 import {FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
+import {CACHE_1_HOUR_SWR} from '~/lib/page-cache';
+
+export const headers: HeadersFunction = () => ({
+  ...CACHE_1_HOUR_SWR,
+});
 
 export type RootLoader = typeof loader;
 
