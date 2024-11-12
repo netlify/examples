@@ -20,6 +20,7 @@ A collection of examples and demos for people building the web with Netlify
 - Geosimcities: GeoCities with Advanced AI and Langbase - [Site](https://geosimcities.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/geosimcities)
 - User-generated uploads - [Site](https://example-user-uploads-astro-blobs.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/user-image-uploads-astro-blobs)
 - Hydrogen storefront with advanced caching - [Site](https://example-hydrogen-caching.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/frameworks/hydrogen-caching)
+- Nuxt 4 with advanced caching - [Site](https://nuxt-4-example.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/frameworks/nuxt-4-caching)
 
 ## Repo organization
 
