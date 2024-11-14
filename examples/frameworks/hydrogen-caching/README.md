@@ -5,7 +5,7 @@ Hydrogen is Shopify’s stack for headless commerce. Hydrogen is designed to dov
 setup** of components, queries and tooling to get started with Hydrogen.
 
 [View this example site here]: https://example-hydrogen-caching.netlify.app/
-[This example site is accompanied by a guide in the Netlify developer hub]: https://developers.netlify.com/FIXME
+[This example site is accompanied by a guide in the Netlify developer hub]: https://developers.netlify.com/guides/load-your-hydrogen-e-commerce-site-pages-faster-with-netlifys-advanced-caching-primitives/
 [Deploy to Netlify]: https://app.netlify.com/start/deploy?repository=https://github.com/netlify/examples/&create_from_path=examples/frameworks/hydrogen-caching&utm_campaign=dx-examples
 
 ![Netlify Examples](https://github.com/netlify/examples/assets/5865/4145aa2f-b915-404f-af02-deacee24f7bf)
