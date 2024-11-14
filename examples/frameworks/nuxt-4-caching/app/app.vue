@@ -8,6 +8,7 @@
   </header>
 
   <main>
+    <Nav />
     <NuxtPage />
   </main>
 
