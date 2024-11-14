@@ -94,6 +94,10 @@ h4,
 h5 {
   text-align: left;
 }
+
+code {
+  text-align: center;
+}
 </style>
 
 <style scoped>
