@@ -2,7 +2,7 @@
 
 # Turso example with Astro
 
-[View this example site here](https://turso-astro-test.netlify.app/)
+[View this example site here](https://turso-astro.netlify.app/)
 
 This site shows how you can use Turso in an Astro project to store and display assets uploaded by users. It displays various pets and lets you look at their pages.
 
