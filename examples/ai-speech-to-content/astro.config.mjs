@@ -4,7 +4,12 @@ import netlify from "@astrojs/netlify";
 export default defineConfig({
   output: "hybrid",
   adapter: netlify(),
-  redirects : {
-    "/": "/index"
+  redirects: {
+    "/": "/index",
+  },
+  vite: {
+    server: {
+      hmr: { path: "/vite-hmr/" },
+    },
   },
 });
