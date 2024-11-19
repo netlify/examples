@@ -14,12 +14,12 @@
     "@astrojs/mdx": "^3.1.9",
     "@astrojs/rss": "^4.0.9",
     "@astrojs/sitemap": "^3.2.1",
-    "astro": "^4.16.12",
+    "astro": "^4.16.13",
     "@astrojs/check": "^0.9.4",
     "typescript": "^5.6.3"
   },
   "devDependencies": {
-    "@stackbit/cms-git": "^1.0.21",
-    "@stackbit/types": "^2.1.5"
+    "@stackbit/cms-git": "^1.0.26",
+    "@stackbit/types": "^2.1.8"
   }
 }
