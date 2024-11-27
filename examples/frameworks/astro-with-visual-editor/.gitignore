@@ -135,3 +135,6 @@ dist
 # Netlify Visual Editor (Stackbit)
 .cache
 .stackbit/cache
+
+# generated types
+.astro/
