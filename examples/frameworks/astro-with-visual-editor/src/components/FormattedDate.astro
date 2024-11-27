@@ -1,0 +1,18 @@
+---
+interface Props {
+	date: Date;
+	'data-sb-field-path'?: string;
+}
+
+const { date, 'data-sb-field-path': fieldPath } = Astro.props;
+---
+
+<time datetime={date.toISOString()} data-sb-field-path={fieldPath}>
+	{
+		date.toLocaleDateString('en-us', {
+			year: 'numeric',
+			month: 'short',
+			day: 'numeric',
+		})
+	}
+</time>

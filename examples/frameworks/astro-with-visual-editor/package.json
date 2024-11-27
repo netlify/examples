@@ -1,0 +1,25 @@
+{
+  "name": "netlify-astro-visual-editor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^3.1.9",
+    "@astrojs/rss": "^4.0.9",
+    "@astrojs/sitemap": "^3.2.1",
+    "astro": "^4.16.13",
+    "@astrojs/check": "^0.9.4",
+    "typescript": "^5.6.3"
+  },
+  "devDependencies": {
+    "@stackbit/cms-git": "^1.0.26",
+    "@stackbit/types": "^2.1.8"
+  }
+}
