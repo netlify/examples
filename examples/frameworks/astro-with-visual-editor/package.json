@@ -11,15 +11,15 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/mdx": "^3.1.9",
-    "@astrojs/rss": "^4.0.9",
+    "@astrojs/mdx": "^4.0.2",
+    "@astrojs/rss": "^4.0.10",
     "@astrojs/sitemap": "^3.2.1",
-    "astro": "^4.16.13",
+    "astro": "^5.0.9",
     "@astrojs/check": "^0.9.4",
     "typescript": "^5.6.3"
   },
   "devDependencies": {
-    "@stackbit/cms-git": "^1.0.26",
-    "@stackbit/types": "^2.1.8"
+    "@stackbit/cms-git": "^1.0.30",
+    "@stackbit/types": "^2.1.11"
   }
 }
