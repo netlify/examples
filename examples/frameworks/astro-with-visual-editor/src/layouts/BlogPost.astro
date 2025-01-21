@@ -6,10 +6,10 @@ import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 
 type Props = CollectionEntry<'blog'>['data'] & {
-	id: CollectionEntry<'blog'>['id']
+filePath: CollectionEntry<'blog'>['filePath']
 };
 
-const { id, title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { filePath, title, description, pubDate, updatedDate, heroImage } = Astro.props;
 ---
 
 <html lang="en">
@@ -65,7 +65,7 @@ const { id, title, description, pubDate, updatedDate, heroImage } = Astro.props;
 	<body>
 		<Header />
 		<main>
-			<article data-sb-object-id={`src/content/blog/${id}`}>
+			<article data-sb-object-id={filePath}>
 				<div class="hero-image">
 					{heroImage && <img width={1020} height={510} src={heroImage} alt="" data-sb-field-path="heroImage" />}
 				</div>
