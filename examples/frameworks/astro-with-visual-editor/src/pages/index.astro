@@ -90,7 +90,7 @@ const posts = (await getCollection('blog')).sort(
 					{
 						posts.map((post) => (
 							<li>
-								<a href={`/blog/${post.slug}/`} data-sb-object-id={`src/content/blog/${post.id}`}>
+								<a href={`/blog/${post.id}/`} data-sb-object-id={post.filePath}>
 									<img width={720} height={360} src={post.data.heroImage} alt="" data-sb-field-path="heroImage" />
 									<h4 class="title" data-sb-field-path="title">{post.data.title}</h4>
 									<p class="date">
