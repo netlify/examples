@@ -16,7 +16,7 @@ A collection of examples and demos for people building the web with Netlify
 - AI Executive Summaries - [Site](https://example-ai-executive-summaries.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/ai-executive-summaries)
 - AI Speech to Content with Groq - [Code](https://github.com/netlify/examples/tree/main/examples/ai-speech-to-content)
 - Block AI bots - [Site](https://example-disallow-ai-bots.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/ai-bot-control)
-- Supabase with Astro - [Site](https://supabase-astro.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/supabase-astro)
+- Supabase with Astro - [Site](https://supabase-astro-example.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/supabase-astro)
 - Turso with Astro - [Site](https://turso-astro.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/turso-astro)
 - Geosimcities: GeoCities with Advanced AI and Langbase - [Site](https://geosimcities.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/geosimcities)
 - User-generated uploads - [Site](https://example-user-uploads-astro-blobs.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/user-image-uploads-astro-blobs)

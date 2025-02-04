@@ -2,7 +2,7 @@
 
 # Supabase example with Astro
 
-[View this example site here](https://supabase-astro.netlify.app/)
+[View this example site here](https://supabase-astro-example.netlify.app/)
 
 This site shows how you can use Supabase in an Astro project to store and display assets uploaded by users. It displays various pets and lets you look at their pages.
 
