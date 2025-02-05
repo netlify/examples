@@ -13,6 +13,7 @@ A collection of examples and demos for people building the web with Netlify
 - Astro with Sanity - [Site](https://example-astro-sanity.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/frameworks/astro-with-sanity)
 - Astro with Qwik - [Site](https://example-astro-qwik.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/frameworks/astro-with-qwik)
 - Astro with Netlify Visual Editor - [Site](https://example-astro-visual-editor.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/frameworks/astro-with-visual-editor)
+- Astro with Motion - [Site](https://example-astro-motion.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/frameworks/astro-with-motion)
 - AI Executive Summaries - [Site](https://example-ai-executive-summaries.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/ai-executive-summaries)
 - AI Speech to Content with Groq - [Code](https://github.com/netlify/examples/tree/main/examples/ai-speech-to-content)
 - Block AI bots - [Site](https://example-disallow-ai-bots.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/ai-bot-control)
