@@ -1,0 +1,51 @@
+---
+title: Revalidating Server Content
+subheading: This is a server-rendered page. The date it was last dynamically-rendered is shown above.
+---
+
+## Response headers
+
+This page was rendered with the following headers:
+
+```js
+{
+  "Cache-Control": "public, max-age=0, must-revalidate",
+  "Netlify-CDN-Cache-Control": "public, max-age=31536000, must-revalidate, durable",
+  "Cache-Tag": "blog,blog-post:dbae7f7,southeast-asia,south-asia"
+}
+```
+
+This gets interpreted differently by the browser and CDN:
+
+- **Browsers:** a non-cacheable page, must be revalidated on every request
+- **CDN:** cacheable for up to a year, though it will be automatically purged and revalidated on new deployments by default
+
+## Cache tags
+
+The `Cache-Tag` header, in tandem with the [purge API](https://docs.netlify.com/platform/caching/#on-demand-invalidation), allows a developer to invalidate any
+content at will (pages, JSON responses, etc.) based on the tags associated with them.
+
+Whenever you purge content for a given tag, all content associated with that tag gets purged.
+In the example above, you could:
+
+<ul>
+  <li>set the `blog` tag on all blog posts, allowing you to purge the entire blog at once</li>
+  <li>set a unique `blog:[id]` tag on each blog post, allowing you to purge a single blog post</li>
+  <li>set a tag by region on all pages, allowing you to purge all content for a region at once</li>
+</ul>
+
+Tags are completely up to you to decide on, and allow for powerful caching patterns.
+
+## Stale-While-Revalidate
+
+In real-world applications, you may want to use [stale-while-revalidate](https://docs.netlify.com/platform/caching/#stale-while-revalidate-directive) as well, so that end-users don't experience
+a performance hit as pages are being rebuilt.
+
+## Durable Cache
+
+By default, when setting `Cache-Control` headers on SSR responses, each node in the Netlify CDN's
+global edge network will have its own, independent local cache. This can result in inconsistent
+responses being served to your users.
+
+If you [add the `durable` directive](https://docs.netlify.com/platform/caching/#durable-directive)
+(as on this very page), cache responses become globally consistent.

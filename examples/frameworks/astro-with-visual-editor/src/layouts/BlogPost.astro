@@ -1,0 +1,95 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+
+type Props = CollectionEntry<'blog'>['data'] & {
+filePath: CollectionEntry<'blog'>['filePath']
+};
+
+const { filePath, title, description, pubDate, updatedDate, heroImage } = Astro.props;
+---
+
+<html lang="en">
+	<head>
+		<BaseHead title={title} description={description} />
+		<style>
+			body {
+				text-align: left;
+			}
+			main {
+				width: calc(100% - 2em);
+				max-width: 100%;
+				margin: 0;
+			}
+			.hero-image {
+				width: 100%;
+			}
+			.hero-image img {
+				display: block;
+				margin: 0 auto;
+				border-radius: 12px;
+				box-shadow: var(--box-shadow);
+			}
+			.prose {
+				width: 720px;
+				max-width: calc(100% - 2em);
+				margin: auto;
+				padding: 1em;
+				color: rgb(var(--gray-dark));
+			}
+			.title {
+				margin-bottom: 1em;
+				padding: 1em 0;
+				text-align: center;
+				line-height: 1;
+			}
+			.title h1 {
+				margin: 0 0 0.5em 0;
+			}
+			.date {
+				margin-bottom: 0.5em;
+				color: rgb(var(--gray));
+			}
+			.last-updated-on {
+				font-style: italic;
+			}
+			article {
+				margin-top: 2em;
+			}
+		</style>
+	</head>
+
+	<body>
+		<Header />
+		<main>
+			<article data-sb-object-id={filePath}>
+				<div class="hero-image">
+					{heroImage && <img width={1020} height={510} src={heroImage} alt="" data-sb-field-path="heroImage" />}
+				</div>
+				<div class="prose">
+					<div class="title">
+						<div class="date">
+							<FormattedDate date={pubDate} data-sb-field-path="pubDate" />
+							{
+								updatedDate && (
+									<div class="last-updated-on">
+										Last updated on <FormattedDate date={updatedDate} data-sb-field-path="updatedDate" />
+									</div>
+								)
+							}
+						</div>
+						<h1 data-sb-field-path="title">{title}</h1>
+						<hr />
+					</div>
+					<div data-sb-field-path="markdown_content">
+						<slot />
+					</div>
+				</div>
+			</article>
+		</main>
+		<Footer />
+	</body>
+</html>

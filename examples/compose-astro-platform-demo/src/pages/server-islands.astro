@@ -1,0 +1,25 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import Deferred from '../components/Deferred.astro';
+import Fallback from '../components/Fallback.astro';
+
+const title = 'Astro Server Islands';
+---
+
+<Layout title={title}>
+  <h1>{title}</h1>
+
+  <Deferred server:defer>
+    <Fallback slot="fallback" />
+  </Deferred>
+  
+  <div class="prose">
+    <h2>How Astro Server Islands work</h2>
+    
+    <p>Astro’s Server Islands allow you to make a choice of rendering strategy on a per-component basis.</p>
+    
+    <p>This means the majority of a page can be statically rendered at build time and served from the edge, while a handful of components (the ‘islands’) can be dynamically rendered per request, thus offering the benefits of both static and dynamic rendering.</p>
+    
+    <p>Astro implements this technique by leaving ‘slots’ in the statically rendered shell and injecting a small script into the HTML that fetches the dynamic components during the page load and drops them into the slots. This is all handled automatically by Astro and the Netlify deploy adapter.</p>
+  </div>
+</Layout>  

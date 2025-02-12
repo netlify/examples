@@ -1,0 +1,22 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+import { getEntry } from 'astro:content';
+import ShapeEditor from './_components/ShapeEditor';
+
+const page = await getEntry('page', 'blobs');
+const { Content } = await page.render();
+
+const { title } = page.data;
+---
+
+<Layout title={title}>
+  <h1>{title}</h1>
+  <div class="prose mb-8">
+    {page.data.subheading && <p>{page.data.subheading}</p>}
+    <Content />
+  </div>
+  <div class="border-t border-blue-200/30 py-4 mt-12">
+    <ShapeEditor client:load />
+  </div>
+</Layout>

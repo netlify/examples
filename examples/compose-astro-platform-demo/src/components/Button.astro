@@ -1,0 +1,17 @@
+---
+interface Props {
+  href: string;
+  size?: 'sm' | 'lg';
+}
+
+const { href, size = 'sm' } = Astro.props;
+
+const sizeClasses = {
+  sm: 'btn-sm',
+  lg: 'btn-lg',
+};
+---
+
+<a href={href} class={`btn ${sizeClasses[size]}`}>
+  <slot />
+</a>

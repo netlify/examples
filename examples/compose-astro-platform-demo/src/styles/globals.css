@@ -1,0 +1,144 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  ::selection {
+    @apply bg-teal-200
+      text-blue-900;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading;
+  }
+
+  h1 {
+    @apply font-bold
+      mb-12
+      text-5xl;
+  }
+
+  h2 {
+    @apply font-bold
+      mb-4
+      mt-12
+      text-3xl;
+  }
+
+  h3 {
+    @apply font-bold
+      mb-2
+      mt-12
+      text-2xl;
+  }
+
+  svg {
+    @apply h-auto
+      w-full;
+  }
+
+  img,
+  svg {
+    @apply max-w-full;
+  }
+
+  code {
+    @apply bg-neutral-dark-800
+      rounded-md
+      px-1
+      py-0.5
+      text-teal-300;
+  }
+
+  figcaption {
+    @apply italic
+      mt-2
+      text-sm;
+  }
+
+  figure img {
+    @apply border-2
+      border-neutral-light-000
+      rounded-lg;
+  }
+
+  select {
+    @apply bg-neutral-light-100
+      border
+      border-neutral-light-000
+      rounded-md
+      px-4
+      py-2
+      text-neutral-dark-900;
+  }
+}
+
+@layer components {
+  .prose {
+    @apply max-w-2xl;
+  }
+
+  .prose p,
+  .prose ul,
+  .prose ol,
+  .prose blockquote,
+  .prose .expressive-code {
+    @apply mb-6;
+  }
+
+  .prose > *:last-child {
+    @apply mb-0;
+  }
+
+  .prose > p:first-child {
+    @apply mb-6
+      text-2xl;
+  }
+
+  .prose ul {
+    @apply list-disc
+      pl-4;
+  }
+
+  .prose li {
+    @apply mb-2;
+  }
+
+  .prose li:last-child {
+    @apply mb-0;
+  }
+
+  .prose a:not(.btn) {
+    @apply decoration-neutral-light-000
+      duration-300
+      transition-all
+      underline
+      underline-offset-4;
+  }
+
+  .prose a:hover {
+    @apply decoration-teal-200;
+  }
+
+  .btn {
+    @apply bg-teal-200
+      duration-300
+      font-bold
+      hover:bg-teal-100
+      inline-block
+      px-4
+      py-2
+      rounded-md
+      text-blue-900
+      transition-colors;
+  }
+
+  .btn.btn-lg {
+    @apply px-8 py-4;
+  }
+}
