@@ -7,12 +7,12 @@ const chatAgent = new Agent({
   role: "Conversational Assistant",
   goal: "Provide helpful and accurate responses to user queries",
   background: "AI assistant trained to engage in helpful conversations",
-  llmConfig: {
-    provider: "openai",
-    model: "gpt-3.5-turbo",
-    apiKey: { openai: process.env.OPENAI_API_KEY },
-    maxRetries: 3,
-  },
+  // llmConfig: {
+  //   provider: "openai",
+  //   model: "gpt-3.5-turbo",
+  //   apiKey: { openai: process.env.OPENAI_API_KEY },
+  //   maxRetries: 3,
+  // },
 });
 
 export default async (req: Request, context: Context) => {
