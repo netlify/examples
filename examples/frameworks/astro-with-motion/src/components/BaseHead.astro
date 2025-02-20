@@ -1,0 +1,38 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!-- Global Metadata -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<meta name="generator" content={Astro.generator} />
+
+<!-- Font preloads -->
+<link
+  rel="preload"
+  href="https://example-styles.netlify.app/fonts/PacaembuVar-latin.woff2"
+  as="font"
+  type="font/woff2"
+  crossorigin
+/>
+<link
+  rel="preload"
+  href="https://example-styles.netlify.app/fonts/MulishVar-latin.woff2"
+  as="font"
+  type="font/woff2"
+  crossorigin
+/>
+
+<!-- CSS -->
+<link rel="stylesheet" href="https://example-styles.netlify.app/styles.css" />
+
+<!-- Primary Meta Tags -->
+<title>{title}</title>
+<meta name="title" content={title} />
+<meta name="description" content={description || ""} />
