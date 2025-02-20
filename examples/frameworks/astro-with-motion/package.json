@@ -9,7 +9,7 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.2.5",
-    "motion": "^12.2.0"
+    "astro": "^5.3.0",
+    "motion": "^12.4.7"
   }
 }
