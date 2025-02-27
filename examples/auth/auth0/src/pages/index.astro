@@ -21,77 +21,74 @@ import Layout from '../layouts/Layout.astro';
 
 
 <script>
-import { login, logout, handleCallback, getAuth0Client, callProtectedEndpoint } from '../../utils/client-auth';
+  import { login, logout, handleCallback, getAuth0Client, callProtectedEndpoint } from '../../utils/client-auth';
 
-interface Auth0Profile {
-  name: string;
-  picture: string;
-}
-
-interface DOMElements {
-  loginButton: HTMLElement;
-  logoutButton: HTMLElement;
-  profileElement: HTMLElement;
-  testButton: HTMLElement;
-}
-
-async function updateUI(): Promise<void> {
-  const auth0Client = await getAuth0Client();
-  const isAuthenticated = await auth0Client.isAuthenticated();
-  const userProfile = await auth0Client.getUser<Auth0Profile>();
-
-  const elements: DOMElements = {
-    loginButton: document.getElementById("login") as HTMLElement,
-    logoutButton: document.getElementById("logout") as HTMLElement,
-    profileElement: document.getElementById("profile") as HTMLElement,
-    testButton: document.getElementById("test-function") as HTMLElement
-  };
-
-  if (isAuthenticated && userProfile) {
-    elements.loginButton.style.display = "none";
-    elements.logoutButton.style.display = "block";
-    elements.profileElement.style.display = "block";
-    elements.profileElement.innerHTML = `
-      <p>${userProfile.name}</p>
-      <img src="${userProfile.picture}" alt="Profile" />
-    `;
-  } else {
-    elements.loginButton.style.display = "block";
-    elements.logoutButton.style.display = "none";
-    elements.profileElement.style.display = "none";
+  interface Auth0Profile {
+    name: string;
+    picture: string;
   }
-}
 
-function attachEventListeners(): void {
-  document.getElementById('login')?.addEventListener('click', login);
-  document.getElementById('logout')?.addEventListener('click', logout);
-      
-  document.getElementById('test-function')?.addEventListener('click', async () => {
-    try {
-      const result = await callProtectedEndpoint('/.netlify/functions/auth-gated-function');
-      console.log('Function response:', result);
-      alert(JSON.stringify(result, null, 2));
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        console.error('Error details:', error);
-        alert(`Error calling function: ${error.message}`);
-      } else {
-        console.error('Unknown error:', error);
-        alert('An unknown error occurred');
-      }
+  interface DOMElements {
+    loginButton: HTMLElement;
+    logoutButton: HTMLElement;
+    profileElement: HTMLElement;
+    testButton: HTMLElement;
+  }
+
+  async function updateUI(): Promise<void> {
+    const auth0Client = await getAuth0Client();
+    const isAuthenticated = await auth0Client.isAuthenticated();
+    const userProfile = await auth0Client.getUser<Auth0Profile>();
+
+    const elements: DOMElements = {
+      loginButton: document.getElementById("login") as HTMLElement,
+      logoutButton: document.getElementById("logout") as HTMLElement,
+      profileElement: document.getElementById("profile") as HTMLElement,
+      testButton: document.getElementById("test-function") as HTMLElement
+    };
+
+    if (isAuthenticated && userProfile) {
+      elements.loginButton.style.display = "none";
+      elements.logoutButton.style.display = "block";
+      elements.profileElement.style.display = "block";
+      elements.profileElement.innerHTML = `
+        <p>${userProfile.name}</p>
+        <img src="${userProfile.picture}" alt="Profile" />
+      `;
+    } else {
+      elements.loginButton.style.display = "block";
+      elements.logoutButton.style.display = "none";
+      elements.profileElement.style.display = "none";
     }
-  });
-}
+  }
 
-window.onload = async () => {
+  function attachEventListeners(): void {
+    document.getElementById('login')?.addEventListener('click', login);
+    document.getElementById('logout')?.addEventListener('click', logout);
+        
+    document.getElementById('test-function')?.addEventListener('click', async () => {
+      try {
+        const result = await callProtectedEndpoint('/.netlify/functions/auth-gated-function');
+        console.log('Function response:', result);
+        alert(JSON.stringify(result, null, 2));
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          console.error('Error details:', error);
+          alert(`Error calling function: ${error.message}`);
+        } else {
+          console.error('Unknown error:', error);
+          alert('An unknown error occurred');
+        }
+      }
+    });
+  }
+
   if (location.search.includes("code=") && location.search.includes("state=")) {
     await handleCallback();
     attachEventListeners();
     await updateUI();
-    return;
+  } else {
+    attachEventListeners();
+    await updateUI();
   }
-  
-  attachEventListeners();
-  await updateUI();
-}; 
 </script>

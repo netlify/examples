@@ -23,7 +23,7 @@ export const verifyAuth0Token = async <
     throw new Error("Missing or invalid Authorization header");
   }
 
-  const AUTH0_ISSUER = process.env.AUTH0_ISSUER;
+  const AUTH0_ISSUER = process.env.AUTH0_ISSUER_BASE_URL;
   const AUTH0_AUDIENCE = process.env.PUBLIC_AUTH0_AUDIENCE;
 
   const JWKS = createRemoteJWKSet(
