@@ -1,0 +1,96 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout>
+    <header>
+      <h1>Netlify 🤝 Auth0</h1>
+    </header>
+    <main>
+      <div id="auth0-login-container">
+        <button id="login">Log In</button>
+        <button id="logout" style="display: none">Log Out</button>
+        <button id="test-function">Test Function</button>
+      </div>
+      <div id="profile" style="display: none">
+        <h2>Profile</h2>
+        <pre id="profile-data"></pre>
+      </div>
+    </main>
+</Layout>
+
+
+<script>
+  import { login, logout, handleCallback, getAuth0Client, callProtectedEndpoint } from '../../utils/client-auth';
+
+  interface Auth0Profile {
+    name: string;
+    picture: string;
+  }
+
+  interface DOMElements {
+    loginButton: HTMLElement;
+    logoutButton: HTMLElement;
+    profileElement: HTMLElement;
+    testButton: HTMLElement;
+  }
+
+  async function updateUI(): Promise<void> {
+    const auth0Client = await getAuth0Client();
+    const isAuthenticated = await auth0Client.isAuthenticated();
+    const userProfile = await auth0Client.getUser<Auth0Profile>();
+
+    const elements: DOMElements = {
+      loginButton: document.getElementById("login") as HTMLElement,
+      logoutButton: document.getElementById("logout") as HTMLElement,
+      profileElement: document.getElementById("profile") as HTMLElement,
+      testButton: document.getElementById("test-function") as HTMLElement
+    };
+
+    if (isAuthenticated && userProfile) {
+      elements.loginButton.style.display = "none";
+      elements.logoutButton.style.display = "block";
+      elements.profileElement.style.display = "block";
+      elements.profileElement.innerHTML = `
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">  
+          <p>${userProfile.name}</p>
+          <img src="${userProfile.picture}" alt="Profile" />
+        </div>
+      `;
+    } else {
+      elements.loginButton.style.display = "block";
+      elements.logoutButton.style.display = "none";
+      elements.profileElement.style.display = "none";
+    }
+  }
+
+  function attachEventListeners(): void {
+    document.getElementById('login')?.addEventListener('click', login);
+    document.getElementById('logout')?.addEventListener('click', logout);
+        
+    document.getElementById('test-function')?.addEventListener('click', async () => {
+      try {
+        const result = await callProtectedEndpoint('/.netlify/functions/auth-gated-function');
+        console.log('Function response:', result);
+        alert(JSON.stringify(result, null, 2));
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          console.error('Error details:', error);
+          alert(`Error calling function: ${error.message}`);
+        } else {
+          console.error('Unknown error:', error);
+          alert('An unknown error occurred');
+        }
+      }
+    });
+  }
+
+  if (location.search.includes("code=") && location.search.includes("state=")) {
+    await handleCallback();
+    attachEventListeners();
+    await updateUI();
+  } else {
+    attachEventListeners();
+    await updateUI();
+  }
+</script>
