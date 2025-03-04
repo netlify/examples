@@ -4,7 +4,7 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout>
     <header>
-      <h1>Welcome to Auth0 Authentication Example</h1>
+      <h1>Netlify 🤝 Auth0</h1>
     </header>
     <main>
       <div id="auth0-login-container">
@@ -52,8 +52,10 @@ import Layout from '../layouts/Layout.astro';
       elements.logoutButton.style.display = "block";
       elements.profileElement.style.display = "block";
       elements.profileElement.innerHTML = `
-        <p>${userProfile.name}</p>
-        <img src="${userProfile.picture}" alt="Profile" />
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">  
+          <p>${userProfile.name}</p>
+          <img src="${userProfile.picture}" alt="Profile" />
+        </div>
       `;
     } else {
       elements.loginButton.style.display = "block";

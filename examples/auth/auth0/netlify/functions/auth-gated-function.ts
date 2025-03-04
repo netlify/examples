@@ -1,5 +1,5 @@
 import type { Context } from "@netlify/functions";
-import { verifyAuth0Token } from "../../utils/auth";
+import { verifyAuth0Token } from "../../utils/server-auth";
 
 export default async function handler(req: Request, context: Context) {
   try {
