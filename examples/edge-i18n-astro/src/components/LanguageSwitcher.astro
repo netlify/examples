@@ -1,0 +1,90 @@
+---
+import { getCurrentLanguage } from "../utils/i18n";
+
+const languages = [
+  { code: "en", label: "English", header: "Choose Your Language", description: "Your current language is <span class='font-semibold text-[#00AD9F]'>English</span>. Select your preferred language to continue." },
+  { code: "ja", label: "日本語", header: "言語を選択してください", description: "現在の言語は<span class='font-semibold text-[#00AD9F]'>日本語</span>です。続けるには、お好きな言語を選択してください。" },
+  { code: "es", label: "Español", header: "Elige tu idioma", description: "Tu idioma actual es <span class='font-semibold text-[#00AD9F]'>Español</span>. Selecciona tu idioma preferido para continuar." },
+  { code: "fr", label: "Français", header: "Choisissez votre langue", description: "Votre langue actuelle est <span class='font-semibold text-[#00AD9F]'>Français</span>. Sélectionnez votre langue préférée pour continuer." },
+];
+
+const currentLang = getCurrentLanguage(Astro.url.pathname);
+---
+
+<div
+    class="flex justify-center items-center bg-gradient-to-br from-[#00AD9F]/5 via-white to-[#002E3B]/5 -mt-16 min-h-screen"
+  >
+    <div class="mx-auto px-4 max-w-4xl">
+      <div class="flex md:flex-row flex-col items-center gap-8">
+        
+        <div class="flex-1 space-y-4 max-w-md text-center md:text-left">
+          <h1
+            class="bg-clip-text bg-gradient-to-r from-[#00AD9F] to-[#002E3B] pb-1 font-bold text-3xl text-transparent sm:text-4xl lg:text-5xl leading-tight"
+          >
+            {languages.find(l => l.code === currentLang)?.header}
+          </h1>
+          <p class="max-w-lg text-[#002E3B]/80 text-base sm:text-lg" set:html={languages.find(l => l.code === currentLang)?.description}>
+          </p>
+        </div>
+        
+        <div class="flex-1 w-full max-w-md">
+          <div class="gap-3 grid grid-cols-1 sm:grid-cols-2">
+            {
+              languages.map((language) => (
+                <button
+                  class="relative border-[#00AD9F]/10 hover:border-[#00AD9F]/30 bg-white shadow-md hover:shadow-xl p-3 border rounded-lg transition-all duration-300 overflow-hidden group"
+                  type="button"
+                  data-lang={language.code}
+                >
+                  <div class="absolute inset-0 bg-gradient-to-r from-[#00AD9F]/5 to-[#002E3B]/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div class="relative flex justify-center items-center py-3">
+                    <span class="group-hover:text-[#00AD9F] font-medium text-[#002E3B] text-lg transition-colors">
+                      {language.label}
+                    </span>
+                  </div>
+                  <div class="group-hover:scale-x-100 bottom-0 left-0 absolute bg-gradient-to-r from-[#00AD9F] to-[#002E3B] w-full h-1 transform origin-left transition-transform scale-x-0" />
+                </button>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  async function setLanguageAndRedirect(lang: string): Promise<void> {
+    try {
+      const response = await fetch("/get-location", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ language: lang }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to set language");
+      }
+
+      const languages = ["en", "ja", "es", "fr"];
+      const newPath = window.location.pathname.replace(
+        new RegExp(`^/(${languages.join("|")})`),
+        `/${lang}`
+      );
+
+      window.location.href = newPath;
+    } catch (error) {
+      console.error("Error changing language:", error);
+    }
+  }
+
+  // Add click handlers to all language buttons
+  document.querySelectorAll("button[data-lang]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const lang = button.getAttribute("data-lang");
+      if (lang) setLanguageAndRedirect(lang);
+    });
+  });
+</script>
+
