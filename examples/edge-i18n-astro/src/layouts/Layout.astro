@@ -1,0 +1,33 @@
+---
+import { getCurrentLanguage } from "../utils/i18n";
+
+const currentLang = getCurrentLanguage(Astro.url.pathname);
+---
+
+<!doctype html>
+<html lang={currentLang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Language Selector | Netlify Style</title>
+  </head>
+  <body class="antialiased">
+    <nav class="border-[#00AD9F]/12 bg-white border-b">
+      <div class="mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div class="flex items-center pl-2 h-16">
+          <a
+            href={`/${currentLang}`}
+            class="font-medium text-[#002E3B] hover:text-[#00AD9F] transition-colors"
+          >
+            Home
+          </a>
+        </div>
+      </div>
+    </nav>
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>
