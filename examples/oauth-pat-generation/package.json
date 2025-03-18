@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@netlify/functions": "^3.0.2"
+  }
+}
