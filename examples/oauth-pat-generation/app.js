@@ -58,7 +58,7 @@ function handleAccessToken() {
   // Remove the token so it's not visible in the URL after we're done
   document.location.hash = '';
 
-  // Updated to use our Netlify function
+  // Send the access token to the create-token endpoint to generate a PAT
   fetch('/create-token', {
     method: "POST",
     headers: {
