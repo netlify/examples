@@ -9,7 +9,7 @@ export default async (req: Request, context: Context) => {
 
   try {
     // This endpoint Personal Access Tokens, or PATs, and act the same as the OAuth2 access tokens, but with a configurable expiration attached to them 
-    const response = await fetch('https://app.netlify.com/access-control/bb-api/api/v1/oauth/applications/create_token', {
+    const response = await fetch('https://api.netlify.com/api/v1/oauth/applications/create_token', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${accessToken}`,
