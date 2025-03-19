@@ -76,15 +76,8 @@ function handleAccessToken() {
 }
 
 /*
- * The Oauth2 implicit grant flow works by sending the user to Netlify where she'll
- * be asked to grant authorization to your application. Netlify will then redirect
- * back to the Redirect URI on file for your app and set an access_token paramter
- * in the "hash" part of the URL.
- *
  * If we have any hash, it's because the user is coming back from Netlify and we
  * can start doing API requests on their behalf.
- *
- * If not, we'll trigger the first step and prepare to send the user to Netlify.
  */
 if (document.location.hash) {
   handleAccessToken();
