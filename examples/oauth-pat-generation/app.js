@@ -1,8 +1,9 @@
-const CLIENT_ID = "A664Jlyp4mpBSVIktWtGjeshNaERA_CBzSC_IcNl618";
+const CLIENT_ID = "";
 const REDIRECT_URI = "http://localhost:8888/";
 
+// Simple and secure way to generate state
 function generateState() {
-  return crypto.randomUUID(); // Simple and secure way to generate state
+  return crypto.randomUUID(); 
 }
 
 function handleNetlifyOAuth() {
@@ -10,8 +11,7 @@ function handleNetlifyOAuth() {
   const redirectUri = REDIRECT_URI;
   const state = generateState();
   
-  // Store state in sessionStorage (more secure than localStorage for OAuth states)
-  sessionStorage.setItem('oauth_state', state);
+  localStorage.setItem('oauth_state', state);
   
   const authLink = `https://app.netlify.com/authorize?client_id=${clientId}&response_type=token&redirect_uri=${redirectUri}&state=${state}`;
 
@@ -39,16 +39,13 @@ const hash = document.location.hash;
 function handleAccessToken() {  
   // The access token is returned in the hash part of the document.location
   //   #access_token=1234&response_type=token&state=...
-  const response = hash.replace(/^#/, '').split('&').reduce((result, pair) => {
-    const keyValue = pair.split('=');
-    result[keyValue[0]] = keyValue[1];
-    return result;
-  }, {});
+  const response = new URLSearchParams(hash.replace(/^#/, ''));
+  const state = response.get('state');
+  const accessToken = response.get('access_token')
 
-  // Verify state parameter
-  const savedState = sessionStorage.getItem('oauth_state');
-  // Clean up immediately
-  sessionStorage.removeItem('oauth_state');
+  const savedState = localStorage.getItem('oauth_state');
+   // Clean up immediately
+  localStorage.removeItem('oauth_state');
 
   if (!savedState || savedState !== response.state) {
     console.log('Security Error: Invalid state parameter. Possible CSRF attack.');
@@ -62,7 +59,7 @@ function handleAccessToken() {
   fetch('/create-token', {
     method: "POST",
     headers: {
-      'Authorization': `Bearer ${response.access_token}`,
+      'Authorization': `Bearer ${accessToken}`,
       'Content-Type': 'application/json'
     }
   })
