@@ -47,7 +47,7 @@ function handleAccessToken() {
    // Clean up immediately
   localStorage.removeItem('oauth_state');
 
-  if (!savedState || savedState !== response.state) {
+  if (!savedState || savedState !== state) {
     console.log('Security Error: Invalid state parameter. Possible CSRF attack.');
     return;
   }
