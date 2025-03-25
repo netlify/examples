@@ -19,7 +19,7 @@ export default async function(req: Request, context: Context) {
     const { message, newConversation } = await req.json();
     const store = getDeployStore("chat-history");
 
-    // Handle new conversation
+    
     if (newConversation) {
       await store.setJSON(CHAT_KEY, []);
       return new Response(JSON.stringify({ success: true }));
