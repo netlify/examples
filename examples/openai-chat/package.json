@@ -1,0 +1,27 @@
+{
+  "name": "kaibanjs-ai-chat",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/netlify": "6.1.0",
+    "@astrojs/react": "4.2.0",
+    "@netlify/functions": "^2.4.1",
+    "@types/node": "^20.11.16",
+    "@types/react": "^18.2.48",
+    "@types/react-dom": "^18.2.18",
+    "astro": "5.2.5",
+    "openai": "^4.26.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}
