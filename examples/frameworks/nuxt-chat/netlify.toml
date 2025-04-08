@@ -1,0 +1,8 @@
+[dev]
+port = 3001
+
+
+[template.environment]
+#Variables for the template
+MODEL_PROVIDER = "OPENAI"
+MODEL_API_KEY = "OPENAI_API_KEY"

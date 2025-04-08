@@ -23,6 +23,7 @@ A collection of examples and demos for people building the web with Netlify
 - User-generated uploads - [Site](https://example-user-uploads-astro-blobs.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/user-image-uploads-astro-blobs)
 - Hydrogen storefront with advanced caching - [Site](https://example-hydrogen-caching.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/frameworks/hydrogen-caching)
 - Nuxt 4 with advanced caching - [Site](https://example-nuxt-4-caching.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/frameworks/nuxt-4-caching)
+- Nuxt AI chat starter - [Site](https://example-nuxt-chat.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/frameworks/nuxt-chat)
 
 ## Repo organization
 
