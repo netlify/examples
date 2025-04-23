@@ -3,5 +3,6 @@
     "version": "1.0.0",
     "description": "A site to show a hello world example of using Netlify Functions",
     "author": "Netlify",
-    "license": "ISC"
+    "license": "ISC",
+    "type": "module"
 }
