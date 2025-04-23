@@ -4,7 +4,7 @@ title: "Netlify examples - style resources"
 ---
 
 <section>
-  <h2 id="usage">Usage</h2>  
+  <h2 id="usage">Usage</h2>
   <p>
     A minified CSS file is available to use directly in your sites by linking to <a href="https://example-styles.netlify.app/styles.css">this stylesheet</a> URL. To ease the performance hit of sourcing the fonts from another domain via this CSS, we should preload those too
   </p>
@@ -43,7 +43,7 @@ Review the [reference](/reference) page to review how this stylesheet formats st
     In addition to using the provided CSS, a number of HTML snippets are available to include in your examples and demos in order to add some boilerplate page elements. These are provided here as HTML so that they can be used in whatever framework or components your project employs.
   </p>
   <h3>Header and global navigation</h3>
-     
+
 ```
 <header>
   <nav>
@@ -62,7 +62,7 @@ Review the [reference](/reference) page to review how this stylesheet formats st
 </header>
 ```
 
-<h3>Footer</h3>  
+<h3>Footer</h3>
 
 ```html
 <footer>
@@ -118,7 +118,7 @@ Review the [reference](/reference) page to review how this stylesheet formats st
       <li><a href="https://netlify.com/gdpr-ccpa/">GDPR/CCPA</a></li>
       <li><a href="mailto:fraud@netlify.com?subject=Abuse%20report&body=Please%20include%20the%20site%20URL%20and%20reason%20for%20your%20report%2C%20and%20we%20will%20reply%20promptly.">Abuse</a></li>
       </ul>
-      <div>© 2024 Netlify</div>
+      <div>© 2025 Netlify</div>
     </small>
   </footer>
 ```

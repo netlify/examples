@@ -3,6 +3,12 @@
     "version": "1.0.0",
     "description": "A site to show a hello world example of using Netlify Functions",
     "author": "Netlify",
+    "type": "module",
     "license": "ISC",
-    "type": "module"
+    "dependencies": {
+        "@modelcontextprotocol/sdk": "^1.10.2",
+        "fetch-to-node": "^2.0.0",
+        "hono": "^4.7.7",
+        "zod": "^3.24.3"
+    }
 }
