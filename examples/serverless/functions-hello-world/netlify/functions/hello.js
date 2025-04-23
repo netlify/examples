@@ -1,15 +1,14 @@
 // hello there!
-// 
+//
 // I'm a serverless function that you can deploy as part of your site.
-// I'll get deployed to AWS Lambda, but you don't need to know that. 
 // You can develop and deploy serverless functions right here as part
 // of your site. Netlify Functions will handle the rest for you.
 
+export default async (req) => {
+  // Get the name from query parameters
+  const url = new URL(req.url);
+  const name = url.searchParams.get('name') || 'World';
 
-exports.handler = async event => {
-    const subject = event.queryStringParameters.name || 'World'
-    return {
-        statusCode: 200,
-        body: `Hello ${subject}!`,
-    }
-}
+  // Return a Response object
+  return new Response(`Hello ${name}!`);
+};
