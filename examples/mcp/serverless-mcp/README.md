@@ -1,21 +1,20 @@
 ![Netlify Examples](https://github.com/netlify/examples/assets/5865/4145aa2f-b915-404f-af02-deacee24f7bf)
 
-# MCP example using Hono
+# MCP example Netlify Serverless Functions
 
-**View this demo site**: https://mcp-example-hono.netlify.app/
+**View this demo site**: https://mcp-example-serverless.netlify.app/
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/f15f03f9-55d8-4adc-97d5-f6e085141610/deploy-status)](https://app.netlify.com/sites/mcp-example-hono/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/f15f03f9-55d8-4adc-97d5-f6e085141610/deploy-status)](https://app.netlify.com/sites/mcp-example-serverless/deploys)
 
 
 
 ## About this example site
 
-This site shows a very a basic example of developing and running serverless MCP using Netlify Functions and Hono. It includes links to a deployed serverless function and an example of accessing the function using a customized URL.
+This site shows a very a basic example of developing and running serverless MCP using Netlify Functions. It includes links to a deployed serverless function and an example of accessing the function using a customized URL.
 
 - [Model Context Protocol (MCP)](https://modelcontextprotocol.io/)
-- [Hono](https://hono.dev/)
-- [Docs: Netlify Functions](https://docs.netlify.com/functions/overview/?utm_campaign=dx-examples&utm_source=example-site&utm_medium=web&utm_content=example-mcp-hono)
-- [Agent Experience (AX)](https://agentexperience.ax?utm_source=hono-mcp-guide&utm_medium=web&utm_content=example-mcp-hono)
+- [Docs: Netlify Functions](https://docs.netlify.com/functions/overview/?utm_campaign=dx-examples&utm_source=example-site&utm_medium=web&utm_content=example-mcp-serverless)
+- [Agent Experience (AX)](https://agentexperience.ax?utm_source=serverless-mcp-guide&utm_medium=web&utm_content=example-mcp-serverless)
 
 ## Speedily deploy your own version
 
@@ -27,7 +26,7 @@ Deploy your own version of this example site, by clicking the Deploy to Netlify 
 - Build and deploy your new site
 - This repo can then be used to iterate on locally using `netlify dev`
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/netlify/examples/&create_from_path=examples/mcp/hono-mcp&utm_campaign=dx-examples)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/netlify/examples/&create_from_path=examples/mcp/serverless-mcp&utm_campaign=dx-examples)
 
 
 ## Install and run the examples locally
@@ -40,7 +39,7 @@ You can clone this entire examples repo to explore this and other examples, and 
 git clone git@github.com:netlify/examples
 
 # 2. Move into the project directory for this example
-cd examples/mcp/hono-mcp
+cd examples/mcp/serverless-mcp
 
 # 3. Install the Netlify CLI to let you locally serve your site using Netlify's features
 npm i -g netlify-cli
