@@ -32,7 +32,7 @@ export default function footer() {
         <li><a href="https://netlify.com/blog/">Blog</a></li>
         <li><a href="https://netlify.com/about/">About</a></li>
         <li><a href="https://netlify.com/careers/">Careers</a></li>
-    
+
         <li><a href="https://netlify.com/press/">Press</a></li>
         <li><a href="https://swag.netlify.com/">Netlify Store</a></li>
         <li><a href="https://netlify.com/sustainability/">Sustainability</a></li>
@@ -57,7 +57,7 @@ export default function footer() {
       <li><a href="https://netlify.com/gdpr-ccpa/">GDPR/CCPA</a></li>
       <li><a href="mailto:fraud@netlify.com?subject=Abuse%20report&body=Please%20include%20the%20site%20URL%20and%20reason%20for%20your%20report%2C%20and%20we%20will%20reply%20promptly.">Abuse</a></li>
       </ul>
-      <div>© 2024 Netlify</div>
+      <div>© 2025 Netlify</div>
     </small>
   </footer>
   `;
