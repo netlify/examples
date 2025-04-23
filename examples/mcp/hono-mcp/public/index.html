@@ -40,9 +40,7 @@
 
       <h3>Using an MCP Client</h3>
       <p>Provide the following configuration to your MCP client. After connecting, you will see the tools, prompts, resources, etc. available to the agent.</p>
-      <code>
-        <pre>
-{
+      <pre><code>{
   "mcpServers": {
     "hono-mcp": {
       "command": "npx",
@@ -52,17 +50,11 @@
       ]
     }
   }
-}
-</pre>
-      </code>
+}</code></pre>
 
       <h3>Using the MCP Inspector</h3>
       <p>MCP comes with an <a href="https://github.com/modelcontextprotocol/inspector">inspector tool</a> for testing the server locally or remotely. Run the following command in your terminal to use the inspector. After connecting, you will see the tools, prompts, resources, etc. available to the agent.</p>
-      <code>
-        <pre>
-npx @modelcontextprotocol/inspector npx mcp-remote@next https://mcp-example-hono.netlify.app/mcp
-</pre>
-      </code>
+      <pre><code>npx @modelcontextprotocol/inspector npx mcp-remote@next https://mcp-example-hono.netlify.app/mcp</code></pre>
 
     </section>
 
