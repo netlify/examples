@@ -1,14 +1,14 @@
 {
-    "name": "netlify-example-hono-mcp",
+    "name": "netlify-example-serverless-mcp",
     "version": "1.0.0",
-    "description": "A site to show a MCP with Hono example using Netlify Functions",
+    "description": "A site to show a MCP example using Netlify Functions",
     "author": "Netlify",
     "type": "module",
     "license": "ISC",
     "dependencies": {
         "@modelcontextprotocol/sdk": "^1.10.2",
+        "@netlify/functions": "^2.5.1",
         "fetch-to-node": "^2.0.0",
-        "hono": "^4.7.7",
         "zod": "^3.24.3"
     }
 }
