@@ -1,6 +1,6 @@
 ![Netlify Examples](https://github.com/netlify/examples/assets/5865/4145aa2f-b915-404f-af02-deacee24f7bf)
 
-# MCP - Hono example
+# MCP example using Hono
 
 **View this demo site**: https://example-mcp-hono.netlify.app/
 
@@ -12,6 +12,7 @@
 
 This site shows a very simple "Hello World" example of developing and running serverless functions with Netlify Functions. It includes links to a deployed serverless function and an example of accessing the function using a customized URL.
 
+- [Hono web app framework](https://hono.dev/)
 
 - [About Netlify Functions](https://www.netlify.com/products/functions/?utm_campaign=dx-examples&utm_source=example-site&utm_medium=web&utm_content=example-hello-functions)
 - [Docs: Netlify Functions](https://docs.netlify.com/functions/overview/?utm_campaign=dx-examples&utm_source=example-site&utm_medium=web&utm_content=example-hello-functions)
