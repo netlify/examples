@@ -1,5 +1,3 @@
-<!-- TODO: UPDATE LINKS -->
-
 [Deploy to Netlify]: https://app.netlify.com/start/deploy?repository=https://github.com/netlify/examples/&create_from_path=examples/netlify-neon-books&utm_campaign=dx-examples
 
 ![Netlify Examples](https://github.com/netlify/examples/assets/5865/4145aa2f-b915-404f-af02-deacee24f7bf)
