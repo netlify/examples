@@ -6,6 +6,9 @@
 
 A simple book tracking app that allows users to search for books and save them to a database.
 
+
+![Screenshot](./screenshot.png)
+
 ## Clone and deploy this example
 
 Deploy your own version of this example site, by clicking the button below. This will automatically:
