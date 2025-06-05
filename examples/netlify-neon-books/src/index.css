@@ -1,0 +1,259 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@700&family=Nunito:wght@400;700&display=swap');
+
+body {
+  font-family: 'Quicksand', 'Nunito', 'Segoe UI', 'Arial Rounded MT Bold', Arial, sans-serif;
+  background: #917979 url('https://www.transparenttextures.com/patterns/crisp-paper-ruffles.png');
+  margin: 0;
+  color: #463c36;
+}
+
+
+
+.container {
+  max-width: 1100px;
+  margin: 2rem auto;
+  background: #f8f4efcc;
+  border-radius: 32px;
+  box-shadow: 0 10px 40px rgba(145, 121, 121, 0.10);
+  padding: 2.5rem 2rem;
+  border: 3px solid #917979ab;
+  position: relative;
+}
+
+
+h1 {
+  text-align: center;
+  color: #917979;
+  font-family: 'Quicksand', cursive, sans-serif;
+  letter-spacing: 0.04em;
+  font-size: 2.7rem;
+  margin-bottom: 2.2rem;
+  text-shadow: 0 4px 12px #f8f4ef, 0 1px 0 #fff0f5;
+  font-weight: 700;
+  filter: drop-shadow(0 2px 0 #f8f4ef);
+}
+
+
+.search-form {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.search-input {
+  background: #f8f4ef;
+  border: 2px solid #917979;
+  border-radius: 12px;
+  padding: 12px 18px;
+  font-size: 1.15rem;
+  color: #463c36;
+  font-family: 'Nunito', 'Quicksand', sans-serif;
+  box-shadow: 0 2px 8px #91797933;
+  transition: border 0.2s, background 0.2s;
+  min-width: 220px;
+}
+.search-input:focus {
+  outline: none;
+  border-color: #bbaea6;
+  background: #f5eee7;
+}
+
+.search-btn {
+  background: #bbaea6;
+  color: #463c36;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 22px;
+  font-size: 1.05rem;
+  font-family: 'Nunito', 'Quicksand', sans-serif;
+  cursor: pointer;
+  transition: background 0.18s, box-shadow 0.18s, color 0.18s;
+  box-shadow: 0 2px 8px #91797933;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  margin-left: 8px;
+}
+.search-btn:disabled {
+  background: #e5d3b3;
+  color: #bbaea6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+.search-btn:not(:disabled):hover {
+  background: #917979;
+  color: #fff;
+  box-shadow: 0 4px 16px #bbaea6;
+}
+
+.error-message {
+  color: #a05a5a;
+  background: #f8f4ef;
+  border: 1.5px solid #91797999;
+  border-radius: 8px;
+  padding: 8px 16px;
+  margin-bottom: 16px;
+  font-size: 1.03rem;
+  font-family: 'Nunito', sans-serif;
+  max-width: 350px;
+}
+
+.search-results {
+  margin-bottom: 36px;
+}
+
+.no-books {
+  color: #6d5c53;
+  background: #f8f4efcc;
+  border-radius: 16px;
+  padding: 18px 0;
+  font-size: 1.08rem;
+  letter-spacing: 0.01em;
+  text-align: center;
+  font-family: 'Nunito', sans-serif;
+  grid-column: 1/-1;
+}
+
+.save-btn {
+  margin-top: 10px;
+  width: 100%;
+  background: #bbaea6;
+  color: #463c36;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 0;
+  font-size: 1.03rem;
+  font-family: 'Nunito', 'Quicksand', sans-serif;
+  cursor: pointer;
+  transition: background 0.18s, box-shadow 0.18s, color 0.18s;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+.save-btn:disabled {
+  background: #e5d3b3;
+  color: #bbaea6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+.save-btn:not(:disabled):hover {
+  background: #917979;
+  color: #fff;
+  box-shadow: 0 4px 16px #bbaea6;
+}
+
+
+button {
+  background: linear-gradient(90deg, #b6e2a1 0%, #f7e7b7 100%);
+  color: #5a4a3c;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 22px;
+  font-size: 1.05rem;
+  font-family: 'Nunito', 'Quicksand', sans-serif;
+  cursor: pointer;
+  transition: background 0.18s, box-shadow 0.18s, color 0.18s;
+  box-shadow: 0 2px 8px #e5d3b3;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+button:disabled {
+  background: #e5d3b3;
+  color: #b28d5b;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+button:not(:disabled):hover {
+  background: linear-gradient(90deg, #6ebc7a 0%, #f7e7b7 100%);
+  color: #3e3225;
+  box-shadow: 0 4px 16px #b28d5b;
+}
+
+h2 {
+  color: #917979;
+  font-family: 'Quicksand', cursive, sans-serif;
+  letter-spacing: 0.04em;
+  margin-top: 2.5rem;
+  margin-bottom: 1.2rem;
+}
+
+/* Book grid styling for 5 per row on desktop */
+@media (min-width: 900px) {
+  .book-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 24px;
+    align-items: stretch;
+  }
+}
+@media (max-width: 899px) {
+  .book-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    align-items: stretch;
+  }
+}
+
+.book-card {
+  border: 2.5px solid #91797999;
+  border-radius: 22px;
+  background: #f5eee7;
+  box-shadow: 0 4px 14px rgba(145, 121, 121, 0.10);
+  padding: 20px 14px 18px 14px;
+  text-align: center;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.18s, box-shadow 0.18s, border 0.18s;
+  cursor: pointer;
+  border-style: solid;
+}
+.book-card:hover {
+  transform: translateY(-6px) scale(1.025) rotate(-1deg);
+  box-shadow: 0 10px 28px 0 rgba(145, 121, 121, 0.13);
+  border: 2.5px solid #bbaea6;
+  background: #f8f4ef;
+}
+
+/* My Books grid: don't change cursor on hover */
+.my-books .book-card,
+.my-books .book-card:hover {
+  cursor: default;
+  box-shadow: 0 4px 14px rgba(145, 121, 121, 0.10);
+  border: 2.5px solid #91797999;
+  background: #f5eee7;
+  transform: none;
+}
+
+.book-card img {
+  width: 108px;
+  height: 162px;
+  object-fit: cover;
+  border-radius: 18px;
+  box-shadow: 0 2px 8px #91797944;
+  background: #f8f4ef;
+  margin-bottom: 10px;
+  border: 2px solid #bbaea6;
+}
+
+.book-card .title {
+  margin-top: 4px;
+  font-weight: 700;
+  font-size: 1.13rem;
+  color: #917979;
+  font-family: 'Quicksand', cursive, sans-serif;
+  margin-bottom: 2px;
+  letter-spacing: 0.02em;
+  text-shadow: 0 1px 0 #f8f4ef;
+}
+
+.book-card .author {
+  font-size: 1.01rem;
+  color: #6d5c53;
+  font-style: italic;
+  margin-bottom: 8px;
+  font-family: 'Nunito', sans-serif;
+  text-shadow: 0 1px 0 #f8f4ef;
+}
+
