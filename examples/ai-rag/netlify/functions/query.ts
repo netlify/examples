@@ -2,10 +2,9 @@ import { Handler } from "@netlify/functions";
 import { neon } from "@neondatabase/serverless";
 import { OpenAI } from "openai";
 
-const OPENAI_KEY = process.env.OPENAI_API_KEY;
 const DATABASE_URL = process.env.NETLIFY_DATABASE_URL;
 
-if (!OPENAI_KEY || !DATABASE_URL) {
+if (!DATABASE_URL) {
   throw new Error("Missing OPENAI_API_KEY or DATABASE_URL in environment");
 }
 
