@@ -50,10 +50,34 @@ const handler: Handler = async (event) => {
       LIMIT ${top_k}
     `;
 
+    // Build a ChatGPT prompt with the matched content as context
+    const contextText = rows
+      .map((row, i) => `Context ${i + 1}:\n${row.content}`)
+      .join("\n\n");
+
+    const chatRes = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [
+        {
+          role: "system",
+          content: [
+            "You are a helpful assistant. Use the following context snippets + to answer the user's question.",
+            "If the answer cannot be found in the context, respond with “I'm + not sure.”",
+            "Please refrain from asking follow up questions and just answer the query to the best of your ability based on the provided context.",
+            "",
+            contextText,
+          ].join("\n"),
+        },
+        { role: "user", content: query },
+      ],
+    });
+
+    const answer = chatRes.choices?.[0]?.message?.content ?? "";
+
     // Return response
     return {
       statusCode: 200,
-      body: JSON.stringify({ results: rows }),
+      body: JSON.stringify({ answer }),
       headers: { "Content-Type": "application/json" },
     };
   } catch (err: any) {
