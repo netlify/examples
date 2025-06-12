@@ -23,7 +23,9 @@
   "dependencies": {
     "@netlify/functions": "^4.1.5",
     "@netlify/neon": "^0.1.0",
+    "@tailwindcss/vite": "^4.1.10",
     "drizzle-orm": "^0.44.2",
-    "openai": "^5.3.0"
+    "openai": "^5.3.0",
+    "tailwindcss": "^4.1.10"
   }
 }
