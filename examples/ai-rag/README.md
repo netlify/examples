@@ -1,12 +1,12 @@
 <!-- TODO: UPDATE LINKS -->
 
-[View this example site here]: https://example-SOME_EXAMPLE.netlify.app/
+[View this example site here]: https://example-ai-rag.netlify.app/
 [This example site is accompanied by a guide in the Netlify developer hub]: https://developers.netlify.com/
-[Deploy to Netlify]: https://app.netlify.com/start/deploy?repository=https://github.com/netlify/examples/&create_from_path=PATH-TO-EXAMPLE-IN-REPO&utm_campaign=dx-examples
+[Deploy to Netlify]: https://app.netlify.com/start/deploy?repository=https://github.com/netlify/examples/&create_from_path=examples/ai-rag&utm_campaign=ax-examples
 
 ![Netlify Examples](https://github.com/netlify/examples/assets/5865/4145aa2f-b915-404f-af02-deacee24f7bf)
 
-# EXAMPLE <!-- TODO: UPDATE EAMPLE TITLE -->
+# RAG Application Example <!-- TODO: UPDATE EAMPLE TITLE -->
 
 - [View this example site here]
 - [This example site is accompanied by a guide in the Netlify developer hub]
