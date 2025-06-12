@@ -12,9 +12,6 @@ if (!OPENAI_KEY || !DATABASE_URL) {
 // Initialize Neon client
 const sql = neon(DATABASE_URL);
 
-// Initialize OpenAI client
-const openai = new OpenAI({ apiKey: OPENAI_KEY });
-
 const handler: Handler = async (event) => {
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, body: "Method Not Allowed" };
@@ -26,10 +23,21 @@ const handler: Handler = async (event) => {
     return { statusCode: 400, body: "Invalid JSON payload" };
   }
 
-  const { query, top_k = 5 } = body;
+  const { apiKey, query, top_k = 5 } = body;
   if (typeof query !== "string") {
     return { statusCode: 400, body: "`query` must be a string" };
   }
+
+  // require a user‐supplied API key
+  if (typeof apiKey !== "string" || !apiKey.trim()) {
+    return {
+      statusCode: 400,
+      body: "`apiKey` is required and must be a non-empty string",
+    };
+  }
+
+  // use only the supplied key
+  const openai = new OpenAI({ apiKey: apiKey.trim() });
 
   try {
     // Generate embedding for the user query
