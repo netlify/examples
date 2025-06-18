@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { handle } from 'hono/netlify'
 import { StreamableHTTPTransport } from "@hono/mcp"
 import { setupMCPServer } from "../mcp-server";
+import { HTTPException } from "hono/http-exception"
 
 const app = new Hono();
 
@@ -12,6 +13,26 @@ app.all("/mcp", async (c) => {
   await server.connect(transport);
   return transport.handleRequest(c);
 });
+
+app.onError((err, c) => {
+  console.log(err.message)
+
+  if (err instanceof HTTPException && err.res) {
+    return err.res
+  }
+
+  return c.json(
+    {
+      jsonrpc: '2.0',
+      error: {
+        code: -32603,
+        message: 'Internal server error',
+      },
+      id: null,
+    },
+    500
+  )
+})
 
 export default handle(app);
 
