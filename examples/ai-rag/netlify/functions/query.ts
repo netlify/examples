@@ -1,42 +1,36 @@
-import { Handler } from "@netlify/functions";
 import { neon } from "@neondatabase/serverless";
 import { OpenAI } from "openai";
 
+const OPENAI_KEY = process.env.OPENAI_API_KEY;
 const DATABASE_URL = process.env.NETLIFY_DATABASE_URL;
 
-if (!DATABASE_URL) {
+if (!OPENAI_KEY || !DATABASE_URL) {
   throw new Error("Missing OPENAI_API_KEY or DATABASE_URL in environment");
 }
 
 // Initialize Neon client
 const sql = neon(DATABASE_URL);
 
-const handler: Handler = async (event) => {
-  if (event.httpMethod !== "POST") {
-    return { statusCode: 405, body: "Method Not Allowed" };
+// Initialize OpenAI client
+const openai = new OpenAI({ apiKey: OPENAI_KEY });
+
+export default async (req: Request) => {
+  if (req.method !== "POST") {
+    return new Response("Method Not Allowed", { status: 405 });
   }
+
   let body;
   try {
-    body = JSON.parse(event.body || "{}");
-  } catch {
-    return { statusCode: 400, body: "Invalid JSON payload" };
+    body = await req.json();
+  } catch (e) {
+    console.error(e);
+    return new Response("Invalid JSON payload", { status: 400 });
   }
 
-  const { apiKey, query, top_k = 5 } = body;
+  const { query, top_k = 5 } = body;
   if (typeof query !== "string") {
-    return { statusCode: 400, body: "`query` must be a string" };
+    return new Response("`query` must be a string", { status: 400 });
   }
-
-  // require a user‐supplied API key
-  if (typeof apiKey !== "string" || !apiKey.trim()) {
-    return {
-      statusCode: 400,
-      body: "`apiKey` is required and must be a non-empty string",
-    };
-  }
-
-  // use only the supplied key
-  const openai = new OpenAI({ apiKey: apiKey.trim() });
 
   try {
     // Generate embedding for the user query
@@ -56,7 +50,6 @@ const handler: Handler = async (event) => {
       ORDER BY distance
       LIMIT ${top_k}
     `;
-
     // Build a ChatGPT prompt with the matched content as context
     const contextText = rows
       .map((row, i) => `Context ${i + 1}:\n${row.content}`)
@@ -82,15 +75,11 @@ const handler: Handler = async (event) => {
     const answer = chatRes.choices?.[0]?.message?.content ?? "";
 
     // Return response
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ answer }),
+    return new Response(JSON.stringify({ answer }), {
       headers: { "Content-Type": "application/json" },
-    };
+    });
   } catch (err: any) {
     console.error(err);
-    return { statusCode: 500, body: "Internal Server Error" };
+    return new Response("Internal Server Error", { status: 500 });
   }
 };
-
-export { handler };
