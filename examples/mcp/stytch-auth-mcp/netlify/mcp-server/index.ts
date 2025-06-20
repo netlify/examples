@@ -10,8 +10,9 @@ import * as stytch from "stytch";
 type OAuthClaims = Awaited<ReturnType<typeof client.idp.introspectTokenLocal>>;
 
 const client = new stytch.Client({
-  project_id: process.env.STYTCH_PROJECT_ID as string,
-  secret: process.env.STYTCH_SECRET as string,
+  project_id: Netlify.env.get("STYTCH_PROJECT_ID") as string,
+  secret: Netlify.env.get("STYTCH_SECRET") as string,
+  custom_base_url: `https://${Netlify.env.get("STYTCH_DOMAIN")}`,
 });
 
 export const setupMCPServer = (claims: OAuthClaims): McpServer => {

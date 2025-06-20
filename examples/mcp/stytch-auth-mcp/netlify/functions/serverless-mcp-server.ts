@@ -7,6 +7,7 @@ import {Client} from "stytch";
 const client = new Client({
     project_id: Netlify.env.get("STYTCH_PROJECT_ID") as string,
     secret: Netlify.env.get("STYTCH_SECRET") as string,
+    custom_base_url: `https://${Netlify.env.get("STYTCH_DOMAIN")}`,
 });
 
 type validateResult =
@@ -73,9 +74,17 @@ export default async (req: Request) => {
 async function handleMCPPost(req: Request) {
     const validationResult = await validateRequestWithStytch(req);
     if (!validationResult.valid) {
+      const origin = new URL(req.url).origin;
+      const resourceMetadataUrl = `${origin}/.well-known/oauth-protected-resource`;
         return new Response(
             JSON.stringify({error: validationResult.reason}),
-            {status: 401, headers: {"Content-Type": "application/json"}}
+            {
+                status: 401,
+                headers: {
+                "Content-Type": "application/json",
+                "WWW-Authenticate": `Bearer resource_metadata="${resourceMetadataUrl}"`,
+                }
+            }
         );
     }
 

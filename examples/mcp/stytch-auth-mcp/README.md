@@ -40,7 +40,7 @@ Deploy your own version of this example site, by clicking the Deploy to Netlify 
 
 2. Navigate to [Frontend SDKs](https://stytch.com/dashboard/sdk-configuration?env=test) to enable the Frontend SDK in Test
 
-3. Navigate to [Connected Apps](https://stytch.com/dashboard/connected-apps?env=test) to enable Dynamic Client Registration
+3. Navigate to [Connected Apps](https://stytch.com/dashboard/connected-apps?env=test) to enable Dynamic Client Registration and configure your authorization URL as `http://localhost:3000/oauth/authorize`.
 
 4. Navigate to [Project Settings](https://stytch.com/dashboard/project-settings?env=test) to view your Project ID and API keys. You will need these values later.
 
@@ -48,6 +48,7 @@ Deploy your own version of this example site, by clicking the Deploy to Netlify 
 
 - `STYTCH_PROJECT_ID` - Your Stytch project ID from the [Stytch Dashboard](https://stytch.com/dashboard)
 - `STYTCH_SECRET` - Your Stytch project secret
+- `STYTCH_DOMAIN` - Your Stytch project domain
 
 ### Setting up Environment Variables
 
@@ -69,6 +70,7 @@ Set environment variables in your Netlify site dashboard:
 Alternatively, use the Netlify CLI:
 ```shell
 netlify env:set STYTCH_PROJECT_ID "your-project-id"
+netlify env:set STYTCH_DOMAIN "your-project-domain"
 netlify env:set STYTCH_SECRET "your-secret" --secret
 netlify env:set OPENAI_API_KEY "your-openai-key" --secret
 ```
@@ -96,7 +98,8 @@ npm i -g netlify-cli
 netlify dev
 
 # 6. While the site is running locally, open a separate terminal tab to run the MCP inspector or client you desire
-npx @modelcontextprotocol/inspector npx mcp-remote@next http://localhost:8888/mcp
+# direct at http://localhost:8888/mcp using Streamable HTTP
+npx @modelcontextprotocol/inspector
 ```
 
 ## Get help and join the community
