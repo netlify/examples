@@ -6,8 +6,8 @@
     "type": "module",
     "license": "ISC",
     "dependencies": {
+        "@hono/mcp": "^0.1.0",
         "@modelcontextprotocol/sdk": "^1.10.2",
-        "fetch-to-node": "^2.0.0",
         "hono": "^4.7.7",
         "zod": "^3.24.3"
     }
