@@ -1,0 +1,31 @@
+{
+  "name": "ai-rag",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "netlify dev:exec drizzle-kit migrate",
+    "db:studio": "netlify dev:exec drizzle-kit studio",
+    "ingest": "tsx bin/ingest.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.1",
+    "drizzle-kit": "^0.31.1",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.20.2",
+    "typescript": "~5.8.3",
+    "vite": "^6.3.5"
+  },
+  "dependencies": {
+    "@netlify/functions": "^4.1.5",
+    "@netlify/neon": "^0.1.0",
+    "@tailwindcss/vite": "^4.1.10",
+    "drizzle-orm": "^0.44.2",
+    "openai": "^5.3.0",
+    "tailwindcss": "^4.1.10"
+  }
+}
