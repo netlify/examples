@@ -17,6 +17,11 @@ const loading = ref<boolean>(false)
 const message = ref<string>('')
 const modelProvider = (useRuntimeConfig().public.MODEL_PROVIDER || '').toLowerCase();
 
+// Check if environment variables are defined
+const isModelProviderDefined = Boolean(useRuntimeConfig().public.MODEL_PROVIDER);
+const isApiKeyDefined = Boolean(process.env.MODEL_API_KEY);
+const areEnvVarsConfigured = isModelProviderDefined && (modelProvider === 'anthropic' || modelProvider === 'openai');
+
 // Methods
 const typeText = async () => {
   if (modelProvider === 'anthropic' || modelProvider === 'openai') {
@@ -107,6 +112,13 @@ onMounted(() => {
             class="w-12 h-12"
           />
         </div>
+      </div>
+      
+      <!-- Environment Variables Warning -->
+      <div v-if="!areEnvVarsConfigured" class="w-full max-w-3xl px-2 py-2 mx-auto mt-4 mb-2 font-medium text-center text-white bg-[#00c16a] rounded-md text-sm">
+        <p class="mb-2">This app requires environment variables to work properly. Set <code>MODEL_PROVIDER</code> (anthropic/openai) and <code>MODEL_API_KEY</code> in your <code>.env</code> file or in your <a href='https://docs.netlify.com/environment-variables/overview/' class='underline'>Netlify environment variables</a>.</p>
+        <p class="mb-2">For local development, it is recommended to use <a href='https://www.netlify.com/products/dev/' class='underline'>Netlify Dev</a> to automatically load environment variables.</p>
+        <p class="mb-2">Get API keys: <a href='https://console.anthropic.com/settings/keys' class='underline'>Anthropic</a> | <a href='https://platform.openai.com/api-keys' class='underline'>OpenAI</a></p>
       </div>
       
       <h1 class="text-2xl font-bold text-center text-white">
