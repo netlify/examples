@@ -28,6 +28,7 @@ A collection of examples and demos for people building the web with Netlify
 - MCP with Netlify serverless functions - [Site](https://mcp-example-serverless.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/mcp/serverless-mcp)
 - MCP with Hono - [Site](https://mcp-example-hono.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/mcp/hono-mcp)
 - MCP with Express - [Site](https://mcp-example-express.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/mcp/express-mcp)
+- OAuth MCP with Netlify serverless functions and Stytch - [Site](https://stytch-auth-mcp.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/mcp/stytch-auth-mcp)
 
 ## Repo organization
 
