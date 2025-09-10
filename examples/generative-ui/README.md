@@ -53,14 +53,6 @@ THESYS_API_KEY=your_thesys_api_key_here
 4. **Open your browser:**
    Navigate to `http://localhost:8888` to see the application.
 
-## Build for Production
-
-```bash
-npm run build
-```
-
-The built files will be in the `dist` directory.
-
 ## Deploy to Netlify
 
 ### Option 1: One-Click Deploy
@@ -69,12 +61,7 @@ The built files will be in the `dist` directory.
 
 ### Option 2: Manual Deploy
 
-1. Build the project:
-   ```bash
-   npm run build
-   ```
-
-2. Deploy using Netlify CLI:
+1. Deploy using Netlify CLI:
    ```bash
    netlify deploy --prod
    ```
