@@ -1,6 +1,6 @@
-import type { Context, Config } from "@netlify/edge-functions";
+import type { Config } from "@netlify/edge-functions";
 
-export default async (request: Request, context: Context) => {
+export default async () => {
   return Response.json({ hello: "world" });
 };
 
