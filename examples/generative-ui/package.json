@@ -1,0 +1,31 @@
+{
+    "name": "netlify-generative-ui",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview"
+    },
+    "dependencies": {
+        "@crayonai/react-ui": "^0.8.27",
+        "@crayonai/stream": "^0.6.4",
+        "@thesysai/genui-sdk": "^0.6.18",
+        "@netlify/functions": "^4.1.2",
+        "openai": "^4.91.1",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
+    },
+    "devDependencies": {
+        "@vitejs/plugin-react": "^4.0.0",
+        "@types/node": "^20",
+        "@types/react": "^18",
+        "@types/react-dom": "^18",
+        "tailwindcss": "^3.4.0",
+        "@tailwindcss/postcss": "^4",
+        "postcss": "^8.4.0",
+        "autoprefixer": "^10.4.0",
+        "typescript": "^5",
+        "vite": "^4.4.0"
+    }
+}
