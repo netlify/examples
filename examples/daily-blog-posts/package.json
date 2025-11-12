@@ -1,0 +1,20 @@
+{
+  "name": "daily-blog-posts",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^4.3.10",
+    "@astrojs/netlify": "^6.6.0",
+    "@astrojs/rss": "^4.0.13",
+    "@astrojs/sitemap": "^3.6.0",
+    "@netlify/functions": "^5.1.0",
+    "astro": "^5.15.5",
+    "sharp": "^0.34.3"
+  }
+}
