@@ -14,6 +14,7 @@
     "@astrojs/netlify": "^6.6.0",
     "@astrojs/rss": "^4.0.13",
     "@astrojs/sitemap": "^3.6.0",
+    "@netlify/blobs": "^10.4.1",
     "@netlify/functions": "^5.1.0",
     "astro": "^5.15.5",
     "sharp": "^0.34.3"
