@@ -102,12 +102,12 @@ export default async (_req: Request) => {
     {
       status: 200,
       headers: { "Content-Type": "application/json" },
-    }
+    },
   );
 };
 
 export const config: Config = {
-  schedule: "0 18 * * *", // every day at 6:00 PM UTC (1 hour after topic sourcing)
+  // schedule: "0 18 * * *", // every day at 6:00 PM UTC (1 hour after topic sourcing)
   // Uncomment the line below and comment out the schedule above to use as an API endpoint instead
-  // path: "/api/create-blog-post",
+  path: "/api/create-blog-post",
 };

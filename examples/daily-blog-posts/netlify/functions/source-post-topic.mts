@@ -73,10 +73,10 @@ export default async (_req: Request) => {
     parsedResult = JSON.parse(cleanedResult);
   } catch (error) {
     console.error("Failed to parse JSON:", error);
-    return new Response(
-      JSON.stringify({ error: "Failed to parse AI response as JSON" }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
-    );
+    return new Response(JSON.stringify({ error: "Failed to parse AI response as JSON" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 
   // Store the result in a blob with a timestamp key
@@ -94,17 +94,14 @@ export default async (_req: Request) => {
 
   console.log("Stored blog topic:", blobKey);
 
-  return new Response(
-    JSON.stringify({ success: true, blobKey, topic: parsedResult }),
-    {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    }
-  );
+  return new Response(JSON.stringify({ success: true, blobKey, topic: parsedResult }), {
+    status: 200,
+    headers: { "Content-Type": "application/json" },
+  });
 };
 
 export const config: Config = {
-  schedule: "0 17 * * *", // every day at 5:00 PM UTC
+  // schedule: "0 17 * * *", // every day at 5:00 PM UTC
   // Uncomment the line below and comment out the schedule above to use as an API endpoint instead
-  // path: "/api/source-post-topic",
+  path: "/api/source-post-topic",
 };
