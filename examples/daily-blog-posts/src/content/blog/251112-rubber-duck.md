@@ -2,7 +2,7 @@
 title: "Giant Rubber Duck Gets a Cozy Makeover: A Knitted Scarf Adventure"
 description: "Join our quirky escapade as we craft a colorful knitted scarf for a giant rubber duck named Quackers."
 pubDate: "Nov 12 2025"
-heroImage: "https://images.unsplash.com/photo-1649055984069-e075c1074256"
+heroImage: "/images/blog-rubber-duck.jpg"
 ---
 
 In the world of whimsical creativity, inspiration often strikes when we least expect it. Just last week, as I perused the aisles of the local craft store, a gargantuan rubber duck caught my eye. The kind that sits in a child's bathtub, but this one, my friends, was destined for something much more stylish. Thus began our latest creative escapade: crafting a cozy knitted scarf for our new rubber duck friend, whom we've affectionately named "Quackers."

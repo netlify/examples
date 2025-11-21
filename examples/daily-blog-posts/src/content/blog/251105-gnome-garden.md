@@ -2,7 +2,7 @@
 title: "Gnome Sweet Gnome: Crafting a Miniature Garden Wonderland"
 description: "Transform your backyard into a delightful gnome village with tiny houses, colorful plants, and whimsical paths."
 pubDate: "Nov 05 2025"
-heroImage: "https://images.unsplash.com/photo-1528659432556-884cfe1480ef"
+heroImage: "/images/blog-gnome-garden.jpg"
 ---
 
 In the spirit of spontaneous creativity, we set out to transform an ordinary corner of the backyard into a magical miniature world. Welcome to our latest project: crafting a gnome village, where imagination flourishes and gnomes feel right at home.

@@ -2,7 +2,7 @@
 title: "Epic Pillow Forts: Building the Ultimate Cozy Hideaway"
 description: "Dive into the world of pillow fort engineering and discover the secrets to constructing the perfect indoor getaway."
 pubDate: "Sep 15 2025"
-heroImage: "https://images.unsplash.com/photo-1626965640390-e15068539462"
+heroImage: "/images/blog-pillow-fort.jpg"
 ---
 
 In a world driven by imagination and a love for comfort, the humble pillow fort emerges as the ultimate escape. Join us as we dive into the art of pillow fort engineering, transforming any living room into a cozy den of dreams.
