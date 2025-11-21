@@ -29,7 +29,7 @@ async function fetchRandomWikipediaTopic() {
   return { title, url, summary };
 }
 
-export default async (req: Request) => {
+export default async (_req: Request) => {
   const client = new Anthropic({
     apiKey: process.env["ANTHROPIC_API_KEY"],
   });
@@ -119,5 +119,5 @@ Return ONLY a valid JSON object with this structure. Do not include any markdown
 
 export const config: Config = {
   // schedule: "0 17 * * *", // every day at 5:00 PM UTC
-  path: "/api/source-blog-post",
+  path: "/api/source-post-topic",
 };

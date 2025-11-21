@@ -1,7 +1,7 @@
 import type { Config } from "@netlify/functions";
 import { getStore } from "@netlify/blobs";
 
-export default async (req: Request) => {
+export default async (_req: Request) => {
   // Get the pending list
   const pendingStore = getStore("pending-topics");
   const pendingList = (await pendingStore.get("list", { type: "json" })) || [];

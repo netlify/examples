@@ -3,7 +3,7 @@ import type { Config } from "@netlify/functions";
 import { getStore } from "@netlify/blobs";
 import { WRITING_GUIDE } from "./lib/writing-guide.mts";
 
-export default async (req: Request) => {
+export default async (_req: Request) => {
   const client = new Anthropic({
     apiKey: process.env["ANTHROPIC_API_KEY"],
   });
@@ -15,13 +15,10 @@ export default async (req: Request) => {
   const pendingList = (await pendingStore.get("list", { type: "json" })) || [];
 
   if (pendingList.length === 0) {
-    return new Response(
-      JSON.stringify({ message: "No pending topics to process" }),
-      {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    return new Response(JSON.stringify({ message: "No pending topics to process" }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 
   const oldestBlobKey = pendingList[0];
@@ -32,10 +29,10 @@ export default async (req: Request) => {
   const topicData = await topicsStore.get(oldestBlobKey, { type: "json" });
 
   if (!topicData) {
-    return new Response(
-      JSON.stringify({ error: "Topic data not found" }),
-      { status: 404, headers: { "Content-Type": "application/json" } }
-    );
+    return new Response(JSON.stringify({ error: "Topic data not found" }), {
+      status: 404,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 
   console.log("Topic data:", topicData);
@@ -118,10 +115,10 @@ Return ONLY a valid JSON object with this structure. Do not include any markdown
     parsedResult = JSON.parse(cleanedResult);
   } catch (error) {
     console.error("Failed to parse JSON:", error);
-    return new Response(
-      JSON.stringify({ error: "Failed to parse AI response as JSON" }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
-    );
+    return new Response(JSON.stringify({ error: "Failed to parse AI response as JSON" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 
   // Store the completed blog post
@@ -148,5 +145,6 @@ Return ONLY a valid JSON object with this structure. Do not include any markdown
 };
 
 export const config: Config = {
-  path: "/api/process-blog-post",
+  // schedule: "0 18 * * *", // every day at 6:00 PM UTC
+  path: "/api/create-blog-post",
 };

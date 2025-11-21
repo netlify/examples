@@ -18,7 +18,7 @@ const post = Astro.props;
 // For blob posts, the body is markdown that needs to be converted to HTML
 // For collection posts from Astro, we need to render them
 let htmlContent = "";
-let Content;
+let Content = null;
 
 if (post.body && typeof post.body === "string") {
   // Blob post - convert markdown to HTML
@@ -31,5 +31,5 @@ if (post.body && typeof post.body === "string") {
 ---
 
 <BlogPost {...post.data}>
-  {htmlContent ? <div set:html={htmlContent} /> : <Content />}
+  {htmlContent ? <div set:html={htmlContent} /> : Content && <Content />}
 </BlogPost>

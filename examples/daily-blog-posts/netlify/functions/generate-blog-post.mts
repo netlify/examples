@@ -1,6 +1,6 @@
 import type { Config } from "@netlify/functions";
 
-export default async (req: Request) => {
+export default async (_req: Request) => {
   // const { next_run } = await req.json();
 
   // console.log("Received event! Next invocation at:", next_run);

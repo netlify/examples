@@ -1,7 +1,7 @@
 import type { Config } from "@netlify/functions";
 import { getStore } from "@netlify/blobs";
 
-export default async (req: Request) => {
+export default async (_req: Request) => {
   const completedStore = getStore("completed-posts");
 
   // List all blobs in the completed-posts store
