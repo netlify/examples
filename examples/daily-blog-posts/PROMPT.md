@@ -1,18 +1,18 @@
 # AI-Powered Blog Post Generation System
 
-This prompt instructs you to set up an automated blog post generation system using Netlify Functions, Netlify Blobs, and the Anthropic API. The system sources topics from Wikipedia and generates complete blog posts on a schedule.
+**IMPORTANT: Before submitting this prompt to an agent, customize the values in the "Customizable Values" section below. The agent will execute this entire prompt asynchronously in one run without interactive feedback.**
 
 ---
 
 ## Customizable Values
 
-Before implementing, gather or determine these values from the user:
+**⚠️ EDIT THESE VALUES BEFORE SUBMITTING THIS PROMPT:**
 
 ```javascript
 // Blog Configuration
 const BLOG_CONTEXT = "a blog about random acts of creativity"; // Describe the blog's theme
 const TOPIC_SOURCE_URL = "https://wikiroulette.co/"; // URL to fetch random topics
-const TOPIC_INSTRUCTIONS = "Use this as inspiration for something creative..."; // What to create from topics
+const TOPIC_INSTRUCTIONS = "Use this as inspiration for something creative that someone can make at home. It could be a craft, a recipe, a DIY project, an experiment, or anything else that involves making something."; // What to create from topics
 
 // Scheduling (cron format)
 const SOURCE_TOPIC_SCHEDULE = "0 17 * * *"; // When to source new topics (5:00 PM UTC daily)
@@ -32,13 +32,121 @@ const COMPLETED_STORE = "completed-posts"; // Store for completed posts
 const HERO_IMAGE_WIDTH = 1600;
 const HERO_IMAGE_HEIGHT = 800;
 const HERO_IMAGE_COLORS = ["FFFFCC", "FFB6C1", "B0E0E6", "DDA0DD", "F0E68C", "E0BBE4", "FFDAB9", "C1FFC1"];
+
+// Writing Guide (Customize the voice, tone, and style for your blog)
+const WRITING_GUIDE = `# Writing Guide
+
+This guide defines the voice, tone, and style for blog posts on this site.
+
+## Voice & Tone
+
+**Whimsical and Playful**
+- Embrace imagination and creativity in every sentence
+- Use playful language and vivid descriptions
+- Don't take things too seriously - have fun with the content
+
+**Conversational and Friendly**
+- Write as if talking to a friend over coffee
+- Use inclusive language: "we", "our", "join us"
+- Address readers directly with warm, inviting phrases
+
+**Encouraging and Enthusiastic**
+- Celebrate the joy of creating
+- Focus on the experience, not perfection
+- Acknowledge challenges with humor and persistence
+- Inspire readers to try projects themselves
+
+**Light-hearted**
+- Include gentle humor and wit
+- Embrace the quirky and unexpected
+- Find delight in small details
+
+## Structure
+
+Blog posts should follow this general structure:
+
+1. **Engaging Introduction**
+   - Tell a story or set the scene
+   - Explain the inspiration behind the project
+   - Hook readers with personality and charm
+
+2. **Main Content Sections**
+   - Use descriptive subheadings (#### format in markdown)
+   - Break content into logical stages or themes
+   - Include planning, process, and finishing touches
+   - 3-5 sections work well
+
+3. **Compelling Conclusion**
+   - Tie everything together
+   - Paint a picture of the final result
+   - Encourage readers to embark on their own creative journey
+   - Optional: Include a tagline that reinforces the site's mission
+
+## Language Style
+
+**Descriptive and Vivid**
+- Use colorful adjectives: gargantuan, luscious, enchanted, cozy
+- Paint pictures with words
+- Engage the senses
+
+**Personal and Story-Driven**
+- Share anecdotes and observations
+- Describe the creative journey, including mishaps
+- Make projects feel accessible and relatable
+
+**Celebrate Imperfection**
+- Acknowledge when things don't go as planned
+- Show that creativity involves trial and error
+- Use phrases like "a learning experience" or "through persistence and laughter"
+
+## Content Approach
+
+**Focus on Experience Over Instructions**
+- This isn't a step-by-step tutorial blog
+- Emphasize the joy and wonder of creating
+- Instructions should be woven into the narrative
+- Less technical, more inspirational
+
+**Make Projects Approachable**
+- Use everyday materials when possible
+- Projects should feel doable, not intimidating
+- Encourage improvisation and personal touches
+
+**Embrace Fantasy and Whimsy**
+- Give projects personality (name them!)
+- Imagine magical outcomes
+- Reference folklore, fairy tales, and wonder
+
+## Examples of Great Phrases
+
+- "In the world of whimsical creativity, inspiration often strikes when we least expect it"
+- "Thus began our latest creative escapade"
+- "The transformation was nothing short of magical"
+- "Where creativity turns the ordinary into the extraordinary"
+- "This is architecture at its finest!"
+- "Let the cozy vibes commence"
+
+## What to Avoid
+
+- Overly technical language
+- Boring, clinical instructions
+- Perfectionism or intimidating standards
+- Generic or corporate tone
+- Long lists without narrative context
+`;
 ```
+
+**After customizing these values, submit this entire prompt (including all sections below) to the agent.**
 
 ---
 
+## Instructions for the Agent
+
+You are tasked with implementing an automated blog post generation system using the customized values provided above. Execute all steps below in a single run without requesting additional input.
+
 ## System Overview
 
-This system consists of **four Netlify Functions**:
+You will create **four Netlify Functions**:
 
 ### Scheduled Functions (Write Operations)
 1. **source-post-topic** - Fetches random Wikipedia articles and generates creative project ideas
@@ -61,9 +169,11 @@ Wikipedia → source-post-topic → blog-topics blob store
 
 ## Implementation Steps
 
+Execute these steps in order to set up the complete system.
+
 ### Step 1: Install Dependencies
 
-Add the following packages to the project:
+Install the required packages:
 
 ```bash
 npm install @anthropic-ai/sdk @netlify/functions @netlify/blobs
@@ -94,21 +204,23 @@ Add the following environment variable to Netlify:
 
 ### Step 3: Create the Shared Library
 
-Create `netlify/functions/lib/writing-guide.mts` with the customizable prompts and writing guidelines.
+Create `netlify/functions/lib/writing-guide.mts` using the customized values from the top of this prompt.
 
-**Key sections to customize:**
-- `BLOG_CONTEXT` - Describe what type of blog this is
-- `TOPIC_INSTRUCTIONS` - What kind of content to generate from topics
-- `WRITING_GUIDE` - Voice, tone, and style guidelines (customize to match the blog's personality)
-- `HERO_IMAGE_CONFIG` - Image placeholder settings
-- `generateTopicSourcingPrompt()` - Function that builds the AI prompt for sourcing
-- `generateBlogPostPrompt()` - Function that builds the AI prompt for blog post creation
+**Use these values from the customization section:**
+- `BLOG_CONTEXT` → Export as constant
+- `TOPIC_INSTRUCTIONS` → Export as constant
+- `WRITING_GUIDE` → Export as constant string
+- `HERO_IMAGE_WIDTH`, `HERO_IMAGE_HEIGHT`, `HERO_IMAGE_COLORS` → Export as `HERO_IMAGE_CONFIG` object
 
-This file should export:
-- Constants for blog context and instructions
-- Hero image configuration
-- Prompt generation functions
-- The full writing guide as a string
+**This file must export:**
+- `BLOG_CONTEXT` - String constant
+- `TOPIC_INSTRUCTIONS` - String constant
+- `WRITING_GUIDE` - String constant with full writing guide
+- `HERO_IMAGE_CONFIG` - Object with width, height, textColor, font, and colors array
+- `generateTopicSourcingPrompt(topic)` - Function that builds the AI prompt for sourcing topics
+- `generateBlogPostPrompt(topicData, pubDate)` - Function that builds the AI prompt for blog post creation
+
+The prompt generation functions should use the constants defined above and construct the full prompts as shown in the code patterns section.
 
 ### Step 4: Create the Scheduled Functions
 
@@ -118,17 +230,27 @@ Create `netlify/functions/source-post-topic.mts`:
 
 **Purpose:** Fetches a random Wikipedia article and generates a creative project idea
 
+**Use these customized values:**
+- `TOPIC_SOURCE_URL` - URL to fetch topics from
+- `AI_MODEL` - Which AI model to use
+- `SOURCE_MAX_TOKENS` - Max tokens for the API call
+- `TOPICS_STORE` - Blob store name for topics
+- `PENDING_STORE` - Blob store name for pending queue
+- `SOURCE_TOPIC_SCHEDULE` - Cron schedule
+
 **Key responsibilities:**
-- Fetch from the topic source URL (e.g., wikiroulette.co)
-- Extract article title, URL, and summary
-- Send to Anthropic API to generate creative project idea
-- Store result in `blog-topics` blob store
-- Add to `pending-topics` queue
+- Fetch from `TOPIC_SOURCE_URL`
+- Extract article title, URL, and summary from the HTML
+- Import `generateTopicSourcingPrompt` from `./lib/writing-guide.mts`
+- Call Anthropic API using `AI_MODEL` and `SOURCE_MAX_TOKENS`
+- Parse and validate the JSON response
+- Store result in the `TOPICS_STORE` blob store with timestamp key
+- Add the blob key to the `PENDING_STORE` queue
 
 **Config:**
 ```typescript
 export const config: Config = {
-  schedule: "0 17 * * *", // Customize timing
+  schedule: SOURCE_TOPIC_SCHEDULE,
   // path: "/api/source-post-topic", // Uncomment to use as endpoint for testing
 };
 ```
@@ -150,18 +272,29 @@ Create `netlify/functions/create-blog-post.mts`:
 
 **Purpose:** Converts the oldest pending topic into a complete blog post
 
+**Use these customized values:**
+- `AI_MODEL` - Which AI model to use
+- `POST_MAX_TOKENS` - Max tokens for the API call
+- `TOPICS_STORE` - Blob store name to fetch topic data
+- `PENDING_STORE` - Blob store name for pending queue
+- `COMPLETED_STORE` - Blob store name for completed posts
+- `CREATE_POST_SCHEDULE` - Cron schedule
+
 **Key responsibilities:**
-- Get oldest topic from `pending-topics` queue
-- Fetch topic data from `blog-topics` store
-- Generate current date in "MMM DD YYYY" format
-- Send to Anthropic API with writing guidelines
-- Store result in `completed-posts` blob store
-- Remove from `pending-topics` queue
+- Get the oldest blob key from `PENDING_STORE` queue
+- If queue is empty, return success message
+- Fetch topic data from `TOPICS_STORE` using the blob key
+- Generate current date in "MMM DD YYYY" format using `toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })`
+- Import `generateBlogPostPrompt` from `./lib/writing-guide.mts`
+- Call Anthropic API using `AI_MODEL` and `POST_MAX_TOKENS`
+- Parse and validate the JSON response
+- Store result in `COMPLETED_STORE` with the same blob key
+- Remove the blob key from the `PENDING_STORE` queue
 
 **Config:**
 ```typescript
 export const config: Config = {
-  schedule: "0 18 * * *", // Run 1 hour after topic sourcing
+  schedule: CREATE_POST_SCHEDULE,
   // path: "/api/create-blog-post", // Uncomment to use as endpoint for testing
 };
 ```
@@ -186,6 +319,15 @@ export const config: Config = {
 Create `netlify/functions/list-pending-topics.mts`:
 
 **Purpose:** API endpoint to view all topics waiting to be processed
+
+**Use these customized values:**
+- `TOPICS_STORE` - Blob store to fetch topic data
+- `PENDING_STORE` - Blob store with the pending queue
+
+**Key responsibilities:**
+- Get the pending list from `PENDING_STORE`
+- Iterate through each blob key and fetch topic data from `TOPICS_STORE`
+- Return array of topics with their blob keys
 
 **Config:**
 ```typescript
@@ -215,6 +357,14 @@ export const config: Config = {
 Create `netlify/functions/list-completed-posts.mts`:
 
 **Purpose:** API endpoint to view all generated blog posts
+
+**Use these customized values:**
+- `COMPLETED_STORE` - Blob store with completed posts
+
+**Key responsibilities:**
+- List all blobs in `COMPLETED_STORE`
+- Fetch each blob's data
+- Return array of posts with their blob keys
 
 **Config:**
 ```typescript
@@ -470,3 +620,27 @@ This system provides automated blog post generation using:
 - **API Endpoints** for monitoring and integration
 
 The system is framework-agnostic and relies only on Netlify primitives, making it portable to any web framework deployed on Netlify.
+
+---
+
+## Final Reminders for Implementation
+
+When implementing this system, remember to:
+
+1. **Use ALL customized values** from the top of this prompt in the appropriate places:
+   - `BLOG_CONTEXT` and `TOPIC_INSTRUCTIONS` in the writing guide
+   - `WRITING_GUIDE` as the full writing guide string
+   - Schedule constants (`SOURCE_TOPIC_SCHEDULE`, `CREATE_POST_SCHEDULE`) in function configs
+   - AI model and token limits (`AI_MODEL`, `SOURCE_MAX_TOKENS`, `POST_MAX_TOKENS`) in API calls
+   - Blob store names (`TOPICS_STORE`, `PENDING_STORE`, `COMPLETED_STORE`) in all getStore() calls
+   - Hero image config values in the writing guide's image generation prompt
+
+2. **Create all files** as specified without asking for confirmation
+
+3. **Include all error handling** patterns shown in the examples
+
+4. **Test accessibility** by ensuring the functions can be toggled between scheduled and endpoint modes
+
+5. **Verify** that all imports and exports are correct
+
+Execute this implementation now, creating all necessary files and installing all dependencies.
