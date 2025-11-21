@@ -1,7 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import type { Config } from "@netlify/functions";
 import { getStore } from "@netlify/blobs";
-import { WRITING_GUIDE } from "./lib/writing-guide.mts";
+import { generateBlogPostPrompt } from "./lib/writing-guide.mts";
 
 export default async (_req: Request) => {
   const client = new Anthropic({
@@ -45,45 +45,7 @@ export default async (_req: Request) => {
     year: "numeric",
   });
 
-  const USER_PROMPT = `You are writing a blog post for a site about random acts of creativity.
-
-Here is the creative project that was sourced:
-${JSON.stringify(topicData, null, 2)}
-
-Write a complete blog post about this project following the voice, tone, and style guidelines below:
-
-${WRITING_GUIDE}
-
----
-
-The post should include:
-- A catchy title
-- A brief description (1-2 sentences for SEO/preview)
-- Publication date: Use "${pubDate}"
-- Hero image: Generate a placeholder URL in this format:
-  https://placehold.co/1600x800/BGCOLOR/333333?font=Lora&text=URL_ENCODED_TITLE
-
-  Where:
-  - BGCOLOR is a bright, vibrant hex color (without the #). Use colors like: FFFFCC (pale yellow), FFB6C1 (light pink), B0E0E6 (powder blue), DDA0DD (plum), F0E68C (khaki), E0BBE4 (lavender), FFDAB9 (peach), C1FFC1 (pale green). Choose one that fits the mood of the post.
-  - 333333 is the dark text color for good contrast
-  - URL_ENCODED_TITLE is the post title with spaces replaced by + signs and special characters URL encoded
-
-- Full markdown body content with:
-  - An engaging introduction that tells a story and explains the inspiration
-  - 3-5 sections with descriptive subheadings (#### format)
-  - The narrative should weave in the materials and steps naturally
-  - A compelling conclusion that paints a picture of the final result
-
-Remember: Focus on the experience and joy of creating, not just technical instructions. Be whimsical, playful, and encouraging.
-
-Return ONLY a valid JSON object with this structure. Do not include any markdown formatting, code blocks, or explanatory text - just the raw JSON:
-{
-  "title": "Blog post title",
-  "description": "SEO-friendly description",
-  "pubDate": "${pubDate}",
-  "heroImage": "https://placehold.co/1600x800/BGCOLOR/333333?font=Lora&text=Title",
-  "body": "Full markdown content here"
-}`;
+  const USER_PROMPT = generateBlogPostPrompt(topicData, pubDate);
 
   const response = await client.messages.create({
     model,
@@ -145,6 +107,7 @@ Return ONLY a valid JSON object with this structure. Do not include any markdown
 };
 
 export const config: Config = {
-  // schedule: "0 18 * * *", // every day at 6:00 PM UTC
-  path: "/api/create-blog-post",
+  schedule: "0 18 * * *", // every day at 6:00 PM UTC (1 hour after topic sourcing)
+  // Uncomment the line below and comment out the schedule above to use as an API endpoint instead
+  // path: "/api/create-blog-post",
 };

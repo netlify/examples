@@ -1,6 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import type { Config } from "@netlify/functions";
 import { getStore } from "@netlify/blobs";
+import { generateTopicSourcingPrompt } from "./lib/writing-guide.mts";
 
 async function fetchRandomWikipediaTopic() {
   // Follow redirects from wikiroulette to get a random Wikipedia article
@@ -40,22 +41,7 @@ export default async (_req: Request) => {
   const topic = await fetchRandomWikipediaTopic();
   console.log("Fetched topic:", topic);
 
-  const USER_PROMPT = `You are helping to create content for a blog about random acts of creativity.
-
-I found a random Wikipedia article: "${topic.title}"
-${topic.summary ? `\nSummary: ${topic.summary}` : ""}
-${topic.url ? `\nURL: ${topic.url}` : ""}
-
-Use this as inspiration for something creative that someone can make at home. It could be a craft, a recipe, a DIY project, an experiment, or anything else that involves making something.
-
-Return ONLY a valid JSON object with this structure. Do not include any markdown formatting, code blocks, or explanatory text - just the raw JSON:
-{
-  "title": "Creative project title",
-  "description": "Brief description (2-3 sentences)",
-  "wikipediaArticle": "${topic.url}",
-  "materials": ["material1", "material2"],
-  "steps": ["step1", "step2"]
-}`;
+  const USER_PROMPT = generateTopicSourcingPrompt(topic);
 
   const response = await client.messages.create({
     model,
@@ -118,6 +104,7 @@ Return ONLY a valid JSON object with this structure. Do not include any markdown
 };
 
 export const config: Config = {
-  // schedule: "0 17 * * *", // every day at 5:00 PM UTC
-  path: "/api/source-post-topic",
+  schedule: "0 17 * * *", // every day at 5:00 PM UTC
+  // Uncomment the line below and comment out the schedule above to use as an API endpoint instead
+  // path: "/api/source-post-topic",
 };
