@@ -40,6 +40,14 @@ export default async (req: Request) => {
 
   console.log("Topic data:", topicData);
 
+  // Generate today's date in the format "MMM DD YYYY"
+  const today = new Date();
+  const pubDate = today.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+
   const USER_PROMPT = `You are writing a blog post for a site about random acts of creativity.
 
 Here is the creative project that was sourced:
@@ -54,6 +62,15 @@ ${WRITING_GUIDE}
 The post should include:
 - A catchy title
 - A brief description (1-2 sentences for SEO/preview)
+- Publication date: Use "${pubDate}"
+- Hero image: Generate a placeholder URL in this format:
+  https://placehold.co/1600x800/BGCOLOR/333333?font=Lora&text=URL_ENCODED_TITLE
+
+  Where:
+  - BGCOLOR is a bright, vibrant hex color (without the #). Use colors like: FFFFCC (pale yellow), FFB6C1 (light pink), B0E0E6 (powder blue), DDA0DD (plum), F0E68C (khaki), E0BBE4 (lavender), FFDAB9 (peach), C1FFC1 (pale green). Choose one that fits the mood of the post.
+  - 333333 is the dark text color for good contrast
+  - URL_ENCODED_TITLE is the post title with spaces replaced by + signs and special characters URL encoded
+
 - Full markdown body content with:
   - An engaging introduction that tells a story and explains the inspiration
   - 3-5 sections with descriptive subheadings (#### format)
@@ -66,6 +83,8 @@ Return ONLY a valid JSON object with this structure. Do not include any markdown
 {
   "title": "Blog post title",
   "description": "SEO-friendly description",
+  "pubDate": "${pubDate}",
+  "heroImage": "https://placehold.co/1600x800/BGCOLOR/333333?font=Lora&text=Title",
   "body": "Full markdown content here"
 }`;
 
