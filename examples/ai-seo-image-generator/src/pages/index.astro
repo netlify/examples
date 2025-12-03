@@ -1,0 +1,177 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import Header from '../components/Header.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+
+// Helper function to remove date prefix from post IDs
+const getSlug = (postId: string) => postId.replace(/^\d{6}-/, '');
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style>
+			/* Featured post (first post) */
+			.featured-post {
+				margin-bottom: 3rem;
+				padding-bottom: 3rem;
+				border-bottom: 1px solid rgb(var(--gray-light));
+			}
+			.featured-post a {
+				display: grid;
+				grid-template-columns: 500px 1fr;
+				gap: 3rem;
+				text-decoration: none;
+				color: inherit;
+			}
+			.featured-post .skeleton-image {
+				width: 100%;
+			}
+			.featured-content {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+			}
+			.featured-post .title {
+				margin: 0 0 0.75rem 0;
+				color: rgb(var(--black));
+				line-height: 1.2;
+				font-size: 2.5rem;
+			}
+			.featured-post .date {
+				margin: 0 0 1rem 0;
+				color: rgb(var(--gray));
+				font-size: 0.9rem;
+				text-transform: uppercase;
+				letter-spacing: 0.05em;
+			}
+			.featured-post .description {
+				color: rgb(var(--gray-dark));
+				margin: 0;
+				line-height: 1.6;
+				font-size: 1.1rem;
+			}
+			.featured-post a:hover .title {
+				color: rgb(var(--accent));
+			}
+
+			/* Grid posts (remaining posts) */
+			.posts-grid {
+				display: grid;
+				grid-template-columns: repeat(2, 1fr);
+				gap: 2rem;
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+			}
+			.posts-grid li a {
+				display: block;
+				text-decoration: none;
+				color: inherit;
+			}
+			.posts-grid .skeleton-image {
+				margin-bottom: 1rem;
+			}
+			.posts-grid .title {
+				margin: 0 0 0.5rem 0;
+				color: rgb(var(--black));
+				line-height: 1.2;
+				font-size: 1.5rem;
+			}
+			.posts-grid .date {
+				margin: 0 0 0.5rem 0;
+				color: rgb(var(--gray));
+				font-size: 0.85rem;
+				text-transform: uppercase;
+				letter-spacing: 0.05em;
+			}
+			.posts-grid .description {
+				color: rgb(var(--gray-dark));
+				margin: 0;
+				line-height: 1.6;
+				font-size: 0.95rem;
+			}
+			.posts-grid li a:hover .title {
+				color: rgb(var(--accent));
+			}
+
+			@media (max-width: 960px) {
+				.featured-post a {
+					grid-template-columns: 1fr;
+					gap: 1.5rem;
+				}
+				.featured-post .title {
+					font-size: 2rem;
+				}
+				.posts-grid {
+					grid-template-columns: 1fr;
+					gap: 2.5rem;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section>
+				{posts.length > 0 && (
+					<div class="featured-post">
+						<a href={`/blog/${getSlug(posts[0].id)}/`}>
+							<div class="skeleton-image">
+								<img
+									src={`/images/featured/${getSlug(posts[0].id)}`}
+									alt={posts[0].data.title}
+									width="500"
+									height="281"
+								/>
+							</div>
+							<div class="featured-content">
+								<h2 class="title">{posts[0].data.title}</h2>
+								<p class="date">
+									<FormattedDate date={posts[0].data.pubDate} />
+								</p>
+								{posts[0].data.description && (
+									<p class="description">{posts[0].data.description}</p>
+								)}
+							</div>
+						</a>
+					</div>
+				)}
+				{posts.length > 1 && (
+					<ul class="posts-grid">
+						{posts.slice(1).map((post) => (
+							<li>
+								<a href={`/blog/${getSlug(post.id)}/`}>
+									<div class="skeleton-image">
+										<img
+											src={`/images/thumb/${getSlug(post.id)}`}
+											alt={post.data.title}
+											width="360"
+											height="203"
+										/>
+									</div>
+									<h3 class="title">{post.data.title}</h3>
+									<p class="date">
+										<FormattedDate date={post.data.pubDate} />
+									</p>
+									{post.data.description && (
+										<p class="description">{post.data.description}</p>
+									)}
+								</a>
+							</li>
+						))}
+					</ul>
+				)}
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>

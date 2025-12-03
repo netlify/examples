@@ -1,0 +1,48 @@
+---
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+---
+
+<header>
+	<div class="header-content">
+		<h1><a href="/">{SITE_TITLE}</a></h1>
+		<p class="subtitle">{SITE_DESCRIPTION}</p>
+	</div>
+</header>
+<style>
+	header {
+		margin: 0;
+		padding: 0;
+		background: white;
+		border-bottom: 1px solid rgb(var(--gray-light));
+	}
+	.header-content {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 3rem 2rem 2rem;
+	}
+	h1 {
+		margin: 0 0 0.5rem 0;
+		font-size: 2.5rem;
+		font-weight: 400;
+	}
+	h1 a {
+		text-decoration: none;
+		color: rgb(var(--black));
+	}
+	h1 a:hover {
+		color: rgb(var(--accent));
+	}
+	.subtitle {
+		margin: 0;
+		color: rgb(var(--gray));
+		font-size: 1.1rem;
+	}
+	@media (max-width: 720px) {
+		h1 {
+			font-size: 2rem;
+		}
+		.subtitle {
+			font-size: 1rem;
+		}
+	}
+</style>

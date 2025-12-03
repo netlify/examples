@@ -1,0 +1,24 @@
+---
+import { getCollection, render } from 'astro:content';
+import BlogPost from '../../layouts/BlogPost.astro';
+
+// Get the slug from the URL
+const { slug } = Astro.params;
+
+// Find the post by checking both with and without date prefix
+const posts = await getCollection('blog');
+const post = posts.find(p => {
+	const cleanSlug = p.id.replace(/^\d{6}-/, '');
+	return cleanSlug === slug;
+});
+
+if (!post) {
+	return Astro.redirect('/404');
+}
+
+const { Content } = await render(post);
+---
+
+<BlogPost {...post.data} slug={slug}>
+	<Content />
+</BlogPost>

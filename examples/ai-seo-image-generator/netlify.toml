@@ -1,0 +1,40 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+  functions = "netlify/functions"
+
+[images]
+  remote_images = [".*"]
+
+# Image CDN rewrites - transform images from the API endpoint
+# All sizes maintain 16:9 aspect ratio
+
+# Hero size: 1200x675 (blog post pages)
+[[redirects]]
+  from = "/images/hero/:slug"
+  to = "/.netlify/images?url=/api/images/:slug&w=1200&h=675&fit=cover"
+  status = 200
+
+# Featured size: 500x281 (featured post on home page)
+[[redirects]]
+  from = "/images/featured/:slug"
+  to = "/.netlify/images?url=/api/images/:slug&w=500&h=281&fit=cover"
+  status = 200
+
+# Medium size: 720x405 (blog listing page)
+[[redirects]]
+  from = "/images/medium/:slug"
+  to = "/.netlify/images?url=/api/images/:slug&w=720&h=405&fit=cover"
+  status = 200
+
+# Thumbnail size: 360x203 (grid posts on home page)
+[[redirects]]
+  from = "/images/thumb/:slug"
+  to = "/.netlify/images?url=/api/images/:slug&w=360&h=203&fit=cover"
+  status = 200
+
+# Cache static assets
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
