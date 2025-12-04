@@ -1,3 +1,5 @@
+![Netlify Examples](https://github.com/netlify/examples/assets/5865/4145aa2f-b915-404f-af02-deacee24f7bf)
+
 # Triple Buzzer
 
 A Jeopardy!-like game that compares AI responses from multiple models. Give it an answer, and three different AI models will respond with questions.
