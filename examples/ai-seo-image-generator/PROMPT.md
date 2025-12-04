@@ -8,8 +8,7 @@ Use this prompt with any AI coding agent to add automatic AI-powered image gener
 
 1. **Edit "My Configuration"** below - replace the placeholder values with your settings
 2. **Optionally customize the image generation prompt** in the `buildPrompt` function (Step 2)
-3. **Attach a default image** to the prompt, OR ensure one exists at the path you specify
-4. **Copy everything from "### Task:" onwards** and provide it to your AI coding agent
+3. **Copy everything from "### Task:" onwards** and provide it to your AI coding agent
 
 ---
 
@@ -24,29 +23,13 @@ Replace the bracketed placeholders with your values:
 ```
 Blog post URL pattern: [/blog/:slug/ or your pattern]
 Aspect ratio: [16:9 or your preferred ratio]
-Default image path: [attached OR /path/to/your/default.png]
 ```
-
-**Default image options:**
-- Write `attached` if you're attaching an image file to this prompt (the agent will save it to your project)
-- Write a path like `/images/default.png` if the image already exists in your project (this is the public URL path, not filesystem path)
 
 ### IMPORTANT: Agent Validation Instructions
 
 **Before doing ANY implementation work, you MUST validate the configuration above.**
 
 Check if the configuration values still contain bracketed placeholders (e.g., text inside `[` and `]`). If any value hasn't been replaced with an actual configuration, STOP and tell the user to update their configuration.
-
-**Default image validation:**
-1. If the default image path is exactly `attached`:
-   - Check if an image file was attached to this prompt
-   - If yes, save it to `public/images/default.png` (or equivalent static directory for the framework)
-   - If no image is attached, STOP and tell the user: "You set the default image path to 'attached' but no image file was attached to this prompt. Please attach an image and try again."
-2. If the default image path is a file path like `/images/default.png`:
-   - Verify that file exists in the project's static/public directory
-   - If the file doesn't exist, STOP and tell the user: "Configuration Error: The default image at [path] doesn't exist. Please create this file or attach an image to this prompt instead."
-
-**If validation fails**, respond with a clear message explaining which configuration values need to be set.
 
 ### Requirements
 
@@ -84,25 +67,23 @@ Create the following files in `netlify/functions/`:
 
 This function serves images and triggers generation if needed.
 
-**Note:** Update `DEFAULT_IMAGE_PATH` below if the user specified a different path in their configuration.
-
 ```typescript
 import { Config, Context } from "@netlify/functions";
 import { getStore } from "@netlify/blobs";
 import { generateAndStoreImage, isGenerationInProgress } from "./utils/generate-image.js";
 import { fetchPostMetadata } from "./utils/parse-meta-tags.js";
 
-// UPDATE THIS if user specified a different default image path
-const DEFAULT_IMAGE_PATH = "/images/default.png";
+// Remote placeholder shown while images are generating
+const PLACEHOLDER_URL = "https://placehold.co/1200x675/e0e0e0/666?text=Loading...";
 
-async function fetchDefaultImage(origin: string): Promise<ArrayBuffer | null> {
+async function fetchPlaceholderImage(): Promise<ArrayBuffer | null> {
   try {
-    const response = await fetch(`${origin}${DEFAULT_IMAGE_PATH}`);
+    const response = await fetch(PLACEHOLDER_URL);
     if (response.ok) {
       return await response.arrayBuffer();
     }
   } catch (error) {
-    console.error("Failed to fetch default image:", error);
+    console.error("Failed to fetch placeholder image:", error);
   }
   return null;
 }
@@ -155,10 +136,10 @@ export default async (request: Request, context: Context) => {
       }
     }
 
-    const defaultImage = await fetchDefaultImage(origin);
+    const placeholder = await fetchPlaceholderImage();
 
-    if (defaultImage) {
-      return new Response(defaultImage, {
+    if (placeholder) {
+      return new Response(placeholder, {
         headers: {
           "Content-Type": "image/png",
           "Cache-Control": "no-store, no-cache, must-revalidate",
@@ -169,10 +150,10 @@ export default async (request: Request, context: Context) => {
     return new Response("Image not found", { status: 404 });
   } catch (error) {
     console.error("Error serving image:", error);
-    const defaultImage = await fetchDefaultImage(origin);
+    const placeholder = await fetchPlaceholderImage();
 
-    if (defaultImage) {
-      return new Response(defaultImage, {
+    if (placeholder) {
+      return new Response(placeholder, {
         headers: {
           "Content-Type": "image/png",
           "Cache-Control": "no-store, no-cache, must-revalidate",
@@ -553,18 +534,7 @@ The `GEMINI_API_KEY` is automatically injected by Netlify AI Gateway—no config
 
 **Optional:** To protect the regeneration endpoint with authentication, the user can set `REGEN_API_KEY` in Netlify Dashboard > Site Settings > Environment Variables. If not set, the regeneration endpoint will be publicly accessible.
 
-### Step 6: Set Up Default Image
-
-The default image should already be in place from the validation step:
-
-- **If user attached an image**: You saved it to `public/images/default.png` (or the framework's static directory)
-- **If user specified a path**: You verified it exists
-
-The default image path used in the functions should be `/images/default.png` (the public URL path, not the filesystem path).
-
-If for some reason the default image is missing at this point, ask the user to provide one before proceeding.
-
-### Step 7: Integrate with Blog Templates
+### Step 6: Integrate with Blog Templates
 
 Based on your research of my blog's structure, update the templates to use the generated images.
 
