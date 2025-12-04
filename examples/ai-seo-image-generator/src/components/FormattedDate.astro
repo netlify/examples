@@ -1,0 +1,27 @@
+---
+interface Props {
+	date?: Date | string;
+}
+
+const { date } = Astro.props;
+
+if (!date) {
+	throw new Error('FormattedDate: date prop is required');
+}
+
+const dateObj = typeof date === 'string' ? new Date(date) : date;
+
+if (isNaN(dateObj.getTime())) {
+	throw new Error(`FormattedDate: Invalid date provided: ${date}`);
+}
+---
+
+<time datetime={dateObj.toISOString()}>
+	{
+		dateObj.toLocaleDateString('en-us', {
+			year: 'numeric',
+			month: 'short',
+			day: 'numeric',
+		})
+	}
+</time>

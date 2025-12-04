@@ -1,0 +1,597 @@
+# AI Blog Image Generator - Agent Recipe
+
+Use this prompt with any AI coding agent to add automatic AI-powered image generation to your blog hosted on Netlify.
+
+---
+
+## How to Use This Prompt
+
+1. **Edit "My Configuration"** below - replace the placeholder values with your settings
+2. **Optionally customize the image generation prompt** in the `buildPrompt` function (Step 2)
+3. **Copy everything from "### Task:" onwards** and provide it to your AI coding agent
+
+---
+
+### Task: Add AI-Powered Image Generation to My Blog
+
+I want to add automatic AI-generated images to my blog using Google Gemini and Netlify. When a blog post is loaded and doesn't have an image yet, the system should automatically generate one based on the post's title and description.
+
+### My Configuration
+
+Replace the bracketed placeholders with your values:
+
+```
+Blog post URL pattern: [/blog/:slug/ or your pattern]
+Aspect ratio: [16:9 or your preferred ratio]
+```
+
+### IMPORTANT: Agent Validation Instructions
+
+**Before doing ANY implementation work, you MUST validate the configuration above.**
+
+Check if the configuration values still contain bracketed placeholders (e.g., text inside `[` and `]`). If any value hasn't been replaced with an actual configuration, STOP and tell the user to update their configuration.
+
+### Requirements
+
+1. **On-demand generation**: Images are generated the first time they're requested, not at build time
+2. **Blob storage**: Generated images are stored in Netlify Blobs so they persist
+3. **Image CDN**: Use Netlify Image CDN to serve optimized images at different sizes
+4. **Graceful fallback**: Show a placeholder image while generation is in progress
+5. **Duplicate prevention**: Don't trigger multiple generations for the same image
+6. **Admin regeneration**: Provide an authenticated endpoint to regenerate any image
+7. **SEO integration**: The same generated image should work for both UI display and og:image meta tags
+
+### CRITICAL: Gemini Model Name
+
+**You MUST use exactly this model: `gemini-2.5-flash-image`**
+
+Do NOT use any other model name. Do NOT use `gemini-2.0-flash-exp`, `gemini-pro-vision`, or any other variant. The image generation will fail if you use a different model.
+
+### Step 1: Research My Blog Structure
+
+Before implementing, please research my codebase to understand:
+
+1. **Framework**: What framework is my blog built with?
+2. **Post structure**: How are blog posts organized? (files, database, CMS, etc.)
+3. **URL routing**: What URL pattern do my blog posts use?
+4. **Meta tags**: Where are og:title and og:description set? The image generator needs these.
+5. **Existing images**: How are images currently handled in my templates/components?
+6. **Netlify config**: Do I have an existing netlify.toml file?
+7. **Image sizes needed**: Analyze the templates to determine what image sizes are used. Look for:
+   - Hero/banner images on post pages
+   - Thumbnail/card images on listing pages
+   - Featured post images
+   - og:image dimensions (typically 1200×630 or 1200×675 for 16:9)
+
+   Based on this analysis, determine 2-4 image size variants to configure. All sizes should maintain the same aspect ratio as the generated images.
+
+### Step 2: Create Netlify Functions
+
+Create the following files in `netlify/functions/`:
+
+#### `netlify/functions/post-image.mts`
+
+This function serves images and triggers generation if needed.
+
+```typescript
+import { Config, Context } from "@netlify/functions";
+import { getStore } from "@netlify/blobs";
+import { generateAndStoreImage, isGenerationInProgress } from "./utils/generate-image.js";
+import { fetchPostMetadata } from "./utils/parse-meta-tags.js";
+
+// Remote placeholder shown while images are generating
+const PLACEHOLDER_URL = "https://placehold.co/1200x675/e0e0e0/666?text=Loading...";
+
+async function fetchPlaceholderImage(): Promise<ArrayBuffer | null> {
+  try {
+    const response = await fetch(PLACEHOLDER_URL);
+    if (response.ok) {
+      return await response.arrayBuffer();
+    }
+  } catch (error) {
+    console.error("Failed to fetch placeholder image:", error);
+  }
+  return null;
+}
+
+export default async (request: Request, context: Context) => {
+  const { slug } = context.params;
+  const url = new URL(request.url);
+  const origin = url.origin;
+
+  if (!slug) {
+    return new Response("Slug is required", { status: 400 });
+  }
+
+  try {
+    const postImageStore = getStore("PostImage");
+    const blobImage = await postImageStore.get(slug, { type: "arrayBuffer" });
+
+    if (blobImage) {
+      return new Response(blobImage, {
+        headers: {
+          "Content-Type": "image/jpeg",
+          "Cache-Control": "public, max-age=31536000, immutable",
+          "Netlify-Cache-Tag": `post-image-${slug}`,
+          "CDN-Cache-Control": "public, max-age=31536000, immutable",
+        },
+      });
+    }
+
+    const inProgress = await isGenerationInProgress(slug);
+
+    if (!inProgress) {
+      const metadata = await fetchPostMetadata(origin, slug);
+
+      if (metadata) {
+        context.waitUntil(
+          generateAndStoreImage({
+            slug,
+            title: metadata.title,
+            description: metadata.description,
+          }).then((result) => {
+            if (result.success) {
+              console.log(`Image generated for ${slug}`);
+            } else {
+              console.error(`Image generation failed for ${slug}:`, result.error);
+            }
+          })
+        );
+      } else {
+        console.error(`Could not fetch metadata for ${slug}`);
+      }
+    }
+
+    const placeholder = await fetchPlaceholderImage();
+
+    if (placeholder) {
+      return new Response(placeholder, {
+        headers: {
+          "Content-Type": "image/png",
+          "Cache-Control": "no-store, no-cache, must-revalidate",
+        },
+      });
+    }
+
+    return new Response("Image not found", { status: 404 });
+  } catch (error) {
+    console.error("Error serving image:", error);
+    const placeholder = await fetchPlaceholderImage();
+
+    if (placeholder) {
+      return new Response(placeholder, {
+        headers: {
+          "Content-Type": "image/png",
+          "Cache-Control": "no-store, no-cache, must-revalidate",
+        },
+      });
+    }
+
+    return new Response("Image not found", { status: 404 });
+  }
+};
+
+export const config: Config = {
+  path: "/api/images/:slug",
+};
+```
+
+#### `netlify/functions/regenerate-image.mts`
+
+Admin endpoint to force regeneration:
+
+```typescript
+import { Config, Context, purgeCache } from "@netlify/functions";
+import { getStore } from "@netlify/blobs";
+import { generateAndStoreImage } from "./utils/generate-image.js";
+import { fetchPostMetadata } from "./utils/parse-meta-tags.js";
+
+// Optional: Set REGEN_API_KEY to protect this endpoint
+const REGEN_API_KEY = process.env.REGEN_API_KEY;
+
+export default async (request: Request, context: Context) => {
+  const { slug } = context.params;
+  const url = new URL(request.url);
+  const origin = url.origin;
+
+  // Only check auth if REGEN_API_KEY is configured
+  if (REGEN_API_KEY) {
+    const providedKey =
+      url.searchParams.get("key") || request.headers.get("x-api-key");
+
+    if (providedKey !== REGEN_API_KEY) {
+      return new Response(JSON.stringify({ error: "Invalid or missing API key" }), {
+        status: 401,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+  }
+
+  if (!slug) {
+    return new Response(JSON.stringify({ error: "Slug is required" }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  try {
+    const postImageStore = getStore("PostImage");
+    try {
+      await postImageStore.delete(slug);
+    } catch {
+      // Image may not exist
+    }
+
+    const inProgressStore = getStore("GenerationInProgress");
+    try {
+      await inProgressStore.delete(slug);
+    } catch {
+      // May not exist
+    }
+
+    const metadata = await fetchPostMetadata(origin, slug);
+
+    if (!metadata) {
+      return new Response(
+        JSON.stringify({ error: `Could not fetch metadata for ${slug}` }),
+        { status: 404, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+    context.waitUntil(
+      generateAndStoreImage({
+        slug,
+        title: metadata.title,
+        description: metadata.description,
+      }).then(async (result) => {
+        if (result.success) {
+          console.log(`Image regenerated for ${slug}`);
+          try {
+            await purgeCache({ tags: [`post-image-${slug}`] });
+          } catch (error) {
+            console.error(`Failed to purge cache:`, error);
+          }
+        } else {
+          console.error(`Image regeneration failed for ${slug}:`, result.error);
+        }
+      })
+    );
+
+    return new Response(
+      JSON.stringify({
+        success: true,
+        slug,
+        message: `Image regeneration started for ${slug}`,
+      }),
+      { status: 202, headers: { "Content-Type": "application/json" } }
+    );
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+    return new Response(
+      JSON.stringify({ error: message, slug }),
+      { status: 500, headers: { "Content-Type": "application/json" } }
+    );
+  }
+};
+
+export const config: Config = {
+  path: "/api/regenerate/:slug",
+};
+```
+
+#### `netlify/functions/utils/generate-image.ts`
+
+Core image generation logic. **Customize the `buildPrompt` function for your blog's theme:**
+
+```typescript
+import { GoogleGenAI } from "@google/genai";
+import { getStore } from "@netlify/blobs";
+
+interface GenerateImageParams {
+  slug: string;
+  title: string;
+  description: string;
+}
+
+interface GenerateImageResult {
+  success: boolean;
+  error?: string;
+}
+
+function buildPrompt(title: string, description: string): string {
+  // CUSTOMIZE THIS PROMPT FOR YOUR BLOG'S THEME
+  return `[YOUR CUSTOM IMAGE GENERATION PROMPT]
+
+TITLE: ${title}
+DESCRIPTION: ${description}
+
+[YOUR STYLE REQUIREMENTS]
+
+=== CRITICAL RESTRICTIONS ===
+- DO NOT include any text, titles, captions, or watermarks in the image
+- DO NOT include any logos, branding, or publication names
+- The image should be ONLY the photograph with NO text of any kind
+- Pure photography only - no graphic design elements`;
+}
+
+export async function isGenerationInProgress(slug: string): Promise<boolean> {
+  const inProgressStore = getStore("GenerationInProgress");
+  const entry = await inProgressStore.get(slug);
+  return entry !== null;
+}
+
+async function markGenerationStarted(slug: string): Promise<void> {
+  const inProgressStore = getStore("GenerationInProgress");
+  await inProgressStore.set(slug, JSON.stringify({ startedAt: new Date().toISOString() }));
+}
+
+async function clearGenerationProgress(slug: string): Promise<void> {
+  const inProgressStore = getStore("GenerationInProgress");
+  try {
+    await inProgressStore.delete(slug);
+  } catch {
+    // Ignore errors if blob doesn't exist
+  }
+}
+
+export async function generateAndStoreImage({
+  slug,
+  title,
+  description,
+}: GenerateImageParams): Promise<GenerateImageResult> {
+  if (await isGenerationInProgress(slug)) {
+    return { success: false, error: "Generation already in progress" };
+  }
+
+  await markGenerationStarted(slug);
+
+  try {
+    // API key is automatically injected by Netlify AI Gateway
+    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+    const prompt = buildPrompt(title, description);
+
+    // IMPORTANT: Use exactly "gemini-2.5-flash-image" - no other model works for image generation
+    const response = await ai.models.generateContent({
+      model: "gemini-2.5-flash-image", // DO NOT CHANGE THIS MODEL NAME
+      contents: prompt,
+      config: {
+        responseModalities: ["image", "text"],
+        imageConfig: {
+          aspectRatio: "[IMAGE_ASPECT_RATIO]",
+        },
+      },
+    });
+
+    const parts = response.candidates?.[0]?.content?.parts;
+    if (!parts) {
+      await clearGenerationProgress(slug);
+      return { success: false, error: "No response parts received" };
+    }
+
+    const imagePart = parts.find(
+      (part: { inlineData?: { mimeType: string } }) =>
+        part.inlineData?.mimeType?.startsWith("image/")
+    );
+
+    if (!imagePart?.inlineData?.data) {
+      await clearGenerationProgress(slug);
+      return { success: false, error: "No image data in response" };
+    }
+
+    const imageBuffer = Buffer.from(imagePart.inlineData.data, "base64");
+
+    const postImageStore = getStore("PostImage");
+    await postImageStore.set(slug, imageBuffer, {
+      metadata: {
+        contentType: imagePart.inlineData.mimeType,
+        generatedAt: new Date().toISOString(),
+        title,
+      },
+    });
+
+    await clearGenerationProgress(slug);
+    return { success: true };
+  } catch (error) {
+    await clearGenerationProgress(slug);
+    const message = error instanceof Error ? error.message : "Unknown error";
+    console.error(`Failed to generate image for ${slug}:`, message);
+    return { success: false, error: message };
+  }
+}
+```
+
+#### `netlify/functions/utils/parse-meta-tags.ts`
+
+Extracts title and description from post pages. **Update the URL pattern to match your blog:**
+
+```typescript
+export interface PostMetadata {
+  title: string;
+  description: string;
+}
+
+export async function fetchPostMetadata(
+  origin: string,
+  slug: string
+): Promise<PostMetadata | null> {
+  try {
+    // UPDATE THIS URL PATTERN TO MATCH YOUR BLOG
+    const postUrl = `${origin}[BLOG_POST_URL_PATTERN]`.replace(':slug', slug);
+    const response = await fetch(postUrl);
+
+    if (!response.ok) {
+      console.error(`Failed to fetch post page: ${response.status}`);
+      return null;
+    }
+
+    const html = await response.text();
+    return parseMetaTags(html);
+  } catch (error) {
+    console.error(`Error fetching post metadata for ${slug}:`, error);
+    return null;
+  }
+}
+
+function parseMetaTags(html: string): PostMetadata | null {
+  const titleMatch = html.match(
+    /<meta\s+(?:property|name)=["']og:title["']\s+content=["']([^"']+)["']/i
+  ) || html.match(
+    /<meta\s+content=["']([^"']+)["']\s+(?:property|name)=["']og:title["']/i
+  );
+
+  const descMatch = html.match(
+    /<meta\s+(?:property|name)=["']og:description["']\s+content=["']([^"']+)["']/i
+  ) || html.match(
+    /<meta\s+content=["']([^"']+)["']\s+(?:property|name)=["']og:description["']/i
+  );
+
+  const titleFallback = html.match(/<title>([^<]+)<\/title>/i);
+
+  const descFallback = html.match(
+    /<meta\s+name=["']description["']\s+content=["']([^"']+)["']/i
+  ) || html.match(
+    /<meta\s+content=["']([^"']+)["']\s+name=["']description["']/i
+  );
+
+  const title = titleMatch?.[1] || titleFallback?.[1];
+  const description = descMatch?.[1] || descFallback?.[1];
+
+  if (!title || !description) {
+    console.error("Could not extract title or description from meta tags");
+    return null;
+  }
+
+  return {
+    title: decodeHtmlEntities(title),
+    description: decodeHtmlEntities(description),
+  };
+}
+
+function decodeHtmlEntities(text: string): string {
+  return text
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&#x27;/g, "'")
+    .replace(/&#x2F;/g, "/");
+}
+```
+
+### Step 3: Configure Netlify Image CDN
+
+The Netlify Image CDN transforms images on-the-fly. This approach works as follows:
+
+1. **One source image**: The AI generates a single high-quality image stored in Blobs
+2. **Multiple sizes via CDN**: Redirects route size-specific paths through the Image CDN
+3. **On-demand transformation**: The CDN resizes images as they're requested
+
+Add or update `netlify.toml` with these settings. **Use the image sizes you determined in Step 1:**
+
+```toml
+[build]
+  functions = "netlify/functions"
+
+[images]
+  remote_images = [".*"]
+
+# Image CDN redirects - create one for each size variant you need
+# The pattern is: /images/{size-name}/:slug -> CDN transform of /api/images/:slug
+#
+# Parameters:
+#   w = width in pixels
+#   h = height in pixels
+#   fit = cover (crop to fill), contain (fit within), or fill (stretch)
+#
+# Example sizes (adjust based on Step 1 analysis):
+
+[[redirects]]
+  from = "/images/hero/:slug"
+  to = "/.netlify/images?url=/api/images/:slug&w=1200&h=675&fit=cover"
+  status = 200
+
+[[redirects]]
+  from = "/images/medium/:slug"
+  to = "/.netlify/images?url=/api/images/:slug&w=720&h=405&fit=cover"
+  status = 200
+
+[[redirects]]
+  from = "/images/thumb/:slug"
+  to = "/.netlify/images?url=/api/images/:slug&w=360&h=203&fit=cover"
+  status = 200
+```
+
+**Important:**
+- Keep all sizes at the same aspect ratio as the configured `IMAGE_ASPECT_RATIO`
+- Add or remove redirect blocks based on what sizes the templates need
+- The `hero` size should match og:image requirements (1200px wide minimum recommended)
+
+### Step 4: Install Dependencies
+
+Add these packages to the project:
+
+```bash
+npm install @google/genai @netlify/functions @netlify/blobs
+```
+
+### Step 5: Environment Variables
+
+The `GEMINI_API_KEY` is automatically injected by Netlify AI Gateway—no configuration needed.
+
+**Optional:** To protect the regeneration endpoint with authentication, the user can set `REGEN_API_KEY` in Netlify Dashboard > Site Settings > Environment Variables. If not set, the regeneration endpoint will be publicly accessible.
+
+### Step 6: Integrate with Blog Templates
+
+Based on your research of my blog's structure, update the templates to use the generated images.
+
+#### IMPORTANT: Use Native `<img>` Elements
+
+**Do NOT use framework-specific image components** (e.g., Next.js `<Image>`, Astro `<Image>`, Nuxt `<NuxtImg>`, etc.).
+
+Use plain HTML `<img>` elements instead. The Netlify Image CDN handles all optimization through the redirects configured in Step 3—framework image processing would conflict with this approach and cause issues.
+
+```html
+<!-- CORRECT: Native img element -->
+<img src="/images/hero/{slug}" width="1200" height="675" alt="..." />
+
+<!-- WRONG: Framework components - do not use -->
+<Image src={`/images/hero/${slug}`} ... />  <!-- Don't use this -->
+```
+
+#### For UI Images
+
+Replace existing image references with the CDN paths you configured in Step 3. Use the path pattern `/images/{size-name}/{slug}`:
+
+```html
+<img src="/images/hero/{slug}" width="1200" height="675" alt="..." />
+<img src="/images/medium/{slug}" width="720" height="405" alt="..." />
+<img src="/images/thumb/{slug}" width="360" height="203" alt="..." />
+```
+
+The `width` and `height` attributes should match the dimensions in your `netlify.toml` redirects. These attributes reserve space in the layout and prevent content shift.
+
+#### For SEO Meta Tags
+
+Update the og:image meta tag to use the largest size (typically `hero`):
+
+```html
+<meta property="og:image" content="https://yourdomain.com/images/hero/{slug}" />
+```
+
+#### Loading States (Recommended)
+
+Add a skeleton loader for images while they load:
+
+```css
+.skeleton-image {
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+```
