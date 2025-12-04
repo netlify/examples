@@ -1,0 +1,3 @@
+# SPA fallback - send all non-file, non-API requests to index.html
+# (API routes are handled by function path config)
+/*    /index.html   200
