@@ -36,15 +36,6 @@ Default image path: /images/default.png
 
 The path should be the public URL path (e.g., `/images/default.png`), not the filesystem path (e.g., `public/images/default.png`).
 
-### Image Sizes (adjust based on your design)
-
-| Name | Width | Height | Usage |
-|------|-------|--------|-------|
-| hero | 1200 | 675 | Blog post hero images |
-| featured | 500 | 281 | Featured/highlighted posts |
-| medium | 720 | 405 | Blog listing pages |
-| thumb | 360 | 203 | Grid/card thumbnails |
-
 ### Image Generation Prompt
 
 Customize this prompt for your blog's theme and style. The prompt receives `title` and `description` from your post's meta tags.
@@ -88,12 +79,6 @@ Aspect ratio: [IMAGE_ASPECT_RATIO]
 Default image path: [DEFAULT_IMAGE_PATH or "attached" if image is attached to this prompt]
 ```
 
-Image sizes I need:
-- hero: [WIDTH]x[HEIGHT] - [USAGE]
-- featured: [WIDTH]x[HEIGHT] - [USAGE]
-- medium: [WIDTH]x[HEIGHT] - [USAGE]
-- thumb: [WIDTH]x[HEIGHT] - [USAGE]
-
 ### IMPORTANT: Agent Validation Instructions
 
 **Before doing ANY implementation work, you MUST validate the configuration above.**
@@ -103,7 +88,6 @@ Check for these unconfigured placeholder patterns. If ANY of these exact strings
 - `[BLOG_POST_URL_PATTERN]` - User must replace with their actual blog URL pattern (e.g., `/blog/:slug/`, `/posts/:slug/`)
 - `[IMAGE_ASPECT_RATIO]` - User must replace with their desired aspect ratio (e.g., `16:9`, `4:3`, `1:1`)
 - `[DEFAULT_IMAGE_PATH or "attached"` - User must either attach an image OR replace with an actual path
-- `[WIDTH]` or `[HEIGHT]` or `[USAGE]` - User must replace with actual image dimensions
 
 **Default image validation:**
 1. If the default image path is exactly `attached`:
@@ -138,6 +122,13 @@ Before implementing, please research my codebase to understand:
 4. **Meta tags**: Where are og:title and og:description set? The image generator needs these.
 5. **Existing images**: How are images currently handled in my templates/components?
 6. **Netlify config**: Do I have an existing netlify.toml file?
+7. **Image sizes needed**: Analyze the templates to determine what image sizes are used. Look for:
+   - Hero/banner images on post pages
+   - Thumbnail/card images on listing pages
+   - Featured post images
+   - og:image dimensions (typically 1200×630 or 1200×675 for 16:9)
+
+   Based on this analysis, determine 2-4 image size variants to configure. All sizes should maintain the same aspect ratio as the generated images.
 
 ### Step 2: Create Netlify Functions
 
@@ -562,9 +553,15 @@ function decodeHtmlEntities(text: string): string {
 }
 ```
 
-### Step 3: Configure Netlify
+### Step 3: Configure Netlify Image CDN
 
-Add or update `netlify.toml` with these settings:
+The Netlify Image CDN transforms images on-the-fly. This approach works as follows:
+
+1. **One source image**: The AI generates a single high-quality image stored in Blobs
+2. **Multiple sizes via CDN**: Redirects route size-specific paths through the Image CDN
+3. **On-demand transformation**: The CDN resizes images as they're requested
+
+Add or update `netlify.toml` with these settings. **Use the image sizes you determined in Step 1:**
 
 ```toml
 [build]
@@ -573,29 +570,36 @@ Add or update `netlify.toml` with these settings:
 [images]
   remote_images = [".*"]
 
-# Image CDN rewrites - transform images from the API endpoint
-# Adjust sizes based on your configuration
+# Image CDN redirects - create one for each size variant you need
+# The pattern is: /images/{size-name}/:slug -> CDN transform of /api/images/:slug
+#
+# Parameters:
+#   w = width in pixels
+#   h = height in pixels
+#   fit = cover (crop to fill), contain (fit within), or fill (stretch)
+#
+# Example sizes (adjust based on Step 1 analysis):
 
 [[redirects]]
   from = "/images/hero/:slug"
-  to = "/.netlify/images?url=/api/images/:slug&w=[HERO_WIDTH]&h=[HERO_HEIGHT]&fit=cover"
-  status = 200
-
-[[redirects]]
-  from = "/images/featured/:slug"
-  to = "/.netlify/images?url=/api/images/:slug&w=[FEATURED_WIDTH]&h=[FEATURED_HEIGHT]&fit=cover"
+  to = "/.netlify/images?url=/api/images/:slug&w=1200&h=675&fit=cover"
   status = 200
 
 [[redirects]]
   from = "/images/medium/:slug"
-  to = "/.netlify/images?url=/api/images/:slug&w=[MEDIUM_WIDTH]&h=[MEDIUM_HEIGHT]&fit=cover"
+  to = "/.netlify/images?url=/api/images/:slug&w=720&h=405&fit=cover"
   status = 200
 
 [[redirects]]
   from = "/images/thumb/:slug"
-  to = "/.netlify/images?url=/api/images/:slug&w=[THUMB_WIDTH]&h=[THUMB_HEIGHT]&fit=cover"
+  to = "/.netlify/images?url=/api/images/:slug&w=360&h=203&fit=cover"
   status = 200
 ```
+
+**Important:**
+- Keep all sizes at the same aspect ratio as the configured `IMAGE_ASPECT_RATIO`
+- Add or remove redirect blocks based on what sizes the templates need
+- The `hero` size should match og:image requirements (1200px wide minimum recommended)
 
 ### Step 4: Install Dependencies
 
@@ -627,29 +631,24 @@ If for some reason the default image is missing at this point, ask the user to p
 
 ### Step 7: Integrate with Blog Templates
 
-Based on your research of my blog's structure, update the templates to use the generated images:
+Based on your research of my blog's structure, update the templates to use the generated images.
 
 #### For UI Images
 
-Replace existing image references with the CDN paths:
+Replace existing image references with the CDN paths you configured in Step 3. Use the path pattern `/images/{size-name}/{slug}`:
 
 ```html
-<!-- Hero image -->
+<!-- Example: use the size names and dimensions from your redirects -->
 <img src="/images/hero/{slug}" width="1200" height="675" alt="..." />
-
-<!-- Featured post -->
-<img src="/images/featured/{slug}" width="500" height="281" alt="..." />
-
-<!-- Blog listing -->
 <img src="/images/medium/{slug}" width="720" height="405" alt="..." />
-
-<!-- Thumbnail/grid -->
 <img src="/images/thumb/{slug}" width="360" height="203" alt="..." />
 ```
 
+The `width` and `height` attributes should match the dimensions in your `netlify.toml` redirects.
+
 #### For SEO Meta Tags
 
-Update the og:image meta tag to use the hero size:
+Update the og:image meta tag to use the largest size (typically `hero`):
 
 ```html
 <meta property="og:image" content="https://yourdomain.com/images/hero/{slug}" />
