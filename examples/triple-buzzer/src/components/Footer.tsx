@@ -2,7 +2,7 @@ export function Footer() {
   return (
     <div className="flex gap-4">
       <a
-        href="https://github.com/netlify-templates/triple-buzzer"
+        href="https://github.com/netlify/examples/tree/main/examples/triple-buzzer"
         target="_blank"
         rel="noopener noreferrer"
         role="button"
