@@ -36,10 +36,16 @@ Check if the configuration values still contain bracketed placeholders (e.g., te
 1. **On-demand generation**: Images are generated the first time they're requested, not at build time
 2. **Blob storage**: Generated images are stored in Netlify Blobs so they persist
 3. **Image CDN**: Use Netlify Image CDN to serve optimized images at different sizes
-4. **Graceful fallback**: Show a default image while generation is in progress
+4. **Graceful fallback**: Show a placeholder image while generation is in progress
 5. **Duplicate prevention**: Don't trigger multiple generations for the same image
 6. **Admin regeneration**: Provide an authenticated endpoint to regenerate any image
 7. **SEO integration**: The same generated image should work for both UI display and og:image meta tags
+
+### CRITICAL: Gemini Model Name
+
+**You MUST use exactly this model: `gemini-2.5-flash-image`**
+
+Do NOT use any other model name. Do NOT use `gemini-2.0-flash-exp`, `gemini-pro-vision`, or any other variant. The image generation will fail if you use a different model.
 
 ### Step 1: Research My Blog Structure
 
@@ -344,8 +350,9 @@ export async function generateAndStoreImage({
     const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
     const prompt = buildPrompt(title, description);
 
+    // IMPORTANT: Use exactly "gemini-2.5-flash-image" - no other model works for image generation
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash-image",
+      model: "gemini-2.5-flash-image", // DO NOT CHANGE THIS MODEL NAME
       contents: prompt,
       config: {
         responseModalities: ["image", "text"],
