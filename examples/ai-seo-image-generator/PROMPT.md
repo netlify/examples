@@ -10,10 +10,31 @@ Customize these values before running the prompt with your agent:
 
 ```
 BLOG_POST_URL_PATTERN: /blog/:slug/
-DEFAULT_IMAGE_PATH: /images/default.png
 IMAGE_ASPECT_RATIO: 16:9
 IMAGE_GENERATION_PROMPT: (see below - customize for your blog's theme)
 ```
+
+### Default Image
+
+The system needs a fallback image to display while AI images are generating. You have two options:
+
+**Option A: Attach an image to this prompt** (Recommended)
+If your AI coding agent supports file attachments, attach your default image directly to the prompt and set the configuration value to `attached`:
+
+```
+Default image path: attached
+```
+
+The agent will save the attached image to your project.
+
+**Option B: Specify a path to an existing image**
+If you already have a default image in your project, or your agent doesn't support attachments, replace the placeholder in "My Configuration" below with your actual path:
+
+```
+Default image path: /images/default.png
+```
+
+The path should be the public URL path (e.g., `/images/default.png`), not the filesystem path (e.g., `public/images/default.png`).
 
 ### Image Sizes (adjust based on your design)
 
@@ -63,8 +84,8 @@ I want to add automatic AI-generated images to my blog using Google Gemini and N
 
 ```
 Blog post URL pattern: [BLOG_POST_URL_PATTERN]
-Default fallback image: [DEFAULT_IMAGE_PATH]
 Aspect ratio: [IMAGE_ASPECT_RATIO]
+Default image path: [DEFAULT_IMAGE_PATH or "attached" if image is attached to this prompt]
 ```
 
 Image sizes I need:
@@ -72,6 +93,30 @@ Image sizes I need:
 - featured: [WIDTH]x[HEIGHT] - [USAGE]
 - medium: [WIDTH]x[HEIGHT] - [USAGE]
 - thumb: [WIDTH]x[HEIGHT] - [USAGE]
+
+### IMPORTANT: Agent Validation Instructions
+
+**Before doing ANY implementation work, you MUST validate the configuration above.**
+
+Check for these unconfigured placeholder patterns. If ANY of these exact strings appear in "My Configuration" above, STOP and tell the user to properly configure their values:
+
+- `[BLOG_POST_URL_PATTERN]` - User must replace with their actual blog URL pattern (e.g., `/blog/:slug/`, `/posts/:slug/`)
+- `[IMAGE_ASPECT_RATIO]` - User must replace with their desired aspect ratio (e.g., `16:9`, `4:3`, `1:1`)
+- `[DEFAULT_IMAGE_PATH or "attached"` - User must either attach an image OR replace with an actual path
+- `[WIDTH]` or `[HEIGHT]` or `[USAGE]` - User must replace with actual image dimensions
+
+**Default image validation:**
+1. If the default image path is exactly `attached`:
+   - Check if an image file was attached to this prompt
+   - If yes, save it to `public/images/default.png` (or equivalent static directory for the framework)
+   - If no image is attached, STOP and tell the user: "You set the default image path to 'attached' but no image file was attached to this prompt. Please attach an image and try again."
+2. If the default image path is a URL path like `/images/default.png`:
+   - Verify that file exists in the project's static/public directory
+   - If the file doesn't exist, STOP and tell the user: "Configuration Error: The default image at [their specified path] doesn't exist. Please create this file or attach an image to this prompt instead."
+
+**If validation fails**, respond with a clear message like:
+> "I found unconfigured placeholder values in your configuration. Please update the following before I can proceed:
+> - [list the specific placeholders that need to be replaced]"
 
 ### Requirements
 
@@ -100,7 +145,9 @@ Create the following files in `netlify/functions/`:
 
 #### `netlify/functions/post-image.mts`
 
-This function serves images and triggers generation if needed:
+This function serves images and triggers generation if needed.
+
+**Note:** Update `DEFAULT_IMAGE_PATH` below if the user specified a different path in their configuration.
 
 ```typescript
 import { Config, Context } from "@netlify/functions";
@@ -108,9 +155,12 @@ import { getStore } from "@netlify/blobs";
 import { generateAndStoreImage, isGenerationInProgress } from "./utils/generate-image.js";
 import { fetchPostMetadata } from "./utils/parse-meta-tags.js";
 
+// UPDATE THIS if user specified a different default image path
+const DEFAULT_IMAGE_PATH = "/images/default.png";
+
 async function fetchDefaultImage(origin: string): Promise<ArrayBuffer | null> {
   try {
-    const response = await fetch(`${origin}[DEFAULT_IMAGE_PATH]`);
+    const response = await fetch(`${origin}${DEFAULT_IMAGE_PATH}`);
     if (response.ok) {
       return await response.arrayBuffer();
     }
@@ -564,9 +614,16 @@ In Netlify Dashboard > Site Settings > Environment Variables, add:
 | `GEMINI_API_KEY` | Google AI Studio API key (get from https://aistudio.google.com/apikey) |
 | `REGEN_API_KEY` | Secret key for admin regeneration endpoint (generate a random string) |
 
-### Step 6: Add Default Image
+### Step 6: Set Up Default Image
 
-Create a default/placeholder image at `[DEFAULT_IMAGE_PATH]` that will be shown while images are generating.
+The default image should already be in place from the validation step:
+
+- **If user attached an image**: You saved it to `public/images/default.png` (or the framework's static directory)
+- **If user specified a path**: You verified it exists
+
+The default image path used in the functions should be `/images/default.png` (the public URL path, not the filesystem path).
+
+If for some reason the default image is missing at this point, ask the user to provide one before proceeding.
 
 ### Step 7: Integrate with Blog Templates
 
