@@ -4,66 +4,12 @@ Use this prompt with any AI coding agent to add automatic AI-powered image gener
 
 ---
 
-## Configuration Variables
+## How to Use This Prompt
 
-Customize these values before running the prompt with your agent:
-
-```
-BLOG_POST_URL_PATTERN: /blog/:slug/
-IMAGE_ASPECT_RATIO: 16:9
-IMAGE_GENERATION_PROMPT: (see below - customize for your blog's theme)
-```
-
-### Default Image
-
-The system needs a fallback image to display while AI images are generating. You have two options:
-
-**Option A: Attach an image to this prompt** (Recommended)
-If your AI coding agent supports file attachments, attach your default image directly to the prompt and set the configuration value to `attached`:
-
-```
-Default image path: attached
-```
-
-The agent will save the attached image to your project.
-
-**Option B: Specify a path to an existing image**
-If you already have a default image in your project, or your agent doesn't support attachments, replace the placeholder in "My Configuration" below with your actual path:
-
-```
-Default image path: /images/default.png
-```
-
-The path should be the public URL path (e.g., `/images/default.png`), not the filesystem path (e.g., `public/images/default.png`).
-
-### Image Generation Prompt
-
-Customize this prompt for your blog's theme and style. The prompt receives `title` and `description` from your post's meta tags.
-
-```
-Create a photorealistic editorial photograph for a magazine-style blog hero image.
-
-SUBJECT: Based on the title: {title}
-CONTEXT: {description}
-
-STYLE REQUIREMENTS:
-- Professional photography style
-- Warm, inviting lighting
-- 16:9 aspect ratio, horizontal orientation
-- High quality, detailed, photorealistic rendering
-- Cinematic depth of field
-
-RESTRICTIONS:
-- DO NOT include any text, titles, captions, or watermarks
-- DO NOT include any logos or branding
-- Pure photography only - no graphic design elements
-```
-
----
-
-## Prompt for Your AI Agent
-
-Copy everything below this line and provide it to your AI coding agent:
+1. **Edit "My Configuration"** below - replace the placeholder values with your settings
+2. **Optionally customize the image generation prompt** in the `buildPrompt` function (Step 2)
+3. **Attach a default image** to the prompt, OR ensure one exists at the path you specify
+4. **Copy everything from "### Task:" onwards** and provide it to your AI coding agent
 
 ---
 
@@ -73,34 +19,34 @@ I want to add automatic AI-generated images to my blog using Google Gemini and N
 
 ### My Configuration
 
+Replace the bracketed placeholders with your values:
+
 ```
-Blog post URL pattern: [BLOG_POST_URL_PATTERN]
-Aspect ratio: [IMAGE_ASPECT_RATIO]
-Default image path: [DEFAULT_IMAGE_PATH or "attached" if image is attached to this prompt]
+Blog post URL pattern: [/blog/:slug/ or your pattern]
+Aspect ratio: [16:9 or your preferred ratio]
+Default image path: [attached OR /path/to/your/default.png]
 ```
+
+**Default image options:**
+- Write `attached` if you're attaching an image file to this prompt (the agent will save it to your project)
+- Write a path like `/images/default.png` if the image already exists in your project (this is the public URL path, not filesystem path)
 
 ### IMPORTANT: Agent Validation Instructions
 
 **Before doing ANY implementation work, you MUST validate the configuration above.**
 
-Check for these unconfigured placeholder patterns. If ANY of these exact strings appear in "My Configuration" above, STOP and tell the user to properly configure their values:
-
-- `[BLOG_POST_URL_PATTERN]` - User must replace with their actual blog URL pattern (e.g., `/blog/:slug/`, `/posts/:slug/`)
-- `[IMAGE_ASPECT_RATIO]` - User must replace with their desired aspect ratio (e.g., `16:9`, `4:3`, `1:1`)
-- `[DEFAULT_IMAGE_PATH or "attached"` - User must either attach an image OR replace with an actual path
+Check if the configuration values still contain bracketed placeholders (e.g., text inside `[` and `]`). If any value hasn't been replaced with an actual configuration, STOP and tell the user to update their configuration.
 
 **Default image validation:**
 1. If the default image path is exactly `attached`:
    - Check if an image file was attached to this prompt
    - If yes, save it to `public/images/default.png` (or equivalent static directory for the framework)
    - If no image is attached, STOP and tell the user: "You set the default image path to 'attached' but no image file was attached to this prompt. Please attach an image and try again."
-2. If the default image path is a URL path like `/images/default.png`:
+2. If the default image path is a file path like `/images/default.png`:
    - Verify that file exists in the project's static/public directory
-   - If the file doesn't exist, STOP and tell the user: "Configuration Error: The default image at [their specified path] doesn't exist. Please create this file or attach an image to this prompt instead."
+   - If the file doesn't exist, STOP and tell the user: "Configuration Error: The default image at [path] doesn't exist. Please create this file or attach an image to this prompt instead."
 
-**If validation fails**, respond with a clear message like:
-> "I found unconfigured placeholder values in your configuration. Please update the following before I can proceed:
-> - [list the specific placeholders that need to be replaced]"
+**If validation fails**, respond with a clear message explaining which configuration values need to be set.
 
 ### Requirements
 
@@ -253,6 +199,7 @@ import { getStore } from "@netlify/blobs";
 import { generateAndStoreImage } from "./utils/generate-image.js";
 import { fetchPostMetadata } from "./utils/parse-meta-tags.js";
 
+// Optional: Set REGEN_API_KEY to protect this endpoint
 const REGEN_API_KEY = process.env.REGEN_API_KEY;
 
 export default async (request: Request, context: Context) => {
@@ -260,21 +207,17 @@ export default async (request: Request, context: Context) => {
   const url = new URL(request.url);
   const origin = url.origin;
 
-  const providedKey =
-    url.searchParams.get("key") || request.headers.get("x-api-key");
+  // Only check auth if REGEN_API_KEY is configured
+  if (REGEN_API_KEY) {
+    const providedKey =
+      url.searchParams.get("key") || request.headers.get("x-api-key");
 
-  if (!REGEN_API_KEY) {
-    return new Response(
-      JSON.stringify({ error: "REGEN_API_KEY not configured on server" }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
-    );
-  }
-
-  if (providedKey !== REGEN_API_KEY) {
-    return new Response(JSON.stringify({ error: "Invalid or missing API key" }), {
-      status: 401,
-      headers: { "Content-Type": "application/json" },
-    });
+    if (providedKey !== REGEN_API_KEY) {
+      return new Response(JSON.stringify({ error: "Invalid or missing API key" }), {
+        status: 401,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
   }
 
   if (!slug) {
@@ -409,12 +352,6 @@ export async function generateAndStoreImage({
   title,
   description,
 }: GenerateImageParams): Promise<GenerateImageResult> {
-  const apiKey = process.env.GEMINI_API_KEY;
-
-  if (!apiKey) {
-    return { success: false, error: "GEMINI_API_KEY is not configured" };
-  }
-
   if (await isGenerationInProgress(slug)) {
     return { success: false, error: "Generation already in progress" };
   }
@@ -422,7 +359,8 @@ export async function generateAndStoreImage({
   await markGenerationStarted(slug);
 
   try {
-    const ai = new GoogleGenAI({ apiKey });
+    // API key is automatically injected by Netlify AI Gateway
+    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
     const prompt = buildPrompt(title, description);
 
     const response = await ai.models.generateContent({
@@ -609,14 +547,11 @@ Add these packages to the project:
 npm install @google/genai @netlify/functions @netlify/blobs
 ```
 
-### Step 5: Set Environment Variables
+### Step 5: Environment Variables
 
-In Netlify Dashboard > Site Settings > Environment Variables, add:
+The `GEMINI_API_KEY` is automatically injected by Netlify AI Gateway—no configuration needed.
 
-| Variable | Description |
-|----------|-------------|
-| `GEMINI_API_KEY` | Google AI Studio API key (get from https://aistudio.google.com/apikey) |
-| `REGEN_API_KEY` | Secret key for admin regeneration endpoint (generate a random string) |
+**Optional:** To protect the regeneration endpoint with authentication, the user can set `REGEN_API_KEY` in Netlify Dashboard > Site Settings > Environment Variables. If not set, the regeneration endpoint will be publicly accessible.
 
 ### Step 6: Set Up Default Image
 
@@ -633,18 +568,31 @@ If for some reason the default image is missing at this point, ask the user to p
 
 Based on your research of my blog's structure, update the templates to use the generated images.
 
+#### IMPORTANT: Use Native `<img>` Elements
+
+**Do NOT use framework-specific image components** (e.g., Next.js `<Image>`, Astro `<Image>`, Nuxt `<NuxtImg>`, etc.).
+
+Use plain HTML `<img>` elements instead. The Netlify Image CDN handles all optimization through the redirects configured in Step 3—framework image processing would conflict with this approach and cause issues.
+
+```html
+<!-- CORRECT: Native img element -->
+<img src="/images/hero/{slug}" width="1200" height="675" alt="..." />
+
+<!-- WRONG: Framework components - do not use -->
+<Image src={`/images/hero/${slug}`} ... />  <!-- Don't use this -->
+```
+
 #### For UI Images
 
 Replace existing image references with the CDN paths you configured in Step 3. Use the path pattern `/images/{size-name}/{slug}`:
 
 ```html
-<!-- Example: use the size names and dimensions from your redirects -->
 <img src="/images/hero/{slug}" width="1200" height="675" alt="..." />
 <img src="/images/medium/{slug}" width="720" height="405" alt="..." />
 <img src="/images/thumb/{slug}" width="360" height="203" alt="..." />
 ```
 
-The `width` and `height` attributes should match the dimensions in your `netlify.toml` redirects.
+The `width` and `height` attributes should match the dimensions in your `netlify.toml` redirects. These attributes reserve space in the layout and prevent content shift.
 
 #### For SEO Meta Tags
 
@@ -670,56 +618,3 @@ Add a skeleton loader for images while they load:
   100% { background-position: -200% 0; }
 }
 ```
-
-### Step 8: Test the Integration
-
-1. Deploy to Netlify
-2. Visit a blog post page
-3. The first load should show the default image
-4. Refresh after a few seconds - the AI-generated image should appear
-5. Test the regeneration endpoint:
-   ```bash
-   curl "https://yoursite.netlify.app/api/regenerate/{slug}?key=YOUR_REGEN_API_KEY"
-   ```
-
-### API Reference
-
-#### GET `/api/images/:slug`
-
-Serves the image for a blog post. Triggers generation if the image doesn't exist.
-
-- Returns cached image with long cache headers
-- Returns default image (uncached) while generating
-
-#### GET `/api/regenerate/:slug`
-
-Admin endpoint to force regeneration.
-
-**Authentication**: Requires `key` query param or `x-api-key` header matching `REGEN_API_KEY`.
-
-Returns `202 Accepted` with JSON body indicating regeneration started.
-
----
-
-## Troubleshooting
-
-### Image not generating
-
-1. Check Netlify function logs for errors
-2. Verify `GEMINI_API_KEY` is set correctly
-3. Ensure your blog posts have `og:title` and `og:description` meta tags
-4. Verify the blog post URL pattern in `parse-meta-tags.ts` is correct
-
-### Stuck in "generating" state
-
-Use the regeneration endpoint to clear the in-progress marker:
-
-```bash
-curl "https://yoursite.netlify.app/api/regenerate/{slug}?key=YOUR_KEY"
-```
-
-### Image CDN not working
-
-1. Verify `[images] remote_images = [".*"]` is in netlify.toml
-2. Check that redirects are configured correctly
-3. Ensure you're using the `/images/{size}/{slug}` paths, not `/api/images/`
