@@ -1,0 +1,21 @@
+<!--
+  This file is used for Netlify Forms detection during build.
+  It is not intended to be viewed by users.
+  The form structure must match the React form in src/pages/Home.tsx
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Forms</title>
+</head>
+<body>
+  <form name="meeting-request" data-netlify="true" hidden>
+    <input type="text" name="name" />
+    <input type="text" name="company" />
+    <input type="email" name="email" />
+    <input type="datetime-local" name="preferredTime" />
+    <textarea name="notes"></textarea>
+  </form>
+</body>
+</html>
