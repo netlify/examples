@@ -1,0 +1,13 @@
+---
+interface Props {
+  filename: string;
+}
+
+const { filename } = Astro.props;
+---
+
+<a
+  href={`https://app.netlify.com/start/deploy?zip=https://ntl-drops.netlify.app/drops/${filename}.zip`}
+>
+  <img src="https://www.netlify.com/img/deploy/button.svg" />
+</a>
