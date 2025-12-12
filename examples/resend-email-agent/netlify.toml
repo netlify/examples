@@ -1,0 +1,14 @@
+[build]
+  publish = "web/dist"
+  functions = "netlify/functions"
+  command = "npm run build"
+
+[dev]
+  command = "cd web && npm run dev"
+  targetPort = 5173
+  autoLaunch = false
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200

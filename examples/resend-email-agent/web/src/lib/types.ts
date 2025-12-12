@@ -1,0 +1,38 @@
+// API response types (matching backend)
+
+export interface RecipeCard {
+  id: string;
+  title: string;
+  receivedAt: string;
+  thumbUrl?: string;
+  originalUrl?: string;
+}
+
+export interface RecipeData {
+  title: string;
+  ingredients: string[];
+  steps: string[];
+  tags: string[];
+  yields: string | null;
+  cook_time: string | null;
+  notes: string | null;
+}
+
+export interface RecipeDetail {
+  id: string;
+  receivedAt: string;
+  sender: {
+    address: string;
+    name?: string;
+  };
+  subject: string;
+  emailId: string;
+  blobs: {
+    original: string;
+    ocr: string;
+    thumb?: string;
+  };
+  recipe: RecipeData;
+  thumbUrl?: string;
+  originalUrl?: string;
+}
