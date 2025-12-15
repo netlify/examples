@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { saveOverride, reprocessRecipe } from '../lib/api';
+import { saveOverride } from '../lib/api';
 import type { RecipeDetail, RecipeData } from '../lib/types';
 
 interface Props {
@@ -20,10 +20,8 @@ export default function RecipeEditor({ recipe, onSaved, onCancel }: Props) {
   });
 
   const [saving, setSaving] = useState(false);
-  const [reprocessing, setReprocessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  const [adminToken, setAdminToken] = useState('');
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -60,7 +58,7 @@ export default function RecipeEditor({ recipe, onSaved, onCancel }: Props) {
         notes: formData.notes || null,
       };
 
-      await saveOverride(recipe.id, override, adminToken || undefined);
+      await saveOverride(recipe.id, override);
       setSuccess('Recipe saved successfully!');
       setTimeout(() => {
         onSaved();
@@ -72,29 +70,6 @@ export default function RecipeEditor({ recipe, onSaved, onCancel }: Props) {
     }
   }
 
-  async function handleReprocess() {
-    if (
-      !confirm(
-        'This will re-run OCR on the original image. Your manual edits will be preserved. Continue?'
-      )
-    ) {
-      return;
-    }
-
-    setError(null);
-    setSuccess(null);
-    setReprocessing(true);
-
-    try {
-      await reprocessRecipe(recipe.id, adminToken || undefined);
-      setSuccess('Reprocessing started. Refresh in a few seconds to see updates.');
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to reprocess');
-    } finally {
-      setReprocessing(false);
-    }
-  }
-
   return (
     <div className="editor-panel">
       <h3>Edit Recipe</h3>
@@ -103,18 +78,6 @@ export default function RecipeEditor({ recipe, onSaved, onCancel }: Props) {
       {success && <div className="success">{success}</div>}
 
       <form onSubmit={handleSave}>
-        <div className="form-group">
-          <label htmlFor="adminToken">Admin Token (if required)</label>
-          <input
-            type="password"
-            id="adminToken"
-            name="adminToken"
-            value={adminToken}
-            onChange={(e) => setAdminToken(e.target.value)}
-            placeholder="Leave empty if not configured"
-          />
-        </div>
-
         <div className="form-group">
           <label htmlFor="title">Title</label>
           <input
@@ -210,14 +173,6 @@ export default function RecipeEditor({ recipe, onSaved, onCancel }: Props) {
             disabled={saving}
           >
             Cancel
-          </button>
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={handleReprocess}
-            disabled={reprocessing}
-          >
-            {reprocessing ? 'Reprocessing...' : 'Re-run OCR'}
           </button>
         </div>
       </form>

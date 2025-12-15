@@ -1,32 +1,68 @@
 import type { Context } from '@netlify/functions';
 import { getStore } from '@netlify/blobs';
-import type { RecipeEntry, RecipeOverride, RecipeCard, RecipeDetail } from './lib/types.js';
+import type { RecipeEntry, RecipeOverride, RecipeCard } from './lib/types.js';
 
 /**
  * Recipes API Endpoints
  *
  * GET /api/recipes - List all recipes
  * GET /api/recipes/:id - Get recipe detail
+ * PUT /api/recipes/:id/override - Save manual edits
  */
 export default async function handler(
   request: Request,
-  context: Context
+  _context: Context
 ): Promise<Response> {
-  if (request.method !== 'GET') {
-    return new Response('Method not allowed', { status: 405 });
-  }
-
   const url = new URL(request.url);
   const pathParts = url.pathname.replace('/api/recipes', '').split('/').filter(Boolean);
 
   // GET /api/recipes - List all recipes
-  if (pathParts.length === 0) {
+  if (request.method === 'GET' && pathParts.length === 0) {
     return listRecipes();
   }
 
   // GET /api/recipes/:id - Get recipe detail
-  const recipeId = pathParts[0];
-  return getRecipeDetail(recipeId);
+  if (request.method === 'GET' && pathParts.length === 1) {
+    return getRecipeDetail(pathParts[0]);
+  }
+
+  // PUT /api/recipes/:id/override - Save override
+  if (request.method === 'PUT' && pathParts.length === 2 && pathParts[1] === 'override') {
+    const authError = checkAuth(request);
+    if (authError) return authError;
+    return saveOverride(pathParts[0], request);
+  }
+
+  return new Response('Not found', { status: 404 });
+}
+
+/**
+ * Check authorization if ADMIN_TOKEN is configured
+ */
+function checkAuth(request: Request): Response | null {
+  const adminToken = process.env.ADMIN_TOKEN;
+
+  if (!adminToken) {
+    return null;
+  }
+
+  const authHeader = request.headers.get('Authorization');
+  if (!authHeader) {
+    return new Response(JSON.stringify({ error: 'Authorization required' }), {
+      status: 401,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  const token = authHeader.replace('Bearer ', '');
+  if (token !== adminToken) {
+    return new Response(JSON.stringify({ error: 'Invalid token' }), {
+      status: 403,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  return null;
 }
 
 /**
@@ -36,10 +72,7 @@ async function listRecipes(): Promise<Response> {
   const recipesStore = getStore('recipes');
 
   try {
-    // List all blobs with recipes- prefix
     const { blobs } = await recipesStore.list({ prefix: 'recipes-' });
-
-    // Filter to just entry.json files and extract unique recipe IDs
     const entryBlobs = blobs.filter((b) => b.key.endsWith('/entry.json'));
 
     const cards: RecipeCard[] = [];
@@ -51,7 +84,6 @@ async function listRecipes(): Promise<Response> {
 
         const entry: RecipeEntry = JSON.parse(entryData);
 
-        // Also check for overrides to get the correct title
         let title = entry.recipe.title;
         try {
           const overrideKey = `${entry.id}/override.json`;
@@ -63,7 +95,7 @@ async function listRecipes(): Promise<Response> {
             }
           }
         } catch {
-          // No override, use entry title
+          // No override
         }
 
         cards.push({
@@ -82,7 +114,6 @@ async function listRecipes(): Promise<Response> {
       }
     }
 
-    // Sort by receivedAt descending (newest first)
     cards.sort((a, b) => new Date(b.receivedAt).getTime() - new Date(a.receivedAt).getTime());
 
     return new Response(JSON.stringify(cards), {
@@ -104,7 +135,6 @@ async function getRecipeDetail(recipeId: string): Promise<Response> {
   const recipesStore = getStore('recipes');
 
   try {
-    // Load entry.json
     const entryKey = `${recipeId}/entry.json`;
     const entryData = await recipesStore.get(entryKey);
 
@@ -117,7 +147,6 @@ async function getRecipeDetail(recipeId: string): Promise<Response> {
 
     const entry: RecipeEntry = JSON.parse(entryData);
 
-    // Load and merge override.json if exists
     try {
       const overrideKey = `${recipeId}/override.json`;
       const overrideData = await recipesStore.get(overrideKey);
@@ -125,12 +154,10 @@ async function getRecipeDetail(recipeId: string): Promise<Response> {
       if (overrideData) {
         const override: RecipeOverride = JSON.parse(overrideData);
 
-        // Merge override.recipe over entry.recipe
         if (override.recipe) {
           entry.recipe = {
             ...entry.recipe,
             ...override.recipe,
-            // Merge arrays only if they exist in override
             ingredients: override.recipe.ingredients ?? entry.recipe.ingredients,
             steps: override.recipe.steps ?? entry.recipe.steps,
             tags: override.recipe.tags ?? entry.recipe.tags,
@@ -138,12 +165,14 @@ async function getRecipeDetail(recipeId: string): Promise<Response> {
         }
       }
     } catch {
-      // No override file, use entry as-is
+      // No override file
     }
 
-    // Hydrate URLs
-    const detail: RecipeDetail = {
-      ...entry,
+    const detail = {
+      id: entry.id,
+      receivedAt: entry.receivedAt,
+      subject: entry.subject,
+      recipe: entry.recipe,
       thumbUrl: entry.blobs.thumb
         ? `/api/media?key=${encodeURIComponent(entry.blobs.thumb)}`
         : undefined,
@@ -162,6 +191,57 @@ async function getRecipeDetail(recipeId: string): Promise<Response> {
       headers: { 'Content-Type': 'application/json' },
     });
   }
+}
+
+/**
+ * Save override data for a recipe
+ */
+async function saveOverride(recipeId: string, request: Request): Promise<Response> {
+  const recipesStore = getStore('recipes');
+
+  const entryKey = `${recipeId}/entry.json`;
+  try {
+    const entry = await recipesStore.get(entryKey);
+    if (!entry) {
+      return new Response(JSON.stringify({ error: 'Recipe not found' }), {
+        status: 404,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+  } catch {
+    return new Response(JSON.stringify({ error: 'Recipe not found' }), {
+      status: 404,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  let overrideData: RecipeOverride;
+  try {
+    const body = await request.json();
+
+    overrideData = { recipe: {} };
+
+    if (body.recipe) {
+      const allowedFields = ['title', 'ingredients', 'steps', 'tags', 'yields', 'cook_time', 'notes'];
+      for (const field of allowedFields) {
+        if (field in body.recipe) {
+          (overrideData.recipe as Record<string, unknown>)[field] = body.recipe[field];
+        }
+      }
+    }
+  } catch {
+    return new Response(JSON.stringify({ error: 'Invalid JSON body' }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  const overrideKey = `${recipeId}/override.json`;
+  await recipesStore.set(overrideKey, JSON.stringify(overrideData, null, 2));
+
+  return new Response(JSON.stringify({ success: true }), {
+    headers: { 'Content-Type': 'application/json' },
+  });
 }
 
 export const config = {

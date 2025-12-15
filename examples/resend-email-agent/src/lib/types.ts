@@ -21,17 +21,7 @@ export interface RecipeData {
 export interface RecipeDetail {
   id: string;
   receivedAt: string;
-  sender: {
-    address: string;
-    name?: string;
-  };
   subject: string;
-  emailId: string;
-  blobs: {
-    original: string;
-    ocr: string;
-    thumb?: string;
-  };
   recipe: RecipeData;
   thumbUrl?: string;
   originalUrl?: string;

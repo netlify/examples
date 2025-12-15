@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { fetchRecipe, formatDate } from '../lib/api';
+import { isAdmin } from '../lib/auth';
 import type { RecipeDetail } from '../lib/types';
 import RecipeEditor from '../components/RecipeEditor';
 
@@ -72,7 +73,6 @@ export default function RecipeDetailPage() {
       <div className="recipe-detail-header">
         <h1 className="recipe-detail-title">{recipe.recipe.title}</h1>
         <div className="recipe-meta">
-          <span>From: {recipe.sender.name || recipe.sender.address}</span>
           <span>Received: {formatDate(recipe.receivedAt)}</span>
           {recipe.recipe.cook_time && (
             <span>Cook time: {recipe.recipe.cook_time}</span>
@@ -81,19 +81,23 @@ export default function RecipeDetailPage() {
         </div>
       </div>
 
-      <button
-        onClick={() => setEditing(!editing)}
-        className="editor-toggle"
-      >
-        {editing ? 'Close Editor' : 'Edit Recipe'}
-      </button>
+      {isAdmin() && (
+        <>
+          <button
+            onClick={() => setEditing(!editing)}
+            className="editor-toggle"
+          >
+            {editing ? 'Close Editor' : 'Edit Recipe'}
+          </button>
 
-      {editing && (
-        <RecipeEditor
-          recipe={recipe}
-          onSaved={handleSaved}
-          onCancel={() => setEditing(false)}
-        />
+          {editing && (
+            <RecipeEditor
+              recipe={recipe}
+              onSaved={handleSaved}
+              onCancel={() => setEditing(false)}
+            />
+          )}
+        </>
       )}
 
       {recipe.originalUrl && (

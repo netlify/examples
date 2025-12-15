@@ -1,4 +1,5 @@
 import type { RecipeCard, RecipeDetail, RecipeData } from './types';
+import { getAdminToken } from './auth';
 
 const API_BASE = '/api';
 
@@ -32,15 +33,15 @@ export async function fetchRecipe(id: string): Promise<RecipeDetail> {
  */
 export async function saveOverride(
   id: string,
-  recipe: Partial<RecipeData>,
-  adminToken?: string
+  recipe: Partial<RecipeData>
 ): Promise<void> {
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
   };
 
-  if (adminToken) {
-    headers['Authorization'] = `Bearer ${adminToken}`;
+  const token = getAdminToken();
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
   }
 
   const response = await fetch(`${API_BASE}/recipes/${id}/override`, {
@@ -52,32 +53,6 @@ export async function saveOverride(
   if (!response.ok) {
     const error = await response.json().catch(() => ({ error: 'Unknown error' }));
     throw new Error(error.error || 'Failed to save override');
-  }
-}
-
-/**
- * Trigger recipe reprocessing
- */
-export async function reprocessRecipe(
-  id: string,
-  adminToken?: string
-): Promise<void> {
-  const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
-  };
-
-  if (adminToken) {
-    headers['Authorization'] = `Bearer ${adminToken}`;
-  }
-
-  const response = await fetch(`${API_BASE}/recipes/${id}/reprocess`, {
-    method: 'POST',
-    headers,
-  });
-
-  if (!response.ok) {
-    const error = await response.json().catch(() => ({ error: 'Unknown error' }));
-    throw new Error(error.error || 'Failed to reprocess recipe');
   }
 }
 

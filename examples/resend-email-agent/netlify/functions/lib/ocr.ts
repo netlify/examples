@@ -32,6 +32,8 @@ export async function extractRecipeFromAttachment(
 
   const prompt = `Analyze this recipe image and extract the information as JSON.
 
+IMPORTANT: Always include at least 2-3 relevant tags based on the recipe type, cuisine, dietary info, or cooking method. Examples: "italian", "vegetarian", "quick", "comfort-food", "baked", "soup", "dessert", "family-recipe".
+
 Return ONLY valid JSON (no markdown):
 {
   "rawText": "all text from the image",
@@ -39,7 +41,7 @@ Return ONLY valid JSON (no markdown):
     "title": "Recipe Title",
     "ingredients": ["ingredient 1", "ingredient 2"],
     "steps": ["step 1", "step 2"],
-    "tags": ["tag1", "tag2"],
+    "tags": ["cuisine-type", "meal-type", "other-relevant-tag"],
     "yields": "4 servings",
     "cook_time": "30 minutes",
     "notes": "any notes or null"
