@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { fetchRecipe, formatDate } from '../lib/api';
-import { isAdmin } from '../lib/auth';
+import { useAuth } from '../lib/AuthContext';
 import type { RecipeDetail } from '../lib/types';
 import RecipeEditor from '../components/RecipeEditor';
 
 export default function RecipeDetailPage() {
   const { id } = useParams<{ id: string }>();
+  const { isAuthenticated } = useAuth();
   const [recipe, setRecipe] = useState<RecipeDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -81,7 +82,7 @@ export default function RecipeDetailPage() {
         </div>
       </div>
 
-      {isAdmin() && (
+      {isAuthenticated && (
         <>
           <button
             onClick={() => setEditing(!editing)}

@@ -4,6 +4,25 @@ import { getAdminToken } from './auth';
 const API_BASE = '/api';
 
 /**
+ * Verify an admin token with the backend
+ */
+export async function verifyToken(token: string): Promise<{ valid: boolean; error?: string }> {
+  try {
+    const response = await fetch(`${API_BASE}/auth/verify`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    const data = await response.json();
+    return { valid: data.valid === true, error: data.error };
+  } catch {
+    return { valid: false, error: 'Failed to verify token' };
+  }
+}
+
+/**
  * Fetch all recipes
  */
 export async function fetchRecipes(): Promise<RecipeCard[]> {

@@ -11,7 +11,3 @@ export function setAdminToken(token: string): void {
 export function clearAdminToken(): void {
   sessionStorage.removeItem(ADMIN_TOKEN_KEY);
 }
-
-export function isAdmin(): boolean {
-  return !!getAdminToken();
-}

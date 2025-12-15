@@ -1,17 +1,11 @@
-import { useState } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import RecipeList from './pages/RecipeList';
 import RecipeDetailPage from './pages/RecipeDetail';
 import Admin from './pages/Admin';
-import { isAdmin, clearAdminToken } from './lib/auth';
+import { useAuth } from './lib/AuthContext';
 
 function App() {
-  const [, forceUpdate] = useState(0);
-
-  function handleSignOut() {
-    clearAdminToken();
-    forceUpdate((n) => n + 1);
-  }
+  const { isAuthenticated, logout } = useAuth();
 
   return (
     <div className="app">
@@ -20,9 +14,9 @@ function App() {
           <h1>
             <Link to="/">Grandma's Recipe Rescuer</Link>
           </h1>
-          {isAdmin() && (
+          {isAuthenticated && (
             <button
-              onClick={handleSignOut}
+              onClick={logout}
               style={{
                 background: 'transparent',
                 border: '1px solid white',
