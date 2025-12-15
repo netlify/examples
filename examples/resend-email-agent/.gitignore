@@ -4,6 +4,7 @@ node_modules/
 # Build output
 dist/
 web/dist/
+*.tsbuildinfo
 
 # Environment files
 .env
