@@ -40,14 +40,16 @@ Configure in Netlify UI (NOT in .env files):
 │   │   └── ocr.ts            # Gemini OCR extraction
 │   ├── resend-inbound.mts    # Webhook handler (verifies Svix signature)
 │   ├── process-recipe-background.mts  # Background function for processing
-│   ├── recipes.mts           # Recipe API (list, detail, override)
+│   ├── recipes.mts           # Recipe API (list, detail, override, delete)
+│   ├── auth.mts              # Token verification endpoint
 │   └── media.mts             # Binary streaming for images
 ├── src/
 │   ├── components/
 │   │   └── RecipeEditor.tsx  # Admin editing form
 │   ├── lib/
 │   │   ├── api.ts            # Frontend API client
-│   │   ├── auth.ts           # Admin auth (sessionStorage)
+│   │   ├── auth.ts           # Admin auth helpers (sessionStorage)
+│   │   ├── AuthContext.tsx   # React context for auth state
 │   │   └── types.ts          # Frontend TypeScript types
 │   ├── pages/
 │   │   ├── RecipeList.tsx    # Homepage grid
@@ -68,9 +70,11 @@ Configure in Netlify UI (NOT in .env files):
 | Method | Path | Description |
 |--------|------|-------------|
 | POST | `/api/resend-inbound` | Resend webhook receiver |
+| POST | `/api/auth/verify` | Verify admin token |
 | GET | `/api/recipes` | List all recipes (cards) |
 | GET | `/api/recipes/:id` | Get recipe detail |
 | PUT | `/api/recipes/:id/override` | Save manual edits (auth required) |
+| DELETE | `/api/recipes/:id` | Delete a recipe (auth required) |
 | GET | `/api/media?key=...` | Stream binary images from Blobs |
 
 ## Key Implementation Details
@@ -114,10 +118,12 @@ const response = await genAI.models.generateContent({
 ### Admin Authentication
 
 - Hidden login page at `/admin`
+- Token is validated against backend `/api/auth/verify` before storing
 - Token stored in `sessionStorage` (clears on browser close)
-- Header shows "Sign Out" button when authenticated
-- `isAdmin()` helper controls edit button visibility
+- Uses React Context (`AuthContext`) for reactive auth state across components
+- Header shows "Sign Out" button immediately when authenticated (no page reload needed)
 - Backend validates token via `Authorization: Bearer <token>` header
+- Admins can edit and delete recipes
 
 ### Blob Storage Structure
 
@@ -160,3 +166,7 @@ netlify dev
 5. **Privacy**: Sender email addresses are stored but NOT exposed in API responses
 
 6. **OCR tags**: The Gemini prompt emphasizes always including 2-3 relevant tags
+
+7. **SPA routing**: `netlify.toml` has a `/* -> /index.html` redirect for client-side routing (allows direct navigation to `/recipe/:id`, `/admin`, etc.)
+
+8. **Recipe deletion**: Deleting a recipe removes all associated data (entry, OCR text, overrides, media files) and clears the receipt to allow re-processing if the same email is sent again
