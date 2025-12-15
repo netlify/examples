@@ -8,6 +8,12 @@
   to = "/.netlify/functions/:splat"
   status = 200
 
+# SPA fallback - serve index.html for client-side routing
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
 [template.environment]
   RESEND_API_KEY = "Resend API key for fetching inbound email attachments"
   RESEND_WEBHOOK_SECRET = "Resend webhook signing secret (starts with whsec_)"
