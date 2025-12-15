@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Save, X, Pencil } from 'lucide-react';
 import { saveOverride } from '../lib/api';
 import type { RecipeDetail, RecipeData } from '../lib/types';
 
@@ -72,7 +73,10 @@ export default function RecipeEditor({ recipe, onSaved, onCancel }: Props) {
 
   return (
     <div className="editor-panel">
-      <h3>Edit Recipe</h3>
+      <h3>
+        <Pencil size={18} style={{ marginRight: '0.5rem', verticalAlign: 'text-bottom' }} />
+        Edit Recipe
+      </h3>
 
       {error && <div className="error">{error}</div>}
       {success && <div className="success">{success}</div>}
@@ -164,6 +168,7 @@ export default function RecipeEditor({ recipe, onSaved, onCancel }: Props) {
 
         <div className="editor-actions">
           <button type="submit" className="btn btn-primary" disabled={saving}>
+            <Save size={16} />
             {saving ? 'Saving...' : 'Save Changes'}
           </button>
           <button
@@ -172,6 +177,7 @@ export default function RecipeEditor({ recipe, onSaved, onCancel }: Props) {
             onClick={onCancel}
             disabled={saving}
           >
+            <X size={16} />
             Cancel
           </button>
         </div>

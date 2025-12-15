@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { Lock, LogOut, ArrowRight, CheckCircle } from 'lucide-react';
 import { useAuth } from '../lib/AuthContext';
 import { verifyToken } from '../lib/api';
 
@@ -38,48 +39,61 @@ export default function Admin() {
   }
 
   return (
-    <div style={{ maxWidth: '400px', margin: '2rem auto' }}>
+    <div className="admin-page">
       <h2>Admin Access</h2>
 
-      {isAuthenticated ? (
-        <div>
-          <p style={{ color: 'green', marginBottom: '1rem' }}>
-            You are logged in as admin.
-          </p>
-          <button onClick={handleLogout} className="btn btn-secondary">
-            Log Out
-          </button>
-          <button
-            onClick={() => navigate('/')}
-            className="btn btn-primary"
-            style={{ marginLeft: '0.5rem' }}
-          >
-            Go to Recipes
-          </button>
-        </div>
-      ) : (
-        <form onSubmit={handleSubmit}>
-          {error && <div className="error">{error}</div>}
-          <div className="form-group">
-            <label htmlFor="token">Admin Token</label>
-            <input
-              type="password"
-              id="token"
-              value={token}
-              onChange={(e) => {
-                setToken(e.target.value);
-                setError(null);
-              }}
-              placeholder="Enter admin token"
-              autoFocus
-              disabled={loading}
-            />
+      <div className="admin-card">
+        {isAuthenticated ? (
+          <div className="admin-success">
+            <div className="empty-state-icon" style={{ marginBottom: '1rem' }}>
+              <CheckCircle />
+            </div>
+            <p>You are logged in as admin.</p>
+            <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center' }}>
+              <button onClick={handleLogout} className="btn btn-secondary">
+                <LogOut size={16} />
+                Log Out
+              </button>
+              <Link to="/" className="btn btn-primary">
+                <ArrowRight size={16} />
+                Go to Recipes
+              </Link>
+            </div>
           </div>
-          <button type="submit" className="btn btn-primary" disabled={loading}>
-            {loading ? 'Verifying...' : 'Login'}
-          </button>
-        </form>
-      )}
+        ) : (
+          <form onSubmit={handleSubmit}>
+            <div className="empty-state-icon" style={{ marginBottom: '1.5rem' }}>
+              <Lock />
+            </div>
+
+            {error && <div className="error">{error}</div>}
+
+            <div className="form-group">
+              <label htmlFor="token">Admin Token</label>
+              <input
+                type="password"
+                id="token"
+                value={token}
+                onChange={(e) => {
+                  setToken(e.target.value);
+                  setError(null);
+                }}
+                placeholder="Enter admin token"
+                autoFocus
+                disabled={loading}
+              />
+            </div>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              disabled={loading}
+              style={{ width: '100%' }}
+            >
+              {loading ? 'Verifying...' : 'Login'}
+            </button>
+          </form>
+        )}
+      </div>
     </div>
   );
 }

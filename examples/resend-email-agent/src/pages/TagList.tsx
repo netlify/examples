@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { ArrowLeft, Tag, Tags } from 'lucide-react';
 import { fetchTags } from '../lib/api';
 import type { TagInfo } from '../lib/types';
 
@@ -26,7 +27,12 @@ export default function TagList() {
   }
 
   if (loading) {
-    return <div className="loading">Loading tags...</div>;
+    return (
+      <div className="loading">
+        <div className="loading-spinner" />
+        <span>Loading tags...</span>
+      </div>
+    );
   }
 
   if (error) {
@@ -36,9 +42,14 @@ export default function TagList() {
   if (tags.length === 0) {
     return (
       <div className="empty-state">
+        <div className="empty-state-icon">
+          <Tags />
+        </div>
         <h2>No Tags Yet</h2>
         <p>Tags will appear here once recipes are added.</p>
-        <Link to="/">View all recipes</Link>
+        <Link to="/" className="btn btn-primary">
+          View all recipes
+        </Link>
       </div>
     );
   }
@@ -46,10 +57,13 @@ export default function TagList() {
   return (
     <div className="tag-list-page">
       <Link to="/" className="back-link">
-        &larr; Back to Recipes
+        <ArrowLeft size={16} />
+        Back to Recipes
       </Link>
 
-      <h1 className="page-title">Browse by Tag</h1>
+      <h1 className="page-title">
+        Browse by <span className="page-title-highlight">Tag</span>
+      </h1>
 
       <div className="tag-grid">
         {tags.map((tag) => (
@@ -58,6 +72,9 @@ export default function TagList() {
             to={`/tag/${encodeURIComponent(tag.slug)}`}
             className="tag-card"
           >
+            <div className="tag-card-icon">
+              <Tag size={24} />
+            </div>
             <span className="tag-name">{tag.displayName}</span>
             <span className="tag-count">
               {tag.count} {tag.count === 1 ? 'recipe' : 'recipes'}

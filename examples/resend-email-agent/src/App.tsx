@@ -1,4 +1,5 @@
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, Link, useLocation } from 'react-router-dom';
+import { CookingPot, Tags, UtensilsCrossed } from 'lucide-react';
 import RecipeList from './pages/RecipeList';
 import RecipeDetailPage from './pages/RecipeDetail';
 import TagList from './pages/TagList';
@@ -8,34 +9,48 @@ import { useAuth } from './lib/AuthContext';
 
 function App() {
   const { isAuthenticated, logout } = useAuth();
+  const location = useLocation();
+
+  const isActive = (path: string) => {
+    if (path === '/') {
+      return location.pathname === '/';
+    }
+    return location.pathname.startsWith(path);
+  };
 
   return (
     <div className="app">
       <header className="header">
-        <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
-            <h1>
-              <Link to="/">Grandma's Recipe Rescuer</Link>
-            </h1>
+        <div className="container">
+          <div className="header-inner">
+            <div className="header-brand">
+              <CookingPot size={28} className="header-logo" />
+              <h1>
+                <Link to="/">Grandma's Recipe Rescuer</Link>
+              </h1>
+            </div>
             <nav className="header-nav">
-              <Link to="/tags" className="header-link">Tags</Link>
+              <Link
+                to="/"
+                className={`header-link ${isActive('/') && !isActive('/tags') ? 'active' : ''}`}
+              >
+                <UtensilsCrossed size={16} style={{ marginRight: '0.375rem', verticalAlign: 'text-bottom' }} />
+                Recipes
+              </Link>
+              <Link
+                to="/tags"
+                className={`header-link ${isActive('/tags') ? 'active' : ''}`}
+              >
+                <Tags size={16} style={{ marginRight: '0.375rem', verticalAlign: 'text-bottom' }} />
+                Tags
+              </Link>
+              {isAuthenticated && (
+                <button onClick={logout} className="sign-out-btn">
+                  Sign Out
+                </button>
+              )}
             </nav>
           </div>
-          {isAuthenticated && (
-            <button
-              onClick={logout}
-              style={{
-                background: 'transparent',
-                border: '1px solid white',
-                color: 'white',
-                padding: '0.5rem 1rem',
-                borderRadius: '4px',
-                cursor: 'pointer',
-              }}
-            >
-              Sign Out
-            </button>
-          )}
         </div>
       </header>
       <main className="container">

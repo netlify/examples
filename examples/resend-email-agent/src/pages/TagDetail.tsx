@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { ArrowLeft, Tag, UtensilsCrossed, ChefHat } from 'lucide-react';
 import { fetchRecipes, formatDate } from '../lib/api';
 import type { RecipeCard } from '../lib/types';
 
@@ -40,14 +41,20 @@ export default function TagDetail() {
   }
 
   if (loading) {
-    return <div className="loading">Loading recipes...</div>;
+    return (
+      <div className="loading">
+        <div className="loading-spinner" />
+        <span>Loading recipes...</span>
+      </div>
+    );
   }
 
   if (error) {
     return (
       <div>
         <Link to="/tags" className="back-link">
-          &larr; Back to Tags
+          <ArrowLeft size={16} />
+          Back to Tags
         </Link>
         <div className="error">{error}</div>
       </div>
@@ -57,12 +64,16 @@ export default function TagDetail() {
   return (
     <div className="tag-detail-page">
       <Link to="/tags" className="back-link">
-        &larr; Back to Tags
+        <ArrowLeft size={16} />
+        Back to Tags
       </Link>
 
       <div className="tag-detail-header">
         <h1 className="page-title">
-          <span className="tag-label">{displayName}</span>
+          <span className="tag-label">
+            <Tag size={24} />
+            {displayName}
+          </span>
         </h1>
         <p className="tag-recipe-count">
           {recipes.length} {recipes.length === 1 ? 'recipe' : 'recipes'}
@@ -71,9 +82,14 @@ export default function TagDetail() {
 
       {recipes.length === 0 ? (
         <div className="empty-state">
+          <div className="empty-state-icon">
+            <ChefHat />
+          </div>
           <h2>No Recipes Found</h2>
           <p>No recipes found with the tag "{displayName}".</p>
-          <Link to="/tags">Browse all tags</Link>
+          <Link to="/tags" className="btn btn-primary">
+            Browse all tags
+          </Link>
         </div>
       ) : (
         <div className="recipe-grid">
@@ -91,9 +107,7 @@ export default function TagDetail() {
                 />
               ) : (
                 <div className="recipe-card-placeholder">
-                  <span role="img" aria-label="Recipe">
-                    {'\u{1F373}'}
-                  </span>
+                  <UtensilsCrossed size={48} color="#F5A623" strokeWidth={1.5} />
                 </div>
               )}
               <div className="recipe-card-content">

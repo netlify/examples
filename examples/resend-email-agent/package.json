@@ -12,6 +12,7 @@
     "@google/genai": "^1.33.0",
     "@netlify/blobs": "^8.1.0",
     "@netlify/functions": "^3.0.0",
+    "lucide-react": "^0.561.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^7.0.0",

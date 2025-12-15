@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { ChefHat, UtensilsCrossed } from 'lucide-react';
 import { fetchRecipes, formatDate } from '../lib/api';
 import type { RecipeCard } from '../lib/types';
 
@@ -26,7 +27,12 @@ export default function RecipeList() {
   }
 
   if (loading) {
-    return <div className="loading">Loading recipes...</div>;
+    return (
+      <div className="loading">
+        <div className="loading-spinner" />
+        <span>Loading recipes...</span>
+      </div>
+    );
   }
 
   if (error) {
@@ -43,6 +49,9 @@ export default function RecipeList() {
   if (recipes.length === 0) {
     return (
       <div className="empty-state">
+        <div className="empty-state-icon">
+          <ChefHat />
+        </div>
         <h2>No Recipes Yet</h2>
         <p>
           Send an email with a recipe photo or PDF to your Resend inbound
@@ -54,6 +63,9 @@ export default function RecipeList() {
 
   return (
     <div>
+      <h1 className="page-title">
+        Your <span className="page-title-highlight">Recipes</span>
+      </h1>
       <div className="recipe-grid">
         {recipes.map((recipe) => (
           <Link
@@ -69,9 +81,7 @@ export default function RecipeList() {
               />
             ) : (
               <div className="recipe-card-placeholder">
-                <span role="img" aria-label="Recipe">
-                  {'\u{1F373}'}
-                </span>
+                <UtensilsCrossed size={48} color="#F5A623" strokeWidth={1.5} />
               </div>
             )}
             <div className="recipe-card-content">
