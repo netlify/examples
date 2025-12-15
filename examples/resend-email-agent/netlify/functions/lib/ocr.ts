@@ -77,12 +77,14 @@ Respond ONLY with valid JSON in this exact format (no markdown, no code blocks):
 }`;
 
   try {
+    // Use x-goog-api-key header for Netlify AI Gateway authentication
     const response = await fetch(
-      `${baseUrl}/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`,
+      `${baseUrl}/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent`,
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'x-goog-api-key': apiKey,
         },
         body: JSON.stringify({
           contents: [

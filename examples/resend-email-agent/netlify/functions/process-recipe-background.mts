@@ -1,7 +1,7 @@
 import type { Context } from '@netlify/functions';
 import { getStore } from '@netlify/blobs';
 import type { ProcessRecipePayload, RecipeEntry } from './lib/types.js';
-import { extractRecipeFromAttachment, detectContentType } from './lib/ocr-stub.js';
+import { extractRecipeFromAttachment, detectContentType } from './lib/ocr.js';
 
 /**
  * Background Function for Processing Recipe Emails
