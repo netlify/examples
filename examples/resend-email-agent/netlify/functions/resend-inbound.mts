@@ -32,17 +32,6 @@ export default async function handler(
   const svixTimestamp = request.headers.get('svix-timestamp');
   const svixSignature = request.headers.get('svix-signature');
 
-  // Debug logging
-  console.log('=== Webhook Debug ===');
-  console.log('Secret prefix:', webhookSecret.substring(0, 10) + '...');
-  console.log('Secret length:', webhookSecret.length);
-  console.log('svix-id:', svixId);
-  console.log('svix-timestamp:', svixTimestamp);
-  console.log('svix-signature:', svixSignature);
-  console.log('Raw body length:', rawBody.length);
-  console.log('Raw body preview:', rawBody.substring(0, 200));
-  console.log('=== End Debug ===');
-
   if (!svixId || !svixTimestamp || !svixSignature) {
     console.error('Missing Svix headers');
     return new Response('Missing signature headers', { status: 400 });
@@ -74,6 +63,19 @@ export default async function handler(
   }
 
   const { email_id, subject, from, to } = payload.data;
+
+  // Check if this email is for the configured inbound address
+  const configuredInboundAddress = process.env.RESEND_INBOUND_ADDRESS;
+  if (configuredInboundAddress) {
+    const isForThisEnv = to.some(
+      (recipient) => recipient.toLowerCase() === configuredInboundAddress.toLowerCase()
+    );
+    if (!isForThisEnv) {
+      console.log(`Email not for this environment (to: ${to.join(', ')}, expected: ${configuredInboundAddress}), skipping`);
+      return new Response('OK', { status: 200 });
+    }
+  }
+
   console.log(`Received email: ${email_id} - "${subject}" from ${from}`);
 
   // Idempotency check: see if we've already processed this email
