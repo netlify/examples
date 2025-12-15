@@ -14,7 +14,7 @@ Users email recipe photos to a Resend inbound address. The system:
 ## Tech Stack
 
 - **Runtime**: Netlify Functions (Web API signature)
-- **Storage**: Netlify Blobs (stores: `media`, `recipes`, `receipts`)
+- **Storage**: Netlify Blobs (stores: `media`, `recipes`, `receipts`, `tag-registry`)
 - **Email**: Resend inbound webhooks with Svix signature verification
 - **OCR**: Google Gemini via `@google/genai` SDK (works with Netlify AI Gateway)
 - **Frontend**: Vite + React + TypeScript + React Router
@@ -37,10 +37,12 @@ Configure in Netlify UI (NOT in .env files):
 ├── netlify/functions/
 │   ├── lib/
 │   │   ├── types.ts          # Shared TypeScript types
-│   │   └── ocr.ts            # Gemini OCR extraction
+│   │   ├── ocr.ts            # Gemini OCR extraction
+│   │   └── tags.ts           # Tag registry helpers
 │   ├── resend-inbound.mts    # Webhook handler (verifies Svix signature)
 │   ├── process-recipe-background.mts  # Background function for processing
 │   ├── recipes.mts           # Recipe API (list, detail, override, delete)
+│   ├── tags.mts              # Tags API (list, rename)
 │   ├── auth.mts              # Token verification endpoint
 │   └── media.mts             # Binary streaming for images
 ├── src/
@@ -54,6 +56,8 @@ Configure in Netlify UI (NOT in .env files):
 │   ├── pages/
 │   │   ├── RecipeList.tsx    # Homepage grid
 │   │   ├── RecipeDetail.tsx  # Individual recipe view
+│   │   ├── TagList.tsx       # Browse all tags
+│   │   ├── TagDetail.tsx     # Recipes filtered by tag
 │   │   └── Admin.tsx         # Hidden login page at /admin
 │   ├── App.tsx               # Router + header with sign-out
 │   └── main.tsx              # Entry point
@@ -71,10 +75,12 @@ Configure in Netlify UI (NOT in .env files):
 |--------|------|-------------|
 | POST | `/api/resend-inbound` | Resend webhook receiver |
 | POST | `/api/auth/verify` | Verify admin token |
-| GET | `/api/recipes` | List all recipes (cards) |
+| GET | `/api/recipes` | List all recipes (cards), supports `?tag=` filter |
 | GET | `/api/recipes/:id` | Get recipe detail |
 | PUT | `/api/recipes/:id/override` | Save manual edits (auth required) |
 | DELETE | `/api/recipes/:id` | Delete a recipe (auth required) |
+| GET | `/api/tags` | List all tags with counts |
+| PUT | `/api/tags/:slug` | Rename tag display name (auth required) |
 | GET | `/api/media?key=...` | Stream binary images from Blobs |
 
 ## Key Implementation Details
@@ -125,6 +131,25 @@ const response = await genAI.models.generateContent({
 - Backend validates token via `Authorization: Bearer <token>` header
 - Admins can edit and delete recipes
 
+### Tag Registry System
+
+Tags use a registry to maintain canonical display names:
+
+- **Slug**: Lowercase normalized version used in URLs (e.g., `vegetarian`)
+- **Display name**: Proper casing shown in UI (e.g., `Vegetarian`)
+- **First-seen wins**: The first casing used becomes canonical
+- Tags are registered during OCR processing and when saving recipe edits
+- Admins can rename tag display names via `PUT /api/tags/:slug`
+
+**Frontend routes:**
+- `/tags` - Browse all tags with recipe counts
+- `/tag/:slug` - View recipes filtered by tag
+
+**How it works:**
+1. When a tag is first encountered (e.g., "Vegetarian"), it's registered with that casing
+2. Later uses (e.g., "vegetarian", "VEGETARIAN") all resolve to the canonical "Vegetarian"
+3. URLs always use the lowercase slug, display always uses the canonical name
+
 ### Blob Storage Structure
 
 ```
@@ -138,6 +163,9 @@ recipes/
 
 receipts/
   email-{email_id}                  # Idempotency tracking
+
+tag-registry/
+  {slug}                            # Tag entry: { slug, displayName, createdAt }
 ```
 
 ## Development
