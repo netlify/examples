@@ -36,8 +36,15 @@ export interface RecipeCard {
   id: string;
   title: string;
   receivedAt: string;
+  tags: string[];
   thumbUrl?: string;
   originalUrl?: string;
+}
+
+export interface TagInfo {
+  slug: string;
+  displayName: string;
+  count: number;
 }
 
 export interface RecipeDetail extends RecipeEntry {

@@ -293,6 +293,27 @@ textarea {
   background: #ccc;
 }
 
+.btn-danger {
+  background: #dc3545;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #c82333;
+}
+
+.btn-danger:disabled {
+  background: #e4606d;
+  cursor: not-allowed;
+}
+
+/* Admin Actions */
+.admin-actions {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
 /* Empty State */
 .empty-state {
   text-align: center;
@@ -342,4 +363,105 @@ textarea {
 
 .back-link:hover {
   color: var(--color-primary);
+}
+
+/* Header Navigation */
+.header-nav {
+  display: flex;
+  gap: 1rem;
+}
+
+.header-link {
+  color: white;
+  opacity: 0.9;
+  font-size: 1rem;
+}
+
+.header-link:hover {
+  opacity: 1;
+  text-decoration: none;
+}
+
+/* Tag Link (clickable) */
+.recipe-tag-link {
+  text-decoration: none;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.recipe-tag-link:hover {
+  text-decoration: none;
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(218, 165, 32, 0.4);
+}
+
+/* Tag List Page */
+.tag-list-page {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.page-title {
+  font-size: 2rem;
+  color: var(--color-primary);
+  margin-bottom: 1.5rem;
+}
+
+.tag-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.tag-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.5rem 1rem;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.tag-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  text-decoration: none;
+}
+
+.tag-name {
+  font-size: 1.25rem;
+  color: var(--color-primary);
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.tag-count {
+  font-size: 0.875rem;
+  color: var(--color-text-light);
+}
+
+/* Tag Detail Page */
+.tag-detail-page {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.tag-detail-header {
+  margin-bottom: 2rem;
+}
+
+.tag-label {
+  background: var(--color-accent);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 1.75rem;
+}
+
+.tag-recipe-count {
+  color: var(--color-text-light);
+  margin-top: 0.75rem;
 }

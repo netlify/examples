@@ -2,6 +2,7 @@ import type { Context } from '@netlify/functions';
 import { getStore } from '@netlify/blobs';
 import type { ProcessRecipePayload, RecipeEntry } from './lib/types.js';
 import { extractRecipeFromAttachment, detectContentType } from './lib/ocr.js';
+import { registerTag } from './lib/tags.js';
 
 /**
  * Background Function for Processing Recipe Emails
@@ -151,6 +152,14 @@ export default async function handler(
     const ocrKey = `${recipeId}/ocr.txt`;
     await recipesStore.set(ocrKey, ocrResult.rawText);
     console.log(`Stored OCR text: ${ocrKey}`);
+
+    // Register tags to establish canonical display names
+    if (ocrResult.recipe.tags && ocrResult.recipe.tags.length > 0) {
+      for (const tag of ocrResult.recipe.tags) {
+        await registerTag(tag);
+      }
+      console.log(`Registered ${ocrResult.recipe.tags.length} tags`);
+    }
 
     // Parse sender info
     const senderMatch = from.match(/^(?:"?([^"<]+)"?\s*)?<?([^>]+)>?$/);

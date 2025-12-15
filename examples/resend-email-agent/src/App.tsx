@@ -1,6 +1,8 @@
 import { Routes, Route, Link } from 'react-router-dom';
 import RecipeList from './pages/RecipeList';
 import RecipeDetailPage from './pages/RecipeDetail';
+import TagList from './pages/TagList';
+import TagDetail from './pages/TagDetail';
 import Admin from './pages/Admin';
 import { useAuth } from './lib/AuthContext';
 
@@ -11,9 +13,14 @@ function App() {
     <div className="app">
       <header className="header">
         <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h1>
-            <Link to="/">Grandma's Recipe Rescuer</Link>
-          </h1>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
+            <h1>
+              <Link to="/">Grandma's Recipe Rescuer</Link>
+            </h1>
+            <nav className="header-nav">
+              <Link to="/tags" className="header-link">Tags</Link>
+            </nav>
+          </div>
           {isAuthenticated && (
             <button
               onClick={logout}
@@ -35,6 +42,8 @@ function App() {
         <Routes>
           <Route path="/" element={<RecipeList />} />
           <Route path="/recipe/:id" element={<RecipeDetailPage />} />
+          <Route path="/tags" element={<TagList />} />
+          <Route path="/tag/:tag" element={<TagDetail />} />
           <Route path="/admin" element={<Admin />} />
         </Routes>
       </main>

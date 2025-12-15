@@ -1,17 +1,19 @@
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { fetchRecipe, formatDate } from '../lib/api';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { fetchRecipe, formatDate, deleteRecipe } from '../lib/api';
 import { useAuth } from '../lib/AuthContext';
 import type { RecipeDetail } from '../lib/types';
 import RecipeEditor from '../components/RecipeEditor';
 
 export default function RecipeDetailPage() {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
   const [recipe, setRecipe] = useState<RecipeDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [editing, setEditing] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -37,6 +39,23 @@ export default function RecipeDetailPage() {
       loadRecipe(id);
     }
     setEditing(false);
+  }
+
+  async function handleDelete() {
+    if (!id || !recipe) return;
+
+    if (!confirm(`Are you sure you want to delete "${recipe.recipe.title}"? This cannot be undone.`)) {
+      return;
+    }
+
+    setDeleting(true);
+    try {
+      await deleteRecipe(id);
+      navigate('/');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to delete recipe');
+      setDeleting(false);
+    }
   }
 
   if (loading) {
@@ -84,12 +103,21 @@ export default function RecipeDetailPage() {
 
       {isAuthenticated && (
         <>
-          <button
-            onClick={() => setEditing(!editing)}
-            className="editor-toggle"
-          >
-            {editing ? 'Close Editor' : 'Edit Recipe'}
-          </button>
+          <div className="admin-actions">
+            <button
+              onClick={() => setEditing(!editing)}
+              className="btn btn-primary"
+            >
+              {editing ? 'Close Editor' : 'Edit Recipe'}
+            </button>
+            <button
+              onClick={handleDelete}
+              className="btn btn-danger"
+              disabled={deleting}
+            >
+              {deleting ? 'Deleting...' : 'Delete Recipe'}
+            </button>
+          </div>
 
           {editing && (
             <RecipeEditor
@@ -123,9 +151,13 @@ export default function RecipeDetailPage() {
       {recipe.recipe.tags.length > 0 && (
         <div className="recipe-tags">
           {recipe.recipe.tags.map((tag, i) => (
-            <span key={i} className="recipe-tag">
+            <Link
+              key={i}
+              to={`/tag/${encodeURIComponent(tag.toLowerCase())}`}
+              className="recipe-tag recipe-tag-link"
+            >
               {tag}
-            </span>
+            </Link>
           ))}
         </div>
       )}

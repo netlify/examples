@@ -1,4 +1,4 @@
-import type { RecipeCard, RecipeDetail, RecipeData } from './types';
+import type { RecipeCard, RecipeDetail, RecipeData, TagInfo } from './types';
 import { getAdminToken } from './auth';
 
 const API_BASE = '/api';
@@ -23,12 +23,26 @@ export async function verifyToken(token: string): Promise<{ valid: boolean; erro
 }
 
 /**
- * Fetch all recipes
+ * Fetch all recipes (optionally filtered by tag)
  */
-export async function fetchRecipes(): Promise<RecipeCard[]> {
-  const response = await fetch(`${API_BASE}/recipes`);
+export async function fetchRecipes(tag?: string): Promise<RecipeCard[]> {
+  const url = tag
+    ? `${API_BASE}/recipes?tag=${encodeURIComponent(tag)}`
+    : `${API_BASE}/recipes`;
+  const response = await fetch(url);
   if (!response.ok) {
     throw new Error('Failed to fetch recipes');
+  }
+  return response.json();
+}
+
+/**
+ * Fetch all tags with counts
+ */
+export async function fetchTags(): Promise<TagInfo[]> {
+  const response = await fetch(`${API_BASE}/tags`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch tags');
   }
   return response.json();
 }
@@ -72,6 +86,28 @@ export async function saveOverride(
   if (!response.ok) {
     const error = await response.json().catch(() => ({ error: 'Unknown error' }));
     throw new Error(error.error || 'Failed to save override');
+  }
+}
+
+/**
+ * Delete a recipe
+ */
+export async function deleteRecipe(id: string): Promise<void> {
+  const headers: Record<string, string> = {};
+
+  const token = getAdminToken();
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+
+  const response = await fetch(`${API_BASE}/recipes/${id}`, {
+    method: 'DELETE',
+    headers,
+  });
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ error: 'Unknown error' }));
+    throw new Error(error.error || 'Failed to delete recipe');
   }
 }
 
