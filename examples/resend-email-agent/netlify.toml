@@ -7,3 +7,9 @@
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200
+
+[template.environment]
+  RESEND_API_KEY = "Resend API key for fetching inbound email attachments"
+  RESEND_WEBHOOK_SECRET = "Resend webhook signing secret (starts with whsec_)"
+  RESEND_INBOUND_ADDRESS = "Your Resend inbound email address (e.g., recipes@inbound.yourdomain.com)"
+  ADMIN_TOKEN = "Optional token for authenticating editor writes (leave empty for demo mode)"
