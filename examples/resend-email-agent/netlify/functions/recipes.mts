@@ -114,6 +114,7 @@ async function listRecipes(tagFilter: string | null): Promise<Response> {
         const entry: RecipeEntry = JSON.parse(entryData);
 
         let title = entry.recipe.title;
+        let description = entry.recipe.description || null;
         let tags = entry.recipe.tags || [];
 
         try {
@@ -123,6 +124,9 @@ async function listRecipes(tagFilter: string | null): Promise<Response> {
             const override: RecipeOverride = JSON.parse(overrideData);
             if (override.recipe?.title) {
               title = override.recipe.title;
+            }
+            if (override.recipe?.description !== undefined) {
+              description = override.recipe.description;
             }
             if (override.recipe?.tags) {
               tags = override.recipe.tags;
@@ -145,6 +149,7 @@ async function listRecipes(tagFilter: string | null): Promise<Response> {
         cards.push({
           id: entry.id,
           title,
+          description,
           tags: canonicalTags,
           receivedAt: entry.receivedAt,
           thumbUrl: entry.blobs.thumb
@@ -273,7 +278,7 @@ async function saveOverride(recipeId: string, request: Request): Promise<Respons
     overrideData = { recipe: {} };
 
     if (body.recipe) {
-      const allowedFields = ['title', 'ingredients', 'steps', 'tags', 'yields', 'cook_time', 'notes'];
+      const allowedFields = ['title', 'description', 'ingredients', 'steps', 'tags', 'yields', 'cook_time', 'notes'];
       for (const field of allowedFields) {
         if (field in body.recipe) {
           (overrideData.recipe as Record<string, unknown>)[field] = body.recipe[field];

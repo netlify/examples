@@ -3,6 +3,7 @@
 export interface RecipeCard {
   id: string;
   title: string;
+  description: string | null;
   receivedAt: string;
   tags: string[];
   thumbUrl?: string;
@@ -17,6 +18,7 @@ export interface TagInfo {
 
 export interface RecipeData {
   title: string;
+  description: string | null;
   ingredients: string[];
   steps: string[];
   tags: string[];

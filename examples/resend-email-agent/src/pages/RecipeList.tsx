@@ -86,6 +86,9 @@ export default function RecipeList() {
             )}
             <div className="recipe-card-content">
               <h2 className="recipe-card-title">{recipe.title}</h2>
+              {recipe.description && (
+                <p className="recipe-card-description">{recipe.description}</p>
+              )}
               <p className="recipe-card-date">{formatDate(recipe.receivedAt)}</p>
             </div>
           </Link>

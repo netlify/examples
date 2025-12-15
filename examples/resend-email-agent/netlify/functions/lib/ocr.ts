@@ -4,6 +4,7 @@ export interface OcrResult {
   rawText: string;
   recipe: {
     title: string;
+    description: string | null;
     ingredients: string[];
     steps: string[];
     tags: string[];
@@ -32,13 +33,16 @@ export async function extractRecipeFromAttachment(
 
   const prompt = `Analyze this recipe image and extract the information as JSON.
 
-IMPORTANT: Always include at least 2-3 relevant tags based on the recipe type, cuisine, dietary info, or cooking method. Examples: "italian", "vegetarian", "quick", "comfort-food", "baked", "soup", "dessert", "family-recipe".
+IMPORTANT:
+- Write a short, appetizing one-line description (max 100 characters) that captures the essence of the dish.
+- Always include at least 2-3 relevant tags based on the recipe type, cuisine, dietary info, or cooking method. Examples: "italian", "vegetarian", "quick", "comfort-food", "baked", "soup", "dessert", "family-recipe".
 
 Return ONLY valid JSON (no markdown):
 {
   "rawText": "all text from the image",
   "recipe": {
     "title": "Recipe Title",
+    "description": "A brief, appetizing one-line description of the dish",
     "ingredients": ["ingredient 1", "ingredient 2"],
     "steps": ["step 1", "step 2"],
     "tags": ["cuisine-type", "meal-type", "other-relevant-tag"],
@@ -72,6 +76,7 @@ Email subject: "${subject}"`;
       rawText: result.rawText || '',
       recipe: {
         title: result.recipe?.title || subject || 'Untitled Recipe',
+        description: result.recipe?.description || null,
         ingredients: result.recipe?.ingredients || [],
         steps: result.recipe?.steps || [],
         tags: result.recipe?.tags || [],
@@ -91,6 +96,7 @@ function fallbackResult(filename: string, subject: string): OcrResult {
     rawText: `OCR unavailable for: ${filename}`,
     recipe: {
       title: subject || filename.replace(/\.[^.]+$/, '') || 'Untitled Recipe',
+      description: null,
       ingredients: ['(Add ingredients manually)'],
       steps: ['(Add steps manually)'],
       tags: [],

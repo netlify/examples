@@ -113,6 +113,9 @@ export default function RecipeDetailPage() {
 
       <div className="recipe-detail-header">
         <h1 className="recipe-detail-title">{recipe.recipe.title}</h1>
+        {recipe.recipe.description && (
+          <p className="recipe-description">{recipe.recipe.description}</p>
+        )}
         <div className="recipe-meta">
           <span className="recipe-meta-item">
             <Calendar size={16} />

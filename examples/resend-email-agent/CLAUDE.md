@@ -18,6 +18,8 @@ Users email recipe photos to a Resend inbound address. The system:
 - **Email**: Resend inbound webhooks with Svix signature verification
 - **OCR**: Google Gemini via `@google/genai` SDK (works with Netlify AI Gateway)
 - **Frontend**: Vite + React + TypeScript + React Router
+- **Icons**: Lucide React
+- **Fonts**: Playfair Display (headings), Inter (body) via Google Fonts
 
 ## Environment Variables
 
@@ -193,8 +195,33 @@ netlify dev
 
 5. **Privacy**: Sender email addresses are stored but NOT exposed in API responses
 
-6. **OCR tags**: The Gemini prompt emphasizes always including 2-3 relevant tags
+6. **OCR extraction**: The Gemini prompt extracts title, description (short one-liner), ingredients, steps, tags (2-3), yields, cook_time, and notes
 
 7. **SPA routing**: `netlify.toml` has a `/* -> /index.html` redirect for client-side routing (allows direct navigation to `/recipe/:id`, `/admin`, etc.)
 
 8. **Recipe deletion**: Deleting a recipe removes all associated data (entry, OCR text, overrides, media files) and clears the receipt to allow re-processing if the same email is sent again
+
+## Design System
+
+The frontend uses a light, airy design with:
+
+- **Primary color**: `#F5A623` (warm amber/yellow) for accents, buttons, and highlights
+- **Typography**: Playfair Display (serif) for headings, Inter (sans-serif) for body
+- **Icons**: Lucide React throughout (tags, navigation, actions)
+- **Shadows**: Very subtle (0.04-0.08 opacity) for a clean feel
+- **Cards**: White background with light borders, subtle hover lift effects
+
+### Recipe Data Structure
+
+```typescript
+interface RecipeData {
+  title: string;
+  description: string | null;  // Short one-liner for cards
+  ingredients: string[];
+  steps: string[];
+  tags: string[];
+  yields: string | null;
+  cook_time: string | null;
+  notes: string | null;
+}
+```

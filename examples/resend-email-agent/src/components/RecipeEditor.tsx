@@ -12,6 +12,7 @@ interface Props {
 export default function RecipeEditor({ recipe, onSaved, onCancel }: Props) {
   const [formData, setFormData] = useState({
     title: recipe.recipe.title,
+    description: recipe.recipe.description || '',
     ingredients: recipe.recipe.ingredients.join('\n'),
     steps: recipe.recipe.steps.join('\n'),
     tags: recipe.recipe.tags.join(', '),
@@ -42,6 +43,7 @@ export default function RecipeEditor({ recipe, onSaved, onCancel }: Props) {
     try {
       const override: Partial<RecipeData> = {
         title: formData.title,
+        description: formData.description || null,
         ingredients: formData.ingredients
           .split('\n')
           .map((s) => s.trim())
@@ -92,6 +94,20 @@ export default function RecipeEditor({ recipe, onSaved, onCancel }: Props) {
             onChange={handleChange}
             required
           />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="description">Description</label>
+          <input
+            type="text"
+            id="description"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            placeholder="A brief, appetizing one-line description"
+            maxLength={100}
+          />
+          <small>Short description shown on cards (max 100 characters)</small>
         </div>
 
         <div className="form-group">
