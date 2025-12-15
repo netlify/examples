@@ -1,5 +1,4 @@
 import type { Context } from '@netlify/functions';
-import { Resend } from 'resend';
 import { getStore } from '@netlify/blobs';
 import type { ProcessRecipePayload, RecipeEntry } from './lib/types.js';
 import { extractRecipeFromAttachment, detectContentType } from './lib/ocr-stub.js';
@@ -37,7 +36,6 @@ export default async function handler(
   const { email_id, subject, from } = payload;
   console.log(`Processing recipe from email: ${email_id}`);
 
-  const resend = new Resend(apiKey);
   const mediaStore = getStore('media');
   const recipesStore = getStore('recipes');
   const receiptsStore = getStore('receipts');
@@ -62,16 +60,33 @@ export default async function handler(
       // Entry doesn't exist, continue processing
     }
 
-    // Get attachments from Resend
-    console.log(`Fetching attachments for email ${email_id}`);
-    const attachmentsResponse = await resend.emails.get(email_id);
+    // Get attachments from Resend using the receiving/inbound API
+    // Note: The Resend SDK doesn't have receiving methods, so we use direct API calls
+    console.log(`Fetching attachments for inbound email ${email_id}`);
 
-    if (!attachmentsResponse.data) {
-      console.error('Failed to get email data:', attachmentsResponse.error);
-      throw new Error(`Failed to get email: ${attachmentsResponse.error?.message}`);
+    let attachments: Array<{
+      id: string;
+      filename: string;
+      content_type: string;
+      download_url?: string;
+    }> = [];
+
+    try {
+      const apiResponse = await fetch(`https://api.resend.com/emails/receiving/${email_id}/attachments`, {
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+        },
+      });
+      if (apiResponse.ok) {
+        const data = await apiResponse.json();
+        console.log('Attachments API response:', JSON.stringify(data, null, 2));
+        attachments = data.data || [];
+      } else {
+        console.error('Attachments API failed:', apiResponse.status, await apiResponse.text());
+      }
+    } catch (err) {
+      console.error('Error fetching attachments:', err);
     }
-
-    const attachments = attachmentsResponse.data.attachments || [];
     console.log(`Found ${attachments.length} attachments`);
 
     if (attachments.length === 0) {
@@ -90,27 +105,29 @@ export default async function handler(
         contentType === 'application/pdf' ||
         attachment.filename?.match(/\.(jpg|jpeg|png|gif|webp|pdf)$/i);
 
-      if (isUsable) {
+      if (isUsable && attachment.download_url) {
         attachmentFilename = attachment.filename || `attachment-${Date.now()}`;
         console.log(`Processing attachment: ${attachmentFilename}`);
+        console.log(`Downloading from: ${attachment.download_url}`);
 
-        // Fetch the attachment content
-        // Note: Resend provides base64-encoded content in the attachment object
-        if (attachment.content) {
-          // Content is base64 encoded
-          const binaryString = atob(attachment.content);
-          const bytes = new Uint8Array(binaryString.length);
-          for (let i = 0; i < binaryString.length; i++) {
-            bytes[i] = binaryString.charCodeAt(i);
+        // Download the attachment using the signed URL
+        try {
+          const downloadResponse = await fetch(attachment.download_url);
+          if (downloadResponse.ok) {
+            attachmentBuffer = await downloadResponse.arrayBuffer();
+            console.log(`Downloaded ${attachmentBuffer.byteLength} bytes`);
+          } else {
+            console.error(`Failed to download attachment: ${downloadResponse.status}`);
           }
-          attachmentBuffer = bytes.buffer;
+        } catch (downloadErr) {
+          console.error('Error downloading attachment:', downloadErr);
         }
 
         if (attachmentBuffer) {
           originalKey = `${recipeId}/original/${attachmentFilename}`;
           const detectedType = detectContentType(attachmentBuffer);
 
-          await mediaStore.set(originalKey, new Uint8Array(attachmentBuffer), {
+          await mediaStore.set(originalKey, attachmentBuffer, {
             metadata: {
               contentType: contentType || detectedType,
               filename: attachmentFilename,
@@ -190,3 +207,4 @@ export default async function handler(
     );
   }
 }
+

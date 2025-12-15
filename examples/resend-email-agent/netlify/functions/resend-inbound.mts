@@ -32,6 +32,17 @@ export default async function handler(
   const svixTimestamp = request.headers.get('svix-timestamp');
   const svixSignature = request.headers.get('svix-signature');
 
+  // Debug logging
+  console.log('=== Webhook Debug ===');
+  console.log('Secret prefix:', webhookSecret.substring(0, 10) + '...');
+  console.log('Secret length:', webhookSecret.length);
+  console.log('svix-id:', svixId);
+  console.log('svix-timestamp:', svixTimestamp);
+  console.log('svix-signature:', svixSignature);
+  console.log('Raw body length:', rawBody.length);
+  console.log('Raw body preview:', rawBody.substring(0, 200));
+  console.log('=== End Debug ===');
+
   if (!svixId || !svixTimestamp || !svixSignature) {
     console.error('Missing Svix headers');
     return new Response('Missing signature headers', { status: 400 });
@@ -49,6 +60,10 @@ export default async function handler(
     }) as ResendInboundPayload;
   } catch (err) {
     console.error('Webhook verification failed:', err);
+    console.error('This usually means:');
+    console.error('1. RESEND_WEBHOOK_SECRET does not match the signing secret from Resend');
+    console.error('2. The request body was modified in transit');
+    console.error('3. The timestamp is too old (replay attack protection)');
     return new Response('Invalid signature', { status: 400 });
   }
 
@@ -89,8 +104,18 @@ export default async function handler(
     to,
   };
 
-  const siteUrl = process.env.SITE_URL || `http://localhost:8888`;
+  // Use waitUntil to process in background after response is sent
+  context.waitUntil(processInBackground(backgroundPayload));
+
+  return new Response('OK', { status: 200 });
+}
+
+async function processInBackground(payload: ProcessRecipePayload): Promise<void> {
+  const siteUrl = (process.env.SITE_URL || 'http://localhost:8888').replace(/\/$/, '');
+  // Background functions must be invoked at /.netlify/functions/ path, not via redirects
   const backgroundUrl = `${siteUrl}/.netlify/functions/process-recipe-background`;
+
+  console.log(`Calling background function at: ${backgroundUrl}`);
 
   try {
     const backgroundResponse = await fetch(backgroundUrl, {
@@ -98,23 +123,20 @@ export default async function handler(
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(backgroundPayload),
+      body: JSON.stringify(payload),
     });
 
     if (!backgroundResponse.ok && backgroundResponse.status !== 202) {
+      const text = await backgroundResponse.text();
       console.error(
-        `Failed to enqueue background task: ${backgroundResponse.status}`
+        `Failed to enqueue background task: ${backgroundResponse.status} - ${text}`
       );
-      // Still return 200 to acknowledge receipt - we logged the error
     } else {
-      console.log(`Background task enqueued for email ${email_id}`);
+      console.log(`Background task enqueued for email ${payload.email_id}`);
     }
   } catch (err) {
     console.error('Error enqueuing background task:', err);
-    // Still return 200 - the email was received and logged
   }
-
-  return new Response('OK', { status: 200 });
 }
 
 export const config = {
