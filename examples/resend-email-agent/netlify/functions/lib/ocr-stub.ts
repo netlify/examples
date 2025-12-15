@@ -1,8 +1,7 @@
 /**
- * OCR Stub Module
+ * OCR Module using Gemini Vision
  *
- * This is a placeholder OCR implementation that extracts text heuristically.
- * Replace with Tesseract, Google Vision, or another OCR service for production.
+ * Extracts recipe information from images using Google's Gemini model.
  */
 
 export interface OcrResult {
@@ -19,54 +18,174 @@ export interface OcrResult {
 }
 
 /**
- * Process an attachment and extract recipe information.
- * Currently a stub that returns placeholder data based on filename/subject.
+ * Process an attachment and extract recipe information using Gemini.
  */
 export async function extractRecipeFromAttachment(
-  _buffer: ArrayBuffer,
+  buffer: ArrayBuffer,
   filename: string,
   subject: string
 ): Promise<OcrResult> {
-  // In a real implementation, this would:
-  // 1. For images: Use Tesseract.js, Google Vision API, or similar
-  // 2. For PDFs: Extract text with pdf-parse or similar
-  // 3. Parse the extracted text to identify recipe components
+  const apiKey = process.env.GEMINI_API_KEY;
+  const baseUrl = process.env.GOOGLE_GEMINI_BASE_URL || 'https://generativelanguage.googleapis.com';
 
-  // For now, return a stub with placeholder data
+  if (!apiKey) {
+    console.warn('GEMINI_API_KEY not configured, using fallback');
+    return fallbackResult(filename, subject);
+  }
+
+  if (!buffer || buffer.byteLength === 0) {
+    console.warn('No image buffer provided, using fallback');
+    return fallbackResult(filename, subject);
+  }
+
+  const contentType = detectContentType(buffer);
+  if (!contentType.startsWith('image/')) {
+    console.warn(`Non-image content type: ${contentType}, using fallback`);
+    return fallbackResult(filename, subject);
+  }
+
+  // Convert buffer to base64
+  const base64Image = arrayBufferToBase64(buffer);
+
+  const prompt = `You are a recipe extraction assistant. Analyze this image of a recipe and extract the following information.
+
+If the image contains a recipe, extract:
+1. Title - the name of the recipe
+2. Ingredients - a list of all ingredients with quantities
+3. Steps - the cooking instructions as numbered steps
+4. Tags - relevant categories (e.g., "italian", "vegetarian", "dessert", "quick")
+5. Yields - how many servings (e.g., "4 servings", "12 cookies")
+6. Cook time - total cooking/prep time (e.g., "45 minutes", "1 hour")
+7. Notes - any additional tips or notes from the recipe
+
+If the image doesn't contain a clear recipe, do your best to describe what you see and provide reasonable defaults.
+
+The email subject was: "${subject}"
+
+Respond ONLY with valid JSON in this exact format (no markdown, no code blocks):
+{
+  "rawText": "The full text you can read from the image",
+  "recipe": {
+    "title": "Recipe Title",
+    "ingredients": ["1 cup flour", "2 eggs", "..."],
+    "steps": ["Preheat oven to 350°F", "Mix ingredients", "..."],
+    "tags": ["tag1", "tag2"],
+    "yields": "4 servings",
+    "cook_time": "30 minutes",
+    "notes": "Any additional notes or null"
+  }
+}`;
+
+  try {
+    const response = await fetch(
+      `${baseUrl}/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contents: [
+            {
+              parts: [
+                { text: prompt },
+                {
+                  inline_data: {
+                    mime_type: contentType,
+                    data: base64Image,
+                  },
+                },
+              ],
+            },
+          ],
+          generationConfig: {
+            temperature: 0.1,
+            maxOutputTokens: 4096,
+          },
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('Gemini API error:', response.status, errorText);
+      return fallbackResult(filename, subject);
+    }
+
+    const data = await response.json();
+    console.log('Gemini response:', JSON.stringify(data, null, 2));
+
+    // Extract text from Gemini response
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (!text) {
+      console.error('No text in Gemini response');
+      return fallbackResult(filename, subject);
+    }
+
+    // Parse JSON from response (handle potential markdown code blocks)
+    let jsonText = text.trim();
+    if (jsonText.startsWith('```json')) {
+      jsonText = jsonText.slice(7);
+    }
+    if (jsonText.startsWith('```')) {
+      jsonText = jsonText.slice(3);
+    }
+    if (jsonText.endsWith('```')) {
+      jsonText = jsonText.slice(0, -3);
+    }
+    jsonText = jsonText.trim();
+
+    const result = JSON.parse(jsonText) as OcrResult;
+
+    // Validate and provide defaults
+    return {
+      rawText: result.rawText || '',
+      recipe: {
+        title: result.recipe?.title || subject || 'Untitled Recipe',
+        ingredients: Array.isArray(result.recipe?.ingredients) ? result.recipe.ingredients : [],
+        steps: Array.isArray(result.recipe?.steps) ? result.recipe.steps : [],
+        tags: Array.isArray(result.recipe?.tags) ? result.recipe.tags : [],
+        yields: result.recipe?.yields || null,
+        cook_time: result.recipe?.cook_time || null,
+        notes: result.recipe?.notes || null,
+      },
+    };
+  } catch (err) {
+    console.error('Error calling Gemini:', err);
+    return fallbackResult(filename, subject);
+  }
+}
+
+/**
+ * Fallback result when OCR is unavailable
+ */
+function fallbackResult(filename: string, subject: string): OcrResult {
   const title = subject || filename.replace(/\.[^.]+$/, '') || 'Untitled Recipe';
 
-  const rawText = `[OCR Stub - Replace with real OCR implementation]
-
-Recipe from: ${filename}
-Subject: ${subject}
-
-This is placeholder text. In production, actual OCR would extract:
-- Recipe title
-- Ingredients list
-- Cooking steps
-- Additional metadata
-
-To implement real OCR:
-1. For images: Use Tesseract.js or cloud OCR API
-2. For PDFs: Use pdf-parse to extract text
-3. Parse extracted text with regex or NLP`;
-
   return {
-    rawText,
+    rawText: `[OCR unavailable - manual entry required]\nFilename: ${filename}\nSubject: ${subject}`,
     recipe: {
       title,
-      ingredients: [
-        '(OCR not implemented - add ingredients manually)',
-      ],
-      steps: [
-        '(OCR not implemented - add steps manually)',
-      ],
+      ingredients: ['(Add ingredients manually)'],
+      steps: ['(Add steps manually)'],
       tags: [],
       yields: null,
       cook_time: null,
-      notes: 'This recipe was processed with a stub OCR. Edit to add real content.',
+      notes: 'OCR was unavailable. Please edit this recipe manually.',
     },
   };
+}
+
+/**
+ * Convert ArrayBuffer to base64 string
+ */
+function arrayBufferToBase64(buffer: ArrayBuffer): string {
+  const bytes = new Uint8Array(buffer);
+  let binary = '';
+  for (let i = 0; i < bytes.byteLength; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return btoa(binary);
 }
 
 /**
