@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@google/genai": "^1.33.0",
     "@netlify/blobs": "^8.1.0",
     "@netlify/functions": "^3.0.0",
     "react": "^18.3.1",
