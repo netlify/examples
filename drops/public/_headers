@@ -1,0 +1,2 @@
+/drops/*
+  Access-Control-Allow-Origin: https://app.netlify.com
