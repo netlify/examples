@@ -1,0 +1,10 @@
+[build]
+command = "npm run build"
+publish = "dist"
+
+[functions]
+node_bundler = "esbuild"
+
+# Image CDN configuration for external images (Unsplash)
+[images]
+remote_images = ["https://unsplash.com/*", "https://placehold.co/*"]
