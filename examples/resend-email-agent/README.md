@@ -39,18 +39,41 @@ This will:
 2. Create a new site in your Netlify account
 3. Build and deploy the site with AI Gateway automatically enabled
 
-### Required Configuration
+### Configure Resend
 
-After deploying, configure these environment variables in Netlify UI:
+This example uses [Resend](https://resend.com) for inbound email processing. You'll need a Resend account and a domain you control.
+
+**1. Set up an inbound domain in Resend:**
+
+- Go to [Resend Domains](https://resend.com/domains) and add a domain (e.g., `inbound.yourdomain.com`)
+- Add the required DNS records (MX and TXT) to your domain
+- Wait for verification to complete
+
+**2. Create a webhook for inbound emails:**
+
+- Go to [Resend Webhooks](https://resend.com/webhooks)
+- Click "Add Webhook"
+- Set the endpoint URL to `https://your-site.netlify.app/api/resend-inbound`
+- Select the `email.received` event
+- Copy the signing secret (starts with `whsec_`)
+
+**3. Get your API key:**
+
+- Go to [Resend API Keys](https://resend.com/api-keys)
+- Create a new API key with "Sending access" permission (needed to fetch attachments)
+
+**4. Configure environment variables in Netlify UI:**
 
 | Variable | Description |
 |----------|-------------|
 | `RESEND_API_KEY` | Your Resend API key |
-| `RESEND_WEBHOOK_SECRET` | Webhook signing secret from Resend (starts with `whsec_`) |
-| `RESEND_INBOUND_ADDRESS` | Your Resend inbound email address |
+| `RESEND_WEBHOOK_SECRET` | Webhook signing secret (starts with `whsec_`) |
+| `RESEND_INBOUND_ADDRESS` | Your inbound email (e.g., `recipes@inbound.yourdomain.com`) |
 | `ADMIN_TOKEN` | Optional token for recipe editing (leave empty for demo mode) |
 
-Then configure your Resend inbound domain to send webhooks to `https://your-site.netlify.app/api/resend-inbound`.
+**5. Test it:**
+
+Send an email with a recipe photo attached to your inbound address. The recipe should appear on your site within a few seconds.
 
 ## Local Development
 
