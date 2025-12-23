@@ -1,0 +1,25 @@
+{
+  "name": "smartmemory",
+  "version": "1.0.0",
+  "description": "Persistent conversation memory for AI agents using Raindrop SmartMemory on Netlify",
+  "type": "module",
+  "keywords": [
+    "netlify",
+    "raindrop",
+    "ai",
+    "serverless",
+    "smartmemory"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "dev": "netlify dev",
+    "build": "echo 'No build step required'",
+    "deploy": "netlify deploy --prod"
+  },
+  "dependencies": {
+    "@liquidmetal-ai/lm-raindrop": "^0.6.42"
+  },
+  "devDependencies": {
+    "netlify-cli": "^17.0.0"
+  }
+}

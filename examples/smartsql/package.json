@@ -1,0 +1,26 @@
+{
+  "name": "smartsql",
+  "version": "1.0.0",
+  "description": "Natural language database queries using Raindrop SmartSQL on Netlify",
+  "type": "module",
+  "keywords": [
+    "netlify",
+    "smartsql",
+    "raindrop",
+    "ai",
+    "natural-language",
+    "database"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "dev": "netlify dev",
+    "build": "echo 'No build step required'",
+    "deploy": "netlify deploy --prod"
+  },
+  "dependencies": {
+    "@liquidmetal-ai/lm-raindrop": "^0.7.0"
+  },
+  "devDependencies": {
+    "netlify-cli": "^17.0.0"
+  }
+}

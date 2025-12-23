@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartBucket Demo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>SmartBucket</h1>
+      <p class="subtitle">Document upload and semantic search with Raindrop</p>
+    </header>
+
+    <div class="tabs">
+      <button class="tab active" data-tab="upload">Upload</button>
+      <button class="tab" data-tab="search">Search</button>
+    </div>
+
+    <!-- Upload Tab -->
+    <div id="upload-tab" class="tab-content active">
+      <div class="upload-section">
+        <div class="file-drop-zone" id="drop-zone">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+          </svg>
+          <p class="drop-text">Drag & drop file here or click to browse</p>
+          <p class="file-types">Supports: PDF, TXT, JSON, MD</p>
+          <input type="file" id="file-input" accept=".pdf,.txt,.json,.md" hidden>
+        </div>
+
+        <div id="file-info" class="file-info hidden">
+          <div class="file-details">
+            <strong id="file-name"></strong>
+            <span id="file-size"></span>
+          </div>
+          <button id="upload-button" class="button-primary">Upload</button>
+        </div>
+
+        <div id="upload-status" class="status-message hidden"></div>
+      </div>
+    </div>
+
+    <!-- Search Tab -->
+    <div id="search-tab" class="tab-content">
+      <div class="search-section">
+        <form id="search-form" class="search-form">
+          <input
+            type="text"
+            id="search-input"
+            placeholder="Ask a question about your documents..."
+            autocomplete="off"
+          >
+          <button type="submit" class="button-primary">Search</button>
+        </form>
+
+        <div id="search-results" class="search-results"></div>
+      </div>
+    </div>
+
+    <div id="error-message" class="error-message hidden"></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
