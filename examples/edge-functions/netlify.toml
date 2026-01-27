@@ -10,7 +10,7 @@ ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF ."
 environment = { MY_IMPORTANT_VARIABLE = "this is a very important secret" }
 
 [[headers]]
-  for = "/example/post-cache"
+  for = "/example/post-cache*"
   [headers.values]
     Cache-Control = "public, max-age=60, s-maxage=60"
 
