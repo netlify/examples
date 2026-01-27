@@ -25,5 +25,5 @@ status = 200
 
 [[edge_functions]]
   function = "post-cache"
-  path = "/*"
+  path = "/example/post-cache"
   cache = "manual"
