@@ -18,3 +18,8 @@ status = 200
 [[edge_functions]]
   function = "transform"
   path = "/*"
+
+[[edge_functions]]
+  function = "post-cache"
+  path = "/*"
+  cache = "manual"
