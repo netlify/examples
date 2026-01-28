@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartSQL Demo - Natural Language Database Queries</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>SmartSQL Demo</h1>
+      <p class="subtitle">Natural Language Database Queries with Raindrop</p>
+    </header>
+
+    <div class="tabs">
+      <button class="tab-button active" data-tab="seed">Seed Database</button>
+      <button class="tab-button" data-tab="query">Query Data</button>
+    </div>
+
+    <div class="tab-content">
+      <!-- Seed Database Tab -->
+      <div id="seed-tab" class="tab-pane active">
+        <div class="info-box">
+          <h2>Seed Database</h2>
+          <p>Initialize your SmartSQL database with sample sales data. This creates a multi-table schema with customers, products, orders, and order items.</p>
+          <p class="note">Note: The seed button is idempotent - it's safe to click multiple times. If tables already exist, they won't be recreated.</p>
+        </div>
+
+        <div class="action-section">
+          <button id="seed-btn" class="btn-primary">
+            <span class="btn-text">Seed Database</span>
+            <span class="loading-spinner" style="display: none;"></span>
+          </button>
+          <div id="seed-status" class="status-message" style="display: none;"></div>
+        </div>
+
+        <div class="schema-info">
+          <h3>Database Schema</h3>
+          <div class="schema-tables">
+            <div class="schema-table">
+              <h4>customers</h4>
+              <ul>
+                <li>id (INTEGER)</li>
+                <li>name (TEXT)</li>
+                <li>email (TEXT)</li>
+                <li>created_at (TEXT)</li>
+              </ul>
+            </div>
+            <div class="schema-table">
+              <h4>products</h4>
+              <ul>
+                <li>id (INTEGER)</li>
+                <li>name (TEXT)</li>
+                <li>price (REAL)</li>
+                <li>category (TEXT)</li>
+              </ul>
+            </div>
+            <div class="schema-table">
+              <h4>orders</h4>
+              <ul>
+                <li>id (INTEGER)</li>
+                <li>customer_id (INTEGER)</li>
+                <li>order_date (TEXT)</li>
+                <li>total_amount (REAL)</li>
+              </ul>
+            </div>
+            <div class="schema-table">
+              <h4>order_items</h4>
+              <ul>
+                <li>id (INTEGER)</li>
+                <li>order_id (INTEGER)</li>
+                <li>product_id (INTEGER)</li>
+                <li>quantity (INTEGER)</li>
+                <li>price (REAL)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Query Data Tab -->
+      <div id="query-tab" class="tab-pane">
+        <div class="info-box">
+          <h2>Query with Natural Language</h2>
+          <p>Ask questions about your sales data in plain English. SmartSQL will convert your question to SQL and return the results.</p>
+        </div>
+
+        <div class="query-section">
+          <label for="query-input">Your Question:</label>
+          <textarea
+            id="query-input"
+            rows="3"
+            placeholder="e.g., Show me the top 5 customers by total order value"
+          ></textarea>
+
+          <button id="query-btn" class="btn-primary">
+            <span class="btn-text">Ask Question</span>
+            <span class="loading-spinner" style="display: none;"></span>
+          </button>
+
+          <div id="query-status" class="status-message" style="display: none;"></div>
+        </div>
+
+        <div class="examples-section">
+          <h3>Example Questions:</h3>
+          <div class="example-queries">
+            <button class="example-btn" data-query="Show me the top 5 customers by total order value">
+              Top 5 customers by order value
+            </button>
+            <button class="example-btn" data-query="What is the total revenue for November 2024?">
+              Total revenue for November
+            </button>
+            <button class="example-btn" data-query="Which products have been ordered more than 5 times?">
+              Popular products
+            </button>
+            <button class="example-btn" data-query="Show me all orders from the Electronics category">
+              Electronics orders
+            </button>
+            <button class="example-btn" data-query="What is the average order value?">
+              Average order value
+            </button>
+            <button class="example-btn" data-query="List customers who haven't placed any orders">
+              Inactive customers
+            </button>
+          </div>
+        </div>
+
+        <div id="results-container" style="display: none;">
+          <div class="results-section">
+            <h3>AI Reasoning</h3>
+            <div id="ai-reasoning" class="reasoning-box"></div>
+
+            <div class="sql-query-box">
+              <h4>Generated SQL:</h4>
+              <pre id="sql-query"></pre>
+            </div>
+          </div>
+
+          <div class="results-section">
+            <h3>Results</h3>
+            <div id="results-display" class="results-box"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
