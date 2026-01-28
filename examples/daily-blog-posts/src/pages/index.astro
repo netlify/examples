@@ -1,0 +1,23 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <h1>Adventures in Random Acts of Creativity</h1>
+      <p>
+        Welcome to Whimsical Works, where creativity knows no bounds and imagination is set free! Dive into a colorful world of quirky projects and delightful endeavors that spark joy and curiosity. Here, we embark on spontaneous creative challenges, concoct playful inventions, and explore artistry in its most charmingly unpredictable forms. Whether it's knitting a scarf for a giant rubber duck or crafting a cardboard rocket ship for two, our adventures promise to tickle your funny bone and inspire your own acts of whimsy. Unleash your inner artist and join the fun—let's make the everyday extraordinary!
+      </p>
+    </main>
+    <Footer />
+  </body>
+</html>
