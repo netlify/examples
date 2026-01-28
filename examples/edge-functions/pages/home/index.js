@@ -38,11 +38,6 @@ export default {
         <li><a href="/example/include">Content includes</a></li>
       </ul>
 
-      <h3>Caching</h3>
-      <ul>
-        <li><a href="/example/post-cache">Post-cache edge functions</a></li>
-      </ul>
-
       <h3>Geolocation</h3>
       <ul>
         <li><a href="/example/geolocation">Determine a user's location</a></li>

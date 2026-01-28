@@ -31,7 +31,6 @@ import pageContextSite from "../../pages/context-site/index.js";
 import pageWasm from "../../pages/wasm/index.js";
 import pageSse from "../../pages/server-sent-events/index.js";
 import pageLongRunning from "../../pages/long-running/index.js";
-import pagePostCache from "../../pages/post-cache/index.js";
 
 // The keys here correspond to the path in the request to `/example/PATH`
 const pages = {
@@ -61,7 +60,6 @@ const pages = {
   "server-sent-events": pageSse,
   "long-running": pageLongRunning,
   htmlrewriter: pageHtmlrewriter,
-  "post-cache": pagePostCache,
 };
 
 export default (request, context) => {
