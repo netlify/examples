@@ -1,0 +1,26 @@
+{
+  "name": "smartbucket",
+  "version": "1.0.0",
+  "description": "Semantic document search using Raindrop SmartBucket on Netlify",
+  "type": "module",
+  "keywords": [
+    "netlify",
+    "raindrop",
+    "ai",
+    "serverless",
+    "smartbucket",
+    "semantic-search"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "dev": "netlify dev",
+    "build": "echo 'No build step required'",
+    "deploy": "netlify deploy --prod"
+  },
+  "dependencies": {
+    "@liquidmetal-ai/lm-raindrop": "^0.6.42"
+  },
+  "devDependencies": {
+    "netlify-cli": "^17.0.0"
+  }
+}

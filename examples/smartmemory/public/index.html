@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartMemory Demo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>SmartMemory Chat</h1>
+      <p class="subtitle">Persistent conversation memory with Raindrop</p>
+    </header>
+
+    <div class="session-info">
+      <div id="session-status">Initializing session...</div>
+      <div id="memory-count"></div>
+    </div>
+
+    <div class="chat-container">
+      <div id="messages" class="messages"></div>
+
+      <form id="chat-form" class="chat-form">
+        <input
+          type="text"
+          id="message-input"
+          placeholder="Type your message..."
+          disabled
+          autocomplete="off"
+        >
+        <button type="submit" id="send-button" disabled>Send</button>
+      </form>
+    </div>
+
+    <div id="error-message" class="error-message hidden"></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
