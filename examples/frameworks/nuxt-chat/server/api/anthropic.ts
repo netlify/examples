@@ -23,7 +23,11 @@ export default defineEventHandler(async (event) => {
 
     const block = msg.content[0];
 
+    if (block?.type !== 'text') {
+        throw createError({ statusCode: 502, statusMessage: 'Model returned no text' });
+    }
+
     return {
-        message: block?.type === 'text' ? block.text : ''
+        message: block.text
     };
 });

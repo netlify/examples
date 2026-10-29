@@ -18,8 +18,14 @@ export default defineEventHandler(async (event) => {
         messages
     });
 
+    const content = completion.choices[0]?.message.content;
+
+    if (!content) {
+        throw createError({ statusCode: 502, statusMessage: 'Model returned no text' });
+    }
+
     return {
-        message: completion.choices[0]?.message.content
+        message: content
     };
 
 });
