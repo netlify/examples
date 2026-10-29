@@ -16,13 +16,23 @@ app.post('/mcp', async (req: Request, res: Response) => {
 
   console.log("Received POST MCP request", {body: req.body});
 
+  // serverless-http builds the request from a headers object and leaves rawHeaders
+  // empty, but the MCP SDK reads headers from rawHeaders. Without this it rejects
+  // every request for a missing Content-Type and Accept.
+  if (req.rawHeaders.length === 0) {
+    req.rawHeaders = Object.entries(req.headers).flatMap(([name, value]) =>
+      (Array.isArray(value) ? value : [value ?? ""]).flatMap((v) => [name, String(v)])
+    );
+  }
+
   try {
     const server = setupMCPServer();
     const transport: StreamableHTTPServerTransport = new StreamableHTTPServerTransport({
       sessionIdGenerator: undefined,
     });
     await server.connect(transport);
-    await transport.handleRequest(req, res);
+    // express.json() has already consumed the body stream, so hand the SDK the parsed body.
+    await transport.handleRequest(req, res, req.body);
     res.on('close', () => {
       console.log('Request closed');
       transport.close();
