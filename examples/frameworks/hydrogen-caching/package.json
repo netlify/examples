@@ -5,46 +5,70 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "build": "remix vite:build",
-    "codegen": "shopify hydrogen codegen",
+    "build": "react-router build",
+    "codegen": "shopify hydrogen codegen && react-router typegen",
     "dev": "shopify hydrogen dev --codegen",
-    "lint": "eslint --no-error-on-unmatched-pattern --ext .js,.ts,.jsx,.tsx .",
+    "lint": "eslint --no-error-on-unmatched-pattern .",
     "preview": "netlify serve",
-    "typecheck": "tsc"
+    "typecheck": "react-router typegen && tsc --noEmit"
   },
   "prettier": "@shopify/prettier-config",
   "dependencies": {
-    "@netlify/edge-functions": "^2.10.0",
-    "@netlify/functions": "^2.8.1",
-    "@netlify/remix-edge-adapter": "^3.4.2",
-    "@netlify/remix-runtime": "^2.3.1",
-    "@remix-run/react": "^2.12.0",
-    "@shopify/hydrogen": "^2024.7.4",
-    "graphql": "^16.6.0",
-    "graphql-tag": "^2.12.6",
-    "isbot": "^5.1.17",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "@netlify/edge-functions": "^4.0.3",
+    "@netlify/functions": "^6.0.3",
+    "@shopify/hydrogen": "2026.4.8",
+    "graphql": "^16.11.0",
+    "graphql-tag": "^2.12.7",
+    "isbot": "^5.2.2",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-router": "7.18.5"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^5.0.2",
-    "@remix-run/dev": "^2.12.0",
-    "@remix-run/eslint-config": "^2.12.0",
-    "@shopify/cli": "^3.66.1",
-    "@shopify/hydrogen-codegen": "^0.3.1",
-    "@shopify/prettier-config": "^1.1.2",
-    "@total-typescript/ts-reset": "^0.5.1",
-    "@types/eslint": "^8.4.10",
-    "@types/react": "^18.3.5",
-    "@types/react-dom": "^18.2.7",
-    "eslint": "^8.20.0",
-    "eslint-plugin-hydrogen": "^0.12.3",
-    "prettier": "^2.8.4",
-    "typescript": "^5.2.2",
-    "vite": "^5.4.3",
-    "vite-tsconfig-paths": "^5.0.1"
+    "@eslint/compat": "^1.4.1",
+    "@eslint/eslintrc": "^3.3.7",
+    "@eslint/js": "^9.39.5",
+    "@graphql-codegen/cli": "^7.4.6",
+    "@netlify/vite-plugin": "^3.0.1",
+    "@netlify/vite-plugin-react-router": "^4.0.0",
+    "@react-router/dev": "7.18.5",
+    "@react-router/fs-routes": "7.18.5",
+    "@shopify/cli": "^5.0.0",
+    "@shopify/hydrogen-codegen": "^0.3.3",
+    "@shopify/prettier-config": "^1.1.4",
+    "@total-typescript/ts-reset": "^0.6.1",
+    "@types/eslint": "^9.6.1",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@typescript-eslint/eslint-plugin": "^8.72.1",
+    "@typescript-eslint/parser": "^8.72.1",
+    "eslint": "^9.39.5",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-import-resolver-typescript": "^3.10.1",
+    "eslint-plugin-eslint-comments": "^3.2.0",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-jest": "^28.14.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "globals": "^15.15.0",
+    "graphql-config": "^5.1.8",
+    "prettier": "^3.9.10",
+    "typescript": "^6.0.3",
+    "vite": "^8.3.5"
   },
   "engines": {
-    "node": ">=18"
+    "node": "^22.12.0 || >=24"
+  },
+  "overrides": {
+    "@shopify/hydrogen": {
+      "react-router": "$react-router",
+      "@react-router/dev": "$@react-router/dev"
+    },
+    "lodash": "^4.18.1",
+    "@graphql-tools/utils": "^12.1.0",
+    "use-resize-observer": {
+      "react-dom": "$react-dom"
+    }
   }
 }

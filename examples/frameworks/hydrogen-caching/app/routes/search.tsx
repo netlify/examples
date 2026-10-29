@@ -1,10 +1,5 @@
-import {
-  json,
-  type LoaderFunctionArgs,
-  type ActionFunctionArgs,
-  type HeadersFunction,
-} from '@netlify/remix-runtime';
-import {useLoaderData, type MetaFunction} from '@remix-run/react';
+import {data, useLoaderData} from 'react-router';
+import type {Route} from './+types/search';
 import {getPaginationVariables, Analytics} from '@shopify/hydrogen';
 import {SearchForm} from '~/components/SearchForm';
 import {SearchResults} from '~/components/SearchResults';
@@ -14,32 +9,37 @@ import {
   type PredictiveSearchReturn,
   getEmptyPredictiveSearchResult,
 } from '~/lib/search';
+import type {RegularSearchQuery, PredictiveSearchQuery} from 'storefrontapi.generated';
 
-export const meta: MetaFunction = () => {
+export const meta: Route.MetaFunction = () => {
   return [{title: `Hydrogen | Search`}];
 };
 
-export const headers: HeadersFunction = ({parentHeaders, loaderHeaders}) => ({
+export const headers: Route.HeadersFunction = ({
+  parentHeaders,
+  loaderHeaders,
+}) => ({
   ...Object.fromEntries(parentHeaders),
   ...Object.fromEntries(loaderHeaders),
 });
 
-export async function loader({request, context}: LoaderFunctionArgs) {
+export async function loader({request, context}: Route.LoaderArgs) {
   const url = new URL(request.url);
   const isPredictive = url.searchParams.has('predictive');
-  const searchPromise = isPredictive
-    ? predictiveSearch({request, context})
-    : regularSearch({request, context});
+  const searchPromise: Promise<PredictiveSearchReturn | RegularSearchReturn> =
+    isPredictive
+      ? predictiveSearch({request, context})
+      : regularSearch({request, context});
 
   searchPromise.catch((error: Error) => {
     console.error(error);
     return {term: '', result: null, error: error.message};
   });
 
-  return json(await searchPromise, {
+  return data(await searchPromise, {
     headers: {
       ...CACHE_1_HOUR_SWR,
-      'Netlify-Vary': 'query=q|limit|predictive',
+      'Netlify-Vary': 'query=q|limit|predictive|_routes',
     },
   });
 }
@@ -101,31 +101,33 @@ const SEARCH_PRODUCT_FRAGMENT = `#graphql
     title
     trackingParameters
     vendor
-    variants(first: 1) {
-      nodes {
-        id
-        image {
-          url
-          altText
-          width
-          height
-        }
-        price {
-          amount
-          currencyCode
-        }
-        compareAtPrice {
-          amount
-          currencyCode
-        }
-        selectedOptions {
-          name
-          value
-        }
-        product {
-          handle
-          title
-        }
+    selectedOrFirstAvailableVariant(
+      selectedOptions: []
+      ignoreUnknownOptions: true
+      caseInsensitiveMatch: true
+    ) {
+      id
+      image {
+        url
+        altText
+        width
+        height
+      }
+      price {
+        amount
+        currencyCode
+      }
+      compareAtPrice {
+        amount
+        currencyCode
+      }
+      selectedOptions {
+        name
+        value
+      }
+      product {
+        handle
+        title
       }
     }
   }
@@ -226,7 +228,7 @@ async function regularSearch({
   request,
   context,
 }: Pick<
-  LoaderFunctionArgs,
+  Route.LoaderArgs,
   'request' | 'context'
 >): Promise<RegularSearchReturn> {
   const {storefront} = context;
@@ -235,7 +237,7 @@ async function regularSearch({
   const term = String(url.searchParams.get('q') || '');
 
   // Search articles, pages, and products for the `q` term
-  const {errors, ...items} = await storefront.query(SEARCH_QUERY, {
+  const {errors, ...items}: {errors?: Array<{message: string}>} & RegularSearchQuery = await storefront.query(SEARCH_QUERY, {
     variables: {...variables, term},
   });
 
@@ -244,12 +246,12 @@ async function regularSearch({
   }
 
   const total = Object.values(items).reduce(
-    (acc, {nodes}) => acc + nodes.length,
+    (acc: number, {nodes}: {nodes: Array<unknown>}) => acc + nodes.length,
     0,
   );
 
   const error = errors
-    ? errors.map(({message}) => message).join(', ')
+    ? errors.map(({message}: {message: string}) => message).join(', ')
     : undefined;
 
   return {type: 'regular', term, error, result: {total, items}};
@@ -311,19 +313,21 @@ const PREDICTIVE_SEARCH_PRODUCT_FRAGMENT = `#graphql
     title
     handle
     trackingParameters
-    variants(first: 1) {
-      nodes {
-        id
-        image {
-          url
-          altText
-          width
-          height
-        }
-        price {
-          amount
-          currencyCode
-        }
+    selectedOrFirstAvailableVariant(
+      selectedOptions: []
+      ignoreUnknownOptions: true
+      caseInsensitiveMatch: true
+    ) {
+      id
+      image {
+        url
+        altText
+        width
+        height
+      }
+      price {
+        amount
+        currencyCode
       }
     }
   }
@@ -385,7 +389,7 @@ async function predictiveSearch({
   request,
   context,
 }: Pick<
-  ActionFunctionArgs,
+  Route.ActionArgs,
   'request' | 'context'
 >): Promise<PredictiveSearchReturn> {
   const {storefront} = context;
@@ -397,7 +401,7 @@ async function predictiveSearch({
   if (!term) return {type, term, result: getEmptyPredictiveSearchResult()};
 
   // Predictively search articles, collections, pages, products, and queries (suggestions)
-  const {predictiveSearch: items, errors} = await storefront.query(
+  const {predictiveSearch: items, errors}: PredictiveSearchQuery & {errors?: Array<{message: string}>} = await storefront.query(
     PREDICTIVE_SEARCH_QUERY,
     {
       variables: {
@@ -411,7 +415,7 @@ async function predictiveSearch({
 
   if (errors) {
     throw new Error(
-      `Shopify API errors: ${errors.map(({message}) => message).join(', ')}`,
+      `Shopify API errors: ${errors.map(({message}: {message: string}) => message).join(', ')}`,
     );
   }
 
@@ -420,7 +424,7 @@ async function predictiveSearch({
   }
 
   const total = Object.values(items).reduce(
-    (acc, item) => acc + item.length,
+    (acc: number, item: Array<unknown>) => acc + item.length,
     0,
   );
 

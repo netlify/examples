@@ -1,27 +1,33 @@
-import {defer, type LoaderFunctionArgs} from '@netlify/remix-runtime';
-import {Link, useLoaderData, type MetaFunction} from '@remix-run/react';
+import {
+  Link,
+  useLoaderData,
+} from 'react-router';
+import type {Route} from './+types/blogs._index';
 import {getPaginationVariables} from '@shopify/hydrogen';
 import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';
+import type {BlogsQuery} from 'storefrontapi.generated';
 
-export const meta: MetaFunction = () => {
+type BlogNode = BlogsQuery['blogs']['nodes'][0];
+
+export const meta: Route.MetaFunction = () => {
   return [{title: `Hydrogen | Blogs`}];
 };
 
-export async function loader(args: LoaderFunctionArgs) {
+export async function loader(args: Route.LoaderArgs) {
   // Start fetching non-critical data without blocking time to first byte
   const deferredData = loadDeferredData(args);
 
   // Await the critical data required to render initial state of the page
   const criticalData = await loadCriticalData(args);
 
-  return defer({...deferredData, ...criticalData});
+  return {...deferredData, ...criticalData};
 }
 
 /**
  * Load data necessary for rendering content above the fold. This is the critical data
  * needed to render the page. If it's unavailable, the whole page should 400 or 500 error.
  */
-async function loadCriticalData({context, request}: LoaderFunctionArgs) {
+async function loadCriticalData({context, request}: Route.LoaderArgs) {
   const paginationVariables = getPaginationVariables(request, {
     pageBy: 10,
   });
@@ -43,7 +49,7 @@ async function loadCriticalData({context, request}: LoaderFunctionArgs) {
  * fetched after the initial page load. If it's unavailable, the page should still 200.
  * Make sure to not throw any errors here, as it will cause the page to 500.
  */
-function loadDeferredData({context}: LoaderFunctionArgs) {
+function loadDeferredData({context}: Route.LoaderArgs) {
   return {};
 }
 
@@ -54,7 +60,7 @@ export default function Blogs() {
     <div className="blogs">
       <h1>Blogs</h1>
       <div className="blogs-grid">
-        <PaginatedResourceSection connection={blogs}>
+        <PaginatedResourceSection<BlogNode> connection={blogs}>
           {({node: blog}) => (
             <Link
               className="blog"

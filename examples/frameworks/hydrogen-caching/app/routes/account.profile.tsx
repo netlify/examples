@@ -2,38 +2,34 @@ import type {CustomerFragment} from 'customer-accountapi.generated';
 import type {CustomerUpdateInput} from '@shopify/hydrogen/customer-account-api-types';
 import {CUSTOMER_UPDATE_MUTATION} from '~/graphql/customer-account/CustomerUpdateMutation';
 import {
-  json,
-  type ActionFunctionArgs,
-  type LoaderFunctionArgs,
-} from '@netlify/remix-runtime';
-import {
+  data,
   Form,
   useActionData,
   useNavigation,
   useOutletContext,
-  type MetaFunction,
-} from '@remix-run/react';
+} from 'react-router';
+import type {Route} from './+types/account.profile';
 
 export type ActionResponse = {
   error: string | null;
   customer: CustomerFragment | null;
 };
 
-export const meta: MetaFunction = () => {
+export const meta: Route.MetaFunction = () => {
   return [{title: 'Profile'}];
 };
 
-export async function loader({context}: LoaderFunctionArgs) {
+export async function loader({context}: Route.LoaderArgs) {
   await context.customerAccount.handleAuthStatus();
 
-  return json({});
+  return {};
 }
 
-export async function action({request, context}: ActionFunctionArgs) {
+export async function action({request, context}: Route.ActionArgs) {
   const {customerAccount} = context;
 
   if (request.method !== 'PUT') {
-    return json({error: 'Method not allowed'}, {status: 405});
+    return data({error: 'Method not allowed'}, {status: 405});
   }
 
   const form = await request.formData();
@@ -56,6 +52,7 @@ export async function action({request, context}: ActionFunctionArgs) {
       {
         variables: {
           customer,
+          language: customerAccount.i18n.language,
         },
       },
     );
@@ -68,12 +65,12 @@ export async function action({request, context}: ActionFunctionArgs) {
       throw new Error('Customer profile update failed.');
     }
 
-    return json({
+    return {
       error: null,
       customer: data?.customerUpdate?.customer,
-    });
+    };
   } catch (error: any) {
-    return json(
+    return data(
       {error: error.message, customer: null},
       {
         status: 400,

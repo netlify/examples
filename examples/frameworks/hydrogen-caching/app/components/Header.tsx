@@ -1,5 +1,9 @@
-import {NavLink} from '@remix-run/react';
-import {type CartViewPayload, useAnalytics} from '@shopify/hydrogen';
+import {NavLink} from 'react-router';
+import {
+  type CartViewPayload,
+  useAnalytics,
+  useOptimisticCart,
+} from '@shopify/hydrogen';
 import type {HeaderQuery} from 'storefrontapi.generated';
 import {useAside} from '~/components/Aside';
 import {useCart} from '~/components/CartProvider';
@@ -144,9 +148,8 @@ function CartBadge({count}: {count: number | null}) {
 }
 
 function CartToggle() {
-  const cart = useCart();
-  if (!cart) return <CartBadge count={0} />;
-  return <CartBadge count={cart.totalQuantity || 0} />;
+  const cart = useOptimisticCart(useCart());
+  return <CartBadge count={cart?.totalQuantity ?? 0} />;
 }
 
 const FALLBACK_HEADER_MENU = {

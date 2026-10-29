@@ -3,7 +3,7 @@ import {
   useNavigate,
   type FormProps,
   type Fetcher,
-} from '@remix-run/react';
+} from 'react-router';
 import React, {useRef, useEffect} from 'react';
 import type {PredictiveSearchReturn} from '~/lib/search';
 import {useAside} from './Aside';
@@ -46,13 +46,13 @@ export function SearchFormPredictive({
   /** Navigate to the search page with the current input value */
   function goToSearch() {
     const term = inputRef?.current?.value;
-    navigate(SEARCH_ENDPOINT + (term ? `?q=${term}` : ''));
+    void navigate(SEARCH_ENDPOINT + (term ? `?q=${term}` : ''));
     aside.close();
   }
 
   /** Fetch search results based on the input value */
   function fetchResults(event: React.ChangeEvent<HTMLInputElement>) {
-    fetcher.submit(
+    void fetcher.submit(
       {q: event.target.value || '', limit: 5, predictive: true},
       {method: 'GET', action: SEARCH_ENDPOINT},
     );

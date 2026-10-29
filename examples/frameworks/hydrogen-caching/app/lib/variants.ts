@@ -1,10 +1,10 @@
-import {useLocation} from '@remix-run/react';
+import {useLocation} from 'react-router';
 import type {SelectedOption} from '@shopify/hydrogen/storefront-api-types';
 import {useMemo} from 'react';
 
 export function useVariantUrl(
   handle: string,
-  selectedOptions: SelectedOption[],
+  selectedOptions?: SelectedOption[],
 ) {
   const {pathname} = useLocation();
 
@@ -27,7 +27,7 @@ export function getVariantUrl({
   handle: string;
   pathname: string;
   searchParams: URLSearchParams;
-  selectedOptions: SelectedOption[];
+  selectedOptions?: SelectedOption[];
 }) {
   const match = /(\/[a-zA-Z]{2}-[a-zA-Z]{2}\/)/g.exec(pathname);
   const isLocalePathname = match && match.length > 0;
@@ -36,7 +36,7 @@ export function getVariantUrl({
     ? `${match![0]}products/${handle}`
     : `/products/${handle}`;
 
-  selectedOptions.forEach((option) => {
+  selectedOptions?.forEach((option) => {
     searchParams.set(option.name, option.value);
   });
 

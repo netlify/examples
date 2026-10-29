@@ -1,5 +1,5 @@
 import {createContext, useContext, useEffect} from 'react';
-import {useFetcher} from '@remix-run/react';
+import {useFetcher} from 'react-router';
 import type {Customer} from '@shopify/hydrogen-react/storefront-api-types';
 
 const CustomerContext = createContext<Customer | undefined>(undefined);
@@ -10,7 +10,7 @@ export function CustomerProvider({children}: {children: React.ReactNode}) {
   useEffect(() => {
     if (fetcher.data || fetcher.state === 'loading') return;
 
-    fetcher.load('/account');
+    void fetcher.load('/account');
   }, [fetcher]);
 
   return (

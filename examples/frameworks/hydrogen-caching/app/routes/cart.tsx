@@ -1,34 +1,23 @@
-import {type MetaFunction, useLoaderData} from '@remix-run/react';
+import {data, type HeadersFunction} from 'react-router';
+import type {Route} from './+types/cart';
 import type {CartQueryDataReturn} from '@shopify/hydrogen';
 import {CartForm} from '@shopify/hydrogen';
-import {
-  json,
-  type ActionFunctionArgs,
-  type LoaderFunctionArgs,
-} from '@netlify/remix-runtime';
 import {CartMain} from '~/components/CartMain';
 import {NO_CACHE} from '~/lib/page-cache';
 
-export const meta: MetaFunction = () => {
+export const meta: Route.MetaFunction = () => {
   return [{title: `Hydrogen | Cart`}];
 };
 
-export async function loader({context}: LoaderFunctionArgs) {
-  const {cart} = context;
-  const existingCart = await cart.get();
-  if (existingCart) {
-    return json(existingCart, {headers: {...NO_CACHE}});
-  }
+// React Router adds loader and action cookies itself, so only Location is carried over.
+export const headers: HeadersFunction = ({actionHeaders}) => {
+  const headers = new Headers(NO_CACHE);
+  const location = actionHeaders.get('Location');
+  if (location) headers.set('Location', location);
+  return headers;
+};
 
-  const {cart: createdCart} = await cart.create({});
-  // The Cart ID might change after each mutation, so update it each time.
-  const headers = cart.setCartId(createdCart.id);
-  return json(createdCart, {
-    headers: {...Object.fromEntries(headers), ...NO_CACHE},
-  });
-}
-
-export async function action({request, context}: ActionFunctionArgs) {
+export async function action({request, context}: Route.ActionArgs) {
   const {cart} = context;
 
   const formData = await request.formData();
@@ -66,6 +55,21 @@ export async function action({request, context}: ActionFunctionArgs) {
       result = await cart.updateDiscountCodes(discountCodes);
       break;
     }
+    case CartForm.ACTIONS.GiftCardCodesAdd: {
+      const formGiftCardCode = inputs.giftCardCode;
+
+      const giftCardCodes = (
+        formGiftCardCode ? [formGiftCardCode] : []
+      ) as string[];
+
+      result = await cart.addGiftCardCodes(giftCardCodes);
+      break;
+    }
+    case CartForm.ACTIONS.GiftCardCodesRemove: {
+      const appliedGiftCardIds = inputs.giftCardCodes as string[];
+      result = await cart.removeGiftCardCodes(appliedGiftCardIds);
+      break;
+    }
     case CartForm.ACTIONS.BuyerIdentityUpdate: {
       result = await cart.updateBuyerIdentity({
         ...inputs.buyerIdentity,
@@ -78,7 +82,7 @@ export async function action({request, context}: ActionFunctionArgs) {
 
   const cartId = result?.cart?.id;
   const headers = cartId ? cart.setCartId(result.cart.id) : new Headers();
-  const {cart: cartResult, errors} = result;
+  const {cart: cartResult, errors, warnings} = result;
 
   const redirectTo = formData.get('redirectTo') ?? null;
   if (typeof redirectTo === 'string') {
@@ -86,10 +90,11 @@ export async function action({request, context}: ActionFunctionArgs) {
     headers.set('Location', redirectTo);
   }
 
-  return json(
+  return data(
     {
       cart: cartResult,
       errors,
+      warnings,
       analytics: {
         cartId,
       },
@@ -98,11 +103,26 @@ export async function action({request, context}: ActionFunctionArgs) {
   );
 }
 
+export async function loader({context}: Route.LoaderArgs) {
+  const {cart} = context;
+  const existingCart = await cart.get();
+  if (existingCart) {
+    return data(existingCart, {headers: {...NO_CACHE}});
+  }
+
+  const {cart: createdCart} = await cart.create({});
+  // The Cart ID might change after each mutation, so update it each time.
+  const headers = cart.setCartId(createdCart.id);
+  return data(createdCart, {
+    headers: {...Object.fromEntries(headers), ...NO_CACHE},
+  });
+}
+
 export default function Cart() {
   return (
     <div className="cart">
       <h1>Cart</h1>
-      return <CartMain layout="page" />;
+      <CartMain layout="page" />
     </div>
   );
 }

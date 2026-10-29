@@ -14,15 +14,30 @@ img {
 
 /*
 * --------------------------------------------------
+* Non anchor links
+* --------------------------------------------------
+*/
+.link:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/*
+* --------------------------------------------------
 * components/Aside
 * --------------------------------------------------
 */
+@media (max-width: 45em) {
+  html:has(.overlay.expanded) {
+    overflow: hidden;
+  }
+}
+
 aside {
   background: var(--color-light);
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.3);
   height: 100vh;
-  max-width: var(--aside-width);
-  min-width: var(--aside-width);
+  width: min(var(--aside-width), 100vw);
   position: fixed;
   right: calc(-1 * var(--aside-width));
   top: 0;
@@ -73,6 +88,18 @@ aside p:last-child {
 
 aside li {
   margin-bottom: 0.125rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border-width: 0;
 }
 
 .overlay {
@@ -191,6 +218,10 @@ button.reset:hover:not(:has(> *)) {
   margin-left: auto;
 }
 
+.header-ctas > * {
+  min-width: fit-content;
+}
+
 /*
 * --------------------------------------------------
 * components/Footer
@@ -202,14 +233,16 @@ button.reset:hover:not(:has(> *)) {
 }
 
 .footer-menu {
-  align-items: center;
+  justify-content: center;
   display: flex;
+  flex-wrap: wrap;
   grid-gap: 1rem;
   padding: 1rem;
 }
 
 .footer-menu a {
   color: var(--color-light);
+  min-width: fit-content;
 }
 
 /*
@@ -229,8 +262,11 @@ button.reset:hover:not(:has(> *)) {
 }
 
 .cart-line {
-  display: flex;
   padding: 0.75rem 0;
+}
+
+.cart-line-inner {
+  display: flex;
 }
 
 .cart-line img {
@@ -254,6 +290,11 @@ button.reset:hover:not(:has(> *)) {
 
 .cart-line-quantity {
   display: flex;
+}
+
+/* Child line components (warranties, gift wrapping, etc.) */
+.cart-line-children {
+  padding-left: 2rem;
 }
 
 .cart-discount {
@@ -440,8 +481,22 @@ button.reset:hover:not(:has(> *)) {
   grid-gap: 0.75rem;
 }
 
-.product-options-item {
+.product-options-item,
+.product-options-item:disabled {
   padding: 0.25rem 0.5rem;
+  background-color: transparent;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.product-option-label-swatch {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin: 0.25rem 0;
+}
+
+.product-option-label-swatch img {
+  width: 100%;
 }
 
 /*
@@ -483,4 +538,57 @@ button.reset:hover:not(:has(> *)) {
 
 .account-logout {
   display: inline-block;
+}
+
+/*
+* --------------------------------------------------
+* Order Search Form - Minimal & Responsive
+* --------------------------------------------------
+*/
+.order-search-form {
+  margin-bottom: 1.5rem;
+}
+
+.order-search-fieldset {
+  border: 1px solid #e5e5e5;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+.order-search-legend {
+  font-weight: 600;
+  padding: 0 0.5rem;
+}
+
+.order-search-active {
+  font-weight: normal;
+  opacity: 0.7;
+  margin-left: 0.5rem;
+}
+
+.order-search-inputs {
+  display: grid;
+  gap: 1rem;
+  margin: 0.25rem 0 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .order-search-inputs {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.order-search-input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.order-search-buttons {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }

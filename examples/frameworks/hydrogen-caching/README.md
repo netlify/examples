@@ -1,7 +1,7 @@
 # Hydrogen example storefront with advanced caching patterns
 
 Hydrogen is Shopify’s stack for headless commerce. Hydrogen is designed to dovetail with
-[Remix](https://remix.run/), Shopify’s full stack web framework. This template contains a **minimal
+[React Router](https://reactrouter.com/), a full stack web framework. This template contains a **minimal
 setup** of components, queries and tooling to get started with Hydrogen.
 
 [View this example site here]: https://example-hydrogen-caching.netlify.app/
@@ -32,9 +32,9 @@ See also [our Hydrogen template without caching](https://github.com/netlify/hydr
 
 ## What's included
 
-- Remix 2
+- React Router 7
   - [Check out Hydrogen docs](https://shopify.dev/custom-storefronts/hydrogen)
-  - [Get familiar with Remix](https://remix.run/docs/)
+  - [Get familiar with React Router](https://reactrouter.com/home)
 - Hydrogen
 - Shopify CLI
 - Configured deployment to Netlify, with Server-Side Rendering (SSR) via [Netlify Edge
@@ -57,7 +57,7 @@ See also [our Hydrogen template without caching](https://github.com/netlify/hydr
 
 **Requirements:**
 
-- Node.js version 18.0.0 or higher
+- Node.js version 22.12.0 or higher
 - Netlify CLI 17.0.0 or higher
 
 ```bash
@@ -85,10 +85,10 @@ npm run build
 
 See `app/lib/context.ts` and the Hydrogen documentation.
 
-## How do I augment the Remix context?
+## How do I augment the React Router context?
 
-Add your custom context to the object returned by the `createAppLoadContext` function in
-`app/lib/context.ts` and ensure the return type is updated (e.g. `HydrogenContext & {foo: string}`).
+Add your custom properties to the `additionalContext` object in `app/lib/context.ts`. Its type is
+merged into `HydrogenAdditionalContext`, so the properties are typed in every loader and action.
 
 ### How do I configure a real Shopify store in local dev?
 
@@ -103,7 +103,7 @@ See [these Shopify instructions](https://shopify.dev/docs/storefronts/headless/b
 
 If your `.js` and `.css` files are failing to load in local development (with 404 responses), you
 may be running into an issue that occurs when `netlify dev` is run after having run a build (via
-`netlify build`, `netlify serve`, `npm run build`, or `remix vite:build`). This is a known issue
+`netlify build`, `netlify serve`, `npm run build`, or `react-router build`). This is a known issue
 that Netlify is working on.
 
 To fix this, delete the conflicting built functions before running your dev server:

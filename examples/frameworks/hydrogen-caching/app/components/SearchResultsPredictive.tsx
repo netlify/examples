@@ -1,4 +1,4 @@
-import {Link, useFetcher, type Fetcher} from '@remix-run/react';
+import {Link, useFetcher, type Fetcher} from 'react-router';
 import {Image, Money} from '@shopify/hydrogen';
 import React, {useRef, useEffect} from 'react';
 import {
@@ -133,7 +133,7 @@ function SearchResultsPredictiveCollections({
       <h5>Collections</h5>
       <ul>
         {collections.map((collection) => {
-          const colllectionUrl = urlWithTrackingParams({
+          const collectionUrl = urlWithTrackingParams({
             baseUrl: `/collections/${collection.handle}`,
             trackingParams: collection.trackingParameters,
             term: term.current,
@@ -141,7 +141,7 @@ function SearchResultsPredictiveCollections({
 
           return (
             <li className="predictive-search-result-item" key={collection.id}>
-              <Link onClick={closeSearch} to={colllectionUrl}>
+              <Link onClick={closeSearch} to={collectionUrl}>
                 {collection.image?.url && (
                   <Image
                     alt={collection.image.altText ?? ''}
@@ -213,7 +213,8 @@ function SearchResultsPredictiveProducts({
             term: term.current,
           });
 
-          const image = product?.variants?.nodes?.[0].image;
+          const price = product?.selectedOrFirstAvailableVariant?.price;
+          const image = product?.selectedOrFirstAvailableVariant?.image;
           return (
             <li className="predictive-search-result-item" key={product.id}>
               <Link to={productUrl} onClick={closeSearch}>
@@ -227,11 +228,7 @@ function SearchResultsPredictiveProducts({
                 )}
                 <div>
                   <p>{product.title}</p>
-                  <small>
-                    {product?.variants?.nodes?.[0].price && (
-                      <Money data={product.variants.nodes[0].price} />
-                    )}
-                  </small>
+                  <small>{price && <Money data={price} />}</small>
                 </div>
               </Link>
             </li>
@@ -244,35 +241,20 @@ function SearchResultsPredictiveProducts({
 
 function SearchResultsPredictiveQueries({
   queries,
-  inputRef,
-}: PartialPredictiveSearchResult<'queries', 'inputRef'>) {
+  queriesDatalistId,
+}: PartialPredictiveSearchResult<'queries', never> & {
+  queriesDatalistId: string;
+}) {
   if (!queries.length) return null;
 
   return (
-    <div className="predictive-search-result" key="queries">
-      <h5>Queries</h5>
-      <ul>
-        {queries.map((suggestion) => {
-          if (!suggestion) return null;
+    <datalist id={queriesDatalistId}>
+      {queries.map((suggestion) => {
+        if (!suggestion) return null;
 
-          return (
-            <li className="predictive-search-result-item" key={suggestion.text}>
-              <div
-                role="presentation"
-                onClick={() => {
-                  if (!inputRef.current) return;
-                  inputRef.current.value = suggestion.text;
-                  inputRef.current.focus();
-                }}
-                dangerouslySetInnerHTML={{
-                  __html: suggestion?.styledText,
-                }}
-              />
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+        return <option key={suggestion.text} value={suggestion.text} />;
+      })}
+    </datalist>
   );
 }
 

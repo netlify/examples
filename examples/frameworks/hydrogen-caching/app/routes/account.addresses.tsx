@@ -4,18 +4,14 @@ import type {
   CustomerFragment,
 } from 'customer-accountapi.generated';
 import {
-  json,
-  type ActionFunctionArgs,
-  type LoaderFunctionArgs,
-} from '@netlify/remix-runtime';
-import {
+  data,
   Form,
   useActionData,
   useNavigation,
   useOutletContext,
-  type MetaFunction,
   type Fetcher,
-} from '@remix-run/react';
+} from 'react-router';
+import type {Route} from './+types/account.addresses';
 import {
   UPDATE_ADDRESS_MUTATION,
   DELETE_ADDRESS_MUTATION,
@@ -31,17 +27,17 @@ export type ActionResponse = {
   updatedAddress?: AddressFragment;
 };
 
-export const meta: MetaFunction = () => {
+export const meta: Route.MetaFunction = () => {
   return [{title: 'Addresses'}];
 };
 
-export async function loader({context}: LoaderFunctionArgs) {
+export async function loader({context}: Route.LoaderArgs) {
   await context.customerAccount.handleAuthStatus();
 
-  return json({});
+  return {};
 }
 
-export async function action({request, context}: ActionFunctionArgs) {
+export async function action({request, context}: Route.ActionArgs) {
   const {customerAccount} = context;
 
   try {
@@ -57,7 +53,7 @@ export async function action({request, context}: ActionFunctionArgs) {
     // this will ensure redirecting to login never happen for mutatation
     const isLoggedIn = await customerAccount.isLoggedIn();
     if (!isLoggedIn) {
-      return json(
+      return data(
         {error: {[addressId]: 'Unauthorized'}},
         {
           status: 401,
@@ -96,7 +92,11 @@ export async function action({request, context}: ActionFunctionArgs) {
           const {data, errors} = await customerAccount.mutate(
             CREATE_ADDRESS_MUTATION,
             {
-              variables: {address, defaultAddress},
+              variables: {
+                address,
+                defaultAddress,
+                language: customerAccount.i18n.language,
+              },
             },
           );
 
@@ -112,21 +112,21 @@ export async function action({request, context}: ActionFunctionArgs) {
             throw new Error('Customer address create failed.');
           }
 
-          return json({
+          return {
             error: null,
             createdAddress: data?.customerAddressCreate?.customerAddress,
             defaultAddress,
-          });
+          };
         } catch (error: unknown) {
           if (error instanceof Error) {
-            return json(
+            return data(
               {error: {[addressId]: error.message}},
               {
                 status: 400,
               },
             );
           }
-          return json(
+          return data(
             {error: {[addressId]: error}},
             {
               status: 400,
@@ -145,6 +145,7 @@ export async function action({request, context}: ActionFunctionArgs) {
                 address,
                 addressId: decodeURIComponent(addressId),
                 defaultAddress,
+                language: customerAccount.i18n.language,
               },
             },
           );
@@ -161,21 +162,21 @@ export async function action({request, context}: ActionFunctionArgs) {
             throw new Error('Customer address update failed.');
           }
 
-          return json({
+          return {
             error: null,
             updatedAddress: address,
             defaultAddress,
-          });
+          };
         } catch (error: unknown) {
           if (error instanceof Error) {
-            return json(
+            return data(
               {error: {[addressId]: error.message}},
               {
                 status: 400,
               },
             );
           }
-          return json(
+          return data(
             {error: {[addressId]: error}},
             {
               status: 400,
@@ -190,7 +191,10 @@ export async function action({request, context}: ActionFunctionArgs) {
           const {data, errors} = await customerAccount.mutate(
             DELETE_ADDRESS_MUTATION,
             {
-              variables: {addressId: decodeURIComponent(addressId)},
+              variables: {
+                addressId: decodeURIComponent(addressId),
+                language: customerAccount.i18n.language,
+              },
             },
           );
 
@@ -206,17 +210,17 @@ export async function action({request, context}: ActionFunctionArgs) {
             throw new Error('Customer address delete failed.');
           }
 
-          return json({error: null, deletedAddress: addressId});
+          return {error: null, deletedAddress: addressId};
         } catch (error: unknown) {
           if (error instanceof Error) {
-            return json(
+            return data(
               {error: {[addressId]: error.message}},
               {
                 status: 400,
               },
             );
           }
-          return json(
+          return data(
             {error: {[addressId]: error}},
             {
               status: 400,
@@ -226,7 +230,7 @@ export async function action({request, context}: ActionFunctionArgs) {
       }
 
       default: {
-        return json(
+        return data(
           {error: {[addressId]: 'Method not allowed'}},
           {
             status: 405,
@@ -236,14 +240,14 @@ export async function action({request, context}: ActionFunctionArgs) {
     }
   } catch (error: unknown) {
     if (error instanceof Error) {
-      return json(
+      return data(
         {error: error.message},
         {
           status: 400,
         },
       );
     }
-    return json(
+    return data(
       {error},
       {
         status: 400,
@@ -260,23 +264,23 @@ export default function Addresses() {
     <div className="account-addresses">
       <h2>Addresses</h2>
       <br />
-      {!addresses.nodes.length ? (
-        <p>You have no addresses saved.</p>
-      ) : (
+      <div>
         <div>
-          <div>
-            <legend>Create address</legend>
-            <NewAddressForm />
-          </div>
-          <br />
-          <hr />
-          <br />
+          <legend>Create address</legend>
+          <NewAddressForm key={addresses.nodes.length} />
+        </div>
+        <br />
+        <hr />
+        <br />
+        {!addresses.nodes.length ? (
+          <p>You have no addresses saved.</p>
+        ) : (
           <ExistingAddresses
             addresses={addresses}
             defaultAddress={defaultAddress}
           />
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

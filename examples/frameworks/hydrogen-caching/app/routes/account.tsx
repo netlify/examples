@@ -1,9 +1,11 @@
 import {
-  json,
-  type HeadersFunction,
-  type LoaderFunctionArgs,
-} from '@netlify/remix-runtime';
-import {Form, NavLink, Outlet, useLoaderData} from '@remix-run/react';
+  data as remixData,
+  Form,
+  NavLink,
+  Outlet,
+  useLoaderData,
+} from 'react-router';
+import type {Route} from './+types/account';
 import {CUSTOMER_DETAILS_QUERY} from '~/graphql/customer-account/CustomerDetailsQuery';
 import {NO_CACHE} from '~/lib/page-cache';
 
@@ -11,20 +13,26 @@ export function shouldRevalidate() {
   return true;
 }
 
-export const headers: HeadersFunction = () => ({
+export const headers: Route.HeadersFunction = () => ({
   ...NO_CACHE,
 });
 
-export async function loader({context}: LoaderFunctionArgs) {
-  const {data, errors} = await context.customerAccount.query(
+export async function loader({context}: Route.LoaderArgs) {
+  const {customerAccount} = context;
+  const {data, errors} = await customerAccount.query(
     CUSTOMER_DETAILS_QUERY,
+    {
+      variables: {
+        language: customerAccount.i18n.language,
+      },
+    },
   );
 
   if (errors?.length || !data?.customer) {
     throw new Error('Customer not found');
   }
 
-  return json(
+  return remixData(
     {customer: data.customer},
     {
       headers: {

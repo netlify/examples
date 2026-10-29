@@ -1,31 +1,58 @@
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-} from '@netlify/remix-runtime';
-import {CACHE_1_HOUR_SWR} from '~/lib/page-cache';
+import {ServerRouter} from 'react-router';
+import {isbot} from 'isbot';
+// `server.browser` sounds funny, but it is the correct entry point to use when
+// rendering in a non-Node.js edge environment
+import {renderToReadableStream} from 'react-dom/server.browser';
+import type {HydrogenRouterContextProvider} from '@shopify/hydrogen';
+import type {EntryContext} from 'react-router';
 
-// @ts-ignore -- This is a Vite virtual module. It will be resolved at build time.
-export {default} from 'virtual:netlify-server-entry';
-
-export function handleDataRequest(
-  response: Response,
-  {request}: LoaderFunctionArgs | ActionFunctionArgs,
+export default async function handleRequest(
+  request: Request,
+  responseStatusCode: number,
+  responseHeaders: Headers,
+  reactRouterContext: EntryContext,
+  context: HydrogenRouterContextProvider,
 ) {
-  // If a loader has defined custom cache headers, assume they know what they're doing. Otherwise,
-  // apply these defaults. We do this here because there is no Remix mechanism to define default
-  // loader headers, nor is there a mechanism for routes to inherit parent route loader headers.
-  const hasCustomCacheControl =
-    response.headers.has('Netlify-CDN-Cache-Control') ||
-    response.headers.has('CDN-Cache-Control') ||
-    response.headers.has('Cache-Control');
-  const isCacheable =
-    // X-Remix-Response indicates this is sending a "response" as opposed to a redirect (I think).
-    // Probably should do something less leaky here if we merge this.
-    request.method === 'GET' && response.headers.has('X-Remix-Response');
-  if (!hasCustomCacheControl && isCacheable) {
-    for (const [key, value] of Object.entries(CACHE_1_HOUR_SWR)) {
-      response.headers.set(key, value);
+  // Deno's ReadableByteStreamController throws if the stream is closed after
+  // an abort signal fires. Work around this by using an intermediary
+  // AbortController that only forwards the abort if the stream is still open.
+  let isStreamClosing = false;
+  const abortController = new AbortController();
+  request.signal.addEventListener('abort', () => {
+    if (!isStreamClosing) {
+      abortController.abort(request.signal.reason);
     }
+  });
+
+  const body = await renderToReadableStream(
+    <ServerRouter context={reactRouterContext} url={request.url} />,
+    {
+      signal: abortController.signal,
+      onError(error: unknown) {
+        console.error(error);
+        responseStatusCode = 500;
+      },
+    },
+  );
+
+  // Identity transform to detect when the stream finishes naturally,
+  // preventing the abort handler from double-closing it.
+  const transformedBody = body.pipeThrough(
+    new TransformStream({
+      flush() {
+        isStreamClosing = true;
+      },
+    }),
+  );
+
+  if (isbot(request.headers.get('user-agent'))) {
+    await body.allReady;
   }
-  return response;
+
+  responseHeaders.set('Content-Type', 'text/html');
+
+  return new Response(transformedBody, {
+    headers: responseHeaders,
+    status: responseStatusCode,
+  });
 }
