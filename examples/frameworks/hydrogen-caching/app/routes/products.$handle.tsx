@@ -1,4 +1,4 @@
-import {data, redirect, useLoaderData} from 'react-router';
+import {data, useLoaderData} from 'react-router';
 import type {Route} from './+types/products.$handle';
 import {
   getSelectedProductOptions,

@@ -9,10 +9,13 @@ export const meta: Route.MetaFunction = () => {
   return [{title: `Hydrogen | Cart`}];
 };
 
-export const headers: HeadersFunction = ({actionHeaders}) => ({
-  ...Object.fromEntries(actionHeaders),
-  ...NO_CACHE,
-});
+// React Router adds loader and action cookies itself, so only Location is carried over.
+export const headers: HeadersFunction = ({actionHeaders}) => {
+  const headers = new Headers(NO_CACHE);
+  const location = actionHeaders.get('Location');
+  if (location) headers.set('Location', location);
+  return headers;
+};
 
 export async function action({request, context}: Route.ActionArgs) {
   const {cart} = context;

@@ -39,12 +39,15 @@ export default async function handler(
       build: serverBuild,
       mode: process.env.NODE_ENV,
       getLoadContext: () => hydrogenContext,
+      // Storefront tracking cookies would be attached to every response, including pages the CDN
+      // caches and shares between visitors.
+      collectTrackingInformation: false,
     });
 
     const response = await handleRequest(request);
 
     if (hydrogenContext.session.isPending) {
-      response.headers.set(
+      response.headers.append(
         'Set-Cookie',
         await hydrogenContext.session.commit(),
       );

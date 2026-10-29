@@ -52,7 +52,7 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
     "globals": "^15.15.0",
-    "graphql-config": "^6.0.0",
+    "graphql-config": "^5.1.8",
     "prettier": "^3.9.10",
     "typescript": "^6.0.3",
     "vite": "^8.3.5"
@@ -64,10 +64,6 @@
     "@shopify/hydrogen": {
       "react-router": "$react-router",
       "@react-router/dev": "$@react-router/dev"
-    },
-    "@shopify/cli": {
-      "@graphql-codegen/cli": "$@graphql-codegen/cli",
-      "graphql-config": "$graphql-config"
     },
     "lodash": "^4.18.1",
     "@graphql-tools/utils": "^12.1.0",

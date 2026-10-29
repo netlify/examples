@@ -85,10 +85,10 @@ npm run build
 
 See `app/lib/context.ts` and the Hydrogen documentation.
 
-## How do I augment the Remix context?
+## How do I augment the React Router context?
 
-Add your custom context to the object returned by the `createAppLoadContext` function in
-`app/lib/context.ts` and ensure the return type is updated (e.g. `HydrogenContext & {foo: string}`).
+Add your custom properties to the `additionalContext` object in `app/lib/context.ts`. Its type is
+merged into `HydrogenAdditionalContext`, so the properties are typed in every loader and action.
 
 ### How do I configure a real Shopify store in local dev?
 
@@ -103,7 +103,7 @@ See [these Shopify instructions](https://shopify.dev/docs/storefronts/headless/b
 
 If your `.js` and `.css` files are failing to load in local development (with 404 responses), you
 may be running into an issue that occurs when `netlify dev` is run after having run a build (via
-`netlify build`, `netlify serve`, `npm run build`, or `remix vite:build`). This is a known issue
+`netlify build`, `netlify serve`, `npm run build`, or `react-router build`). This is a known issue
 that Netlify is working on.
 
 To fix this, delete the conflicting built functions before running your dev server:

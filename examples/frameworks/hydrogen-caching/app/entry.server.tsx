@@ -3,10 +3,7 @@ import {isbot} from 'isbot';
 // `server.browser` sounds funny, but it is the correct entry point to use when
 // rendering in a non-Node.js edge environment
 import {renderToReadableStream} from 'react-dom/server.browser';
-import {
-  createContentSecurityPolicy,
-  type HydrogenRouterContextProvider,
-} from '@shopify/hydrogen';
+import type {HydrogenRouterContextProvider} from '@shopify/hydrogen';
 import type {EntryContext} from 'react-router';
 
 export default async function handleRequest(
@@ -27,23 +24,9 @@ export default async function handleRequest(
     }
   });
 
-  const {nonce, header, NonceProvider} = createContentSecurityPolicy({
-    shop: {
-      checkoutDomain: context.env.PUBLIC_CHECKOUT_DOMAIN,
-      storeDomain: context.env.PUBLIC_STORE_DOMAIN,
-    },
-  });
-
   const body = await renderToReadableStream(
-    <NonceProvider>
-      <ServerRouter
-        context={reactRouterContext}
-        url={request.url}
-        nonce={nonce}
-      />
-    </NonceProvider>,
+    <ServerRouter context={reactRouterContext} url={request.url} />,
     {
-      nonce,
       signal: abortController.signal,
       onError(error: unknown) {
         console.error(error);
@@ -67,7 +50,6 @@ export default async function handleRequest(
   }
 
   responseHeaders.set('Content-Type', 'text/html');
-  responseHeaders.set('Content-Security-Policy', header);
 
   return new Response(transformedBody, {
     headers: responseHeaders,
