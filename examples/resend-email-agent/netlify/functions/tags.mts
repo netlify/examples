@@ -111,7 +111,7 @@ async function listTags(): Promise<Response> {
 
     for (const blob of entryBlobs) {
       try {
-        const entryData = await recipesStore.get(blob.key);
+        const entryData = await recipesStore.get(blob.key, { type: 'text' });
         if (!entryData) continue;
 
         const entry: RecipeEntry = JSON.parse(entryData);
@@ -120,7 +120,7 @@ async function listTags(): Promise<Response> {
         // Check for overrides
         try {
           const overrideKey = `${entry.id}/override.json`;
-          const overrideData = await recipesStore.get(overrideKey);
+          const overrideData = await recipesStore.get(overrideKey, { type: 'text' });
           if (overrideData) {
             const override: RecipeOverride = JSON.parse(overrideData);
             if (override.recipe?.tags) {
