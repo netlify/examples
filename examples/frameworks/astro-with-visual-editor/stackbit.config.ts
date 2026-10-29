@@ -5,7 +5,7 @@ import { GitContentSource } from "@stackbit/cms-git";
 export default defineStackbitConfig({
   stackbitVersion: "~0.6.0",
   ssgName: "custom",
-  nodeVersion: "18",
+  nodeVersion: "24",
   devCommand: "node_modules/.bin/astro dev --port {PORT} --hostname 127.0.0.1",
   experimental: {
     ssg: {
