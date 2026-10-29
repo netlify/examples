@@ -9,7 +9,7 @@ A React single-page application (SPA) built with Vite and TypeScript. The site i
 ## Tech Stack
 
 - **Framework**: React 19 with TypeScript
-- **Build Tool**: Vite 7
+- **Build Tool**: Vite 8
 - **Routing**: React Router DOM (client-side routing)
 - **Content**: Markdown files rendered with react-markdown
 - **Styling**: CSS with custom properties (CSS variables)
