@@ -126,7 +126,7 @@ export async function generateAndStoreImage({
 
     // Store in Netlify Blobs
     const postImageStore = getStore("PostImage");
-    await postImageStore.set(slug, imageBuffer, {
+    await postImageStore.set(slug, new Blob([imageBuffer]), {
       metadata: {
         contentType: imagePart.inlineData.mimeType,
         generatedAt: new Date().toISOString(),
