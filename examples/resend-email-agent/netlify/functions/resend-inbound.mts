@@ -42,11 +42,13 @@ export default async function handler(
   let payload: ResendInboundPayload;
 
   try {
-    payload = wh.verify(rawBody, {
+    // svix 2 verify() only checks the signature and no longer returns the parsed body
+    wh.verify(rawBody, {
       'svix-id': svixId,
       'svix-timestamp': svixTimestamp,
       'svix-signature': svixSignature,
-    }) as ResendInboundPayload;
+    });
+    payload = JSON.parse(rawBody) as ResendInboundPayload;
   } catch (err) {
     console.error('Webhook verification failed:', err);
     console.error('This usually means:');
@@ -83,7 +85,7 @@ export default async function handler(
   const receiptKey = `email-${email_id}`;
 
   try {
-    const existingReceipt = await receiptsStore.get(receiptKey);
+    const existingReceipt = await receiptsStore.get(receiptKey, { type: 'text' });
     if (existingReceipt) {
       console.log(`Email ${email_id} already processed, skipping`);
       return new Response('OK', { status: 200 });

@@ -26,7 +26,7 @@ function getTagStore() {
 export async function getTag(slug: string): Promise<TagEntry | null> {
   const store = getTagStore();
   try {
-    const data = await store.get(slug);
+    const data = await store.get(slug, { type: 'text' });
     if (!data) return null;
     return JSON.parse(data);
   } catch {
@@ -44,7 +44,7 @@ export async function getAllTags(): Promise<TagEntry[]> {
   const tags: TagEntry[] = [];
   for (const blob of blobs) {
     try {
-      const data = await store.get(blob.key);
+      const data = await store.get(blob.key, { type: 'text' });
       if (data) {
         tags.push(JSON.parse(data));
       }

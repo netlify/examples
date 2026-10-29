@@ -108,7 +108,7 @@ async function listRecipes(tagFilter: string | null): Promise<Response> {
 
     for (const blob of entryBlobs) {
       try {
-        const entryData = await recipesStore.get(blob.key);
+        const entryData = await recipesStore.get(blob.key, { type: 'text' });
         if (!entryData) continue;
 
         const entry: RecipeEntry = JSON.parse(entryData);
@@ -119,7 +119,7 @@ async function listRecipes(tagFilter: string | null): Promise<Response> {
 
         try {
           const overrideKey = `${entry.id}/override.json`;
-          const overrideData = await recipesStore.get(overrideKey);
+          const overrideData = await recipesStore.get(overrideKey, { type: 'text' });
           if (overrideData) {
             const override: RecipeOverride = JSON.parse(overrideData);
             if (override.recipe?.title) {
@@ -186,7 +186,7 @@ async function getRecipeDetail(recipeId: string): Promise<Response> {
 
   try {
     const entryKey = `${recipeId}/entry.json`;
-    const entryData = await recipesStore.get(entryKey);
+    const entryData = await recipesStore.get(entryKey, { type: 'text' });
 
     if (!entryData) {
       return new Response(JSON.stringify({ error: 'Recipe not found' }), {
@@ -199,7 +199,7 @@ async function getRecipeDetail(recipeId: string): Promise<Response> {
 
     try {
       const overrideKey = `${recipeId}/override.json`;
-      const overrideData = await recipesStore.get(overrideKey);
+      const overrideData = await recipesStore.get(overrideKey, { type: 'text' });
 
       if (overrideData) {
         const override: RecipeOverride = JSON.parse(overrideData);
@@ -257,7 +257,7 @@ async function saveOverride(recipeId: string, request: Request): Promise<Respons
 
   const entryKey = `${recipeId}/entry.json`;
   try {
-    const entry = await recipesStore.get(entryKey);
+    const entry = await recipesStore.get(entryKey, { type: 'text' });
     if (!entry) {
       return new Response(JSON.stringify({ error: 'Recipe not found' }), {
         status: 404,
@@ -322,7 +322,7 @@ async function deleteRecipe(recipeId: string): Promise<Response> {
   let entry: RecipeEntry;
 
   try {
-    const entryData = await recipesStore.get(entryKey);
+    const entryData = await recipesStore.get(entryKey, { type: 'text' });
     if (!entryData) {
       return new Response(JSON.stringify({ error: 'Recipe not found' }), {
         status: 404,

@@ -47,7 +47,7 @@ export default async function handler(
 
     // Check if already processed (idempotency)
     try {
-      const existingEntry = await recipesStore.get(`${recipeId}/entry.json`);
+      const existingEntry = await recipesStore.get(`${recipeId}/entry.json`, { type: 'text' });
       if (existingEntry) {
         console.log(`Recipe ${recipeId} already exists, skipping`);
         await receiptsStore.set(`email-${email_id}`, JSON.stringify({
