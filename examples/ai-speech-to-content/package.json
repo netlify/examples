@@ -2,17 +2,17 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build"
+    "build": "astro build",
+    "build-custom-controls": "./scripts/build-custom-controls.sh",
+    "build-custom-controls-config": "./scripts/build-custom-controls-config.sh API_HOST $API_HOST"
   },
   "dependencies": {
-    "@astrojs/netlify": "^5.2.0",
-    "@astrojs/react": "^3.3.0",
-    "@netlify/blobs": "^8.0.0",
-    "@netlify/functions": "^2.8.1",
-    "astro": "^4.14.4",
-    "groq-sdk": "^0.7.0"
+    "@astrojs/netlify": "^8.2.10",
+    "@netlify/functions": "^6.0.3",
+    "astro": "^7.4.4",
+    "groq-sdk": "^1.6.0"
   },
   "devDependencies": {
-    "@types/node": "^20.12.7"
+    "@types/node": "^24.19.2"
   }
 }

@@ -11,14 +11,14 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.3",
-    "@astrojs/netlify": "^5.5.1",
-    "@netlify/blobs": "^8.0.1",
-    "astro": "^4.15.1",
-    "typescript": "^5.5.4"
+    "@astrojs/check": "^0.9.12",
+    "@astrojs/netlify": "^8.2.10",
+    "@netlify/blobs": "^11.1.7",
+    "astro": "^7.4.4",
+    "typescript": "^6.0.3"
   },
   "devDependencies": {
-    "@faker-js/faker": "^8.4.1",
-    "netlify-cli": "^17.34.3"
+    "@faker-js/faker": "^10.6.0",
+    "netlify-cli": "^27.16.0"
   }
 }
