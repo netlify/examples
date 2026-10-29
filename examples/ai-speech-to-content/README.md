@@ -7,7 +7,7 @@
 
 ## About this example
 
-This example shows how to use Groq AI interface with Netlify Functions transforming speech to content and enabling visual editing.
+This example shows how to use Groq AI interface with Netlify Functions transforming speech to content.
 
 - [Guided Walkthrough of Example]()
 - [About Netlify Functions](https://www.netlify.com/products/functions/?utm_campaign=dx-examples&utm_source=example-site&utm_medium=web&utm_content=example-ai-speech-to-content)
@@ -44,13 +44,7 @@ npm i
 # 4. Install the Netlify CLI to let you locally serve your site using Netlify's features
 npm i -g netlify-cli
 
-# 5. Build custom controls
-export API_HOST="http://localhost:8888" && npm run build-custom-controls-config && npm run build-custom-controls
-
-# 6. Run Visual Editor CLI
-stackbit dev --port 4321
-
-# 7. Serve your site using Netlify Dev to get local serverless functions
-export GROQ_API_KEY='' && netlify dev --target-port 4321
+# 5. Serve your site using Netlify Dev to get local serverless functions
+export GROQ_API_KEY='' && netlify dev
 
 ```

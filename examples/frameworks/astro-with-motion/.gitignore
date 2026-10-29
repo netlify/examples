@@ -132,9 +132,7 @@ dist
 # Local Netlify folder
 .netlify
 
-# Netlify Visual Editor (Stackbit)
 .cache
-.stackbit/cache
 
 # generated types
 .astro/

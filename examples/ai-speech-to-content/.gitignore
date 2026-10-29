@@ -1,7 +1,6 @@
 node_modules
 .netlify
 .astro
-.stackbit/cache
 .cache
 .parcel-cache
 dist
