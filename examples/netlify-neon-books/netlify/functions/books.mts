@@ -5,14 +5,14 @@ const sql = neon();
 
 // Ensure table exists
 async function ensureTable() {
-  await sql(`
+  await sql`
     CREATE TABLE IF NOT EXISTS books (
       id SERIAL PRIMARY KEY,
       title TEXT NOT NULL,
       author TEXT NOT NULL,
       cover_url TEXT NOT NULL
     )
-  `);
+  `;
 }
 
 export default async (req: Request, context: Context) => {
@@ -20,7 +20,7 @@ export default async (req: Request, context: Context) => {
 
   if (req.method === "GET") {
     // Fetch all books
-    const rows = await sql("SELECT * FROM books ORDER BY id DESC");
+    const rows = await sql`SELECT * FROM books ORDER BY id DESC`;
     return new Response(JSON.stringify(rows), {
       headers: { "Content-Type": "application/json" },
     });
@@ -33,10 +33,9 @@ export default async (req: Request, context: Context) => {
         headers: { "Content-Type": "application/json" },
       });
     }
-    await sql(
-      "INSERT INTO books (title, author, cover_url) VALUES ($1, $2, $3)",
-      [title, author, cover_url]
-    );
+    await sql`
+      INSERT INTO books (title, author, cover_url) VALUES (${title}, ${author}, ${cover_url})
+    `;
     return new Response(JSON.stringify({ success: true }), {
       headers: { "Content-Type": "application/json" },
     });
