@@ -54,6 +54,11 @@ export const CART_QUERY_FRAGMENT = `#graphql
         }
       }
     }
+    parentRelationship {
+      parent {
+        id
+      }
+    }
   }
   fragment CartLineComponent on ComponentizableCartLine {
     id
@@ -104,10 +109,20 @@ export const CART_QUERY_FRAGMENT = `#graphql
         }
       }
     }
+    lineComponents {
+      ...CartLine
+    }
   }
   fragment CartApiQuery on Cart {
     updatedAt
     id
+    appliedGiftCards {
+      id
+      lastCharacters
+      amountUsed {
+        ...Money
+      }
+    }
     checkoutUrl
     totalQuantity
     buyerIdentity {

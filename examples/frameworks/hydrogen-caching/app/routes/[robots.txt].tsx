@@ -1,9 +1,8 @@
-import {type LoaderFunctionArgs} from '@netlify/remix-runtime';
-import {useRouteError, isRouteErrorResponse} from '@remix-run/react';
+import type {Route} from './+types/[robots.txt]';
 import {parseGid} from '@shopify/hydrogen';
 import {CACHE_1_DAY} from '~/lib/page-cache';
 
-export async function loader({request, context}: LoaderFunctionArgs) {
+export async function loader({request, context}: Route.LoaderArgs) {
   const url = new URL(request.url);
 
   const {shop} = await context.storefront.query(ROBOTS_QUERY);

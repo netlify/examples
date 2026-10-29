@@ -1,15 +1,19 @@
 {
   "include": [
-    "./**/*.d.ts",
-    "./**/*.ts",
-    "./**/*.tsx"
+    "env.d.ts",
+    "app/**/*.ts",
+    "app/**/*.tsx",
+    "app/**/*.d.ts",
+    "netlify/**/*.ts",
+    "*.ts",
+    "*.tsx",
+    "*.d.ts",
+    ".graphqlrc.ts",
+    ".react-router/types/**/*"
   ],
+  "exclude": ["node_modules", "dist", "build", "packages/**/dist/**/*"],
   "compilerOptions": {
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ES2022"
-    ],
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "isolatedModules": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
@@ -21,12 +25,20 @@
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "baseUrl": ".",
+    "types": [
+      "react-router",
+      "@shopify/hydrogen/react-router-types",
+      "vite/client"
+    ],
     "paths": {
-      "~/*": [
-        "app/*"
-      ]
+      "~/*": ["./app/*"],
+      "storefrontapi.generated": ["./storefrontapi.generated.d.ts"],
+      "customer-accountapi.generated": ["./customer-accountapi.generated.d.ts"]
     },
-    "noEmit": true
+    "noEmit": true,
+    "rootDirs": [".", "./.react-router/types"],
+    "incremental": true,
+    "composite": false,
+    "verbatimModuleSyntax": true
   }
 }

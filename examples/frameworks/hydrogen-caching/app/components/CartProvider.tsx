@@ -1,5 +1,5 @@
 import {createContext, useContext, useEffect} from 'react';
-import {useFetcher} from '@remix-run/react';
+import {useFetcher} from 'react-router';
 import type {Cart} from '@shopify/hydrogen-react/storefront-api-types';
 
 const CartContext = createContext<Cart | undefined>(undefined);
@@ -11,7 +11,7 @@ export function CartProvider({children}: {children: React.ReactNode}) {
     if (fetcher.state === 'loading') return;
     if (fetcher.data) return;
 
-    fetcher.load('/cart');
+    void fetcher.load('/cart');
   }, [fetcher]);
 
   return (

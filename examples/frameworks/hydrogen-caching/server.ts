@@ -1,36 +1,53 @@
-// @ts-ignore -- virtual entry point for the app, resolved by Vite at build time
-import * as remixBuild from 'virtual:remix/server-build';
+import * as serverBuild from 'virtual:react-router/server-build';
 import type {Context} from '@netlify/edge-functions';
-import {
-  createHydrogenAppLoadContext,
-  createRequestHandler,
-} from '@netlify/remix-edge-adapter';
-import {storefrontRedirect} from '@shopify/hydrogen';
-import {createAppLoadContext} from '~/lib/context';
+import {createRequestHandler, storefrontRedirect} from '@shopify/hydrogen';
+import {createHydrogenRouterContext} from '~/lib/context';
 
-export default async function (
+/**
+ * In production we run in Deno (Netlify Edge Functions),
+ * otherwise we run in Node.js (Vite dev server).
+ */
+const getEnv = () => {
+  if (globalThis.Netlify) {
+    return globalThis.Netlify.env.toObject();
+  }
+  return process.env;
+};
+
+export default async function handler(
   request: Request,
   netlifyContext: Context,
 ): Promise<Response | undefined> {
   try {
-    const appLoadContext = await createHydrogenAppLoadContext(
+    const env = getEnv() as unknown as Env;
+
+    // Netlify Edge Functions natively support waitUntil.
+    // The Oxygen ExecutionContext type includes additional Cloudflare-specific
+    // properties that are not available in Netlify Edge Functions, but Hydrogen
+    // only uses `waitUntil` at runtime.
+    const executionContext = {
+      waitUntil: netlifyContext.waitUntil.bind(netlifyContext),
+    } as ExecutionContext;
+
+    const hydrogenContext = await createHydrogenRouterContext(
       request,
-      netlifyContext,
-      createAppLoadContext,
+      env,
+      executionContext,
     );
+
     const handleRequest = createRequestHandler({
-      build: remixBuild,
+      build: serverBuild,
       mode: process.env.NODE_ENV,
+      getLoadContext: () => hydrogenContext,
     });
 
-    const response = await handleRequest(request, appLoadContext);
+    const response = await handleRequest(request);
 
-    if (!response) {
-      return;
-    }
-
-    if (appLoadContext.session.isPending) {
-      response.headers.set('Set-Cookie', await appLoadContext.session.commit());
+    if (hydrogenContext.session.isPending) {
+      response.headers.set(
+        'Set-Cookie',
+        await hydrogenContext.session.commit(),
+      );
     }
 
     if (response.status === 404) {
@@ -42,7 +59,7 @@ export default async function (
       return storefrontRedirect({
         request,
         response,
-        storefront: appLoadContext.storefront,
+        storefront: hydrogenContext.storefront,
       });
     }
 

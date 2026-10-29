@@ -1,21 +1,25 @@
-import {defer, type LoaderFunctionArgs} from '@netlify/remix-runtime';
-import {Link, useLoaderData, type MetaFunction} from '@remix-run/react';
+import {
+  Link,
+  useLoaderData,
+} from 'react-router';
+import type {Route} from './+types/blogs.$blogHandle._index';
 import {Image, getPaginationVariables} from '@shopify/hydrogen';
 import type {ArticleItemFragment} from 'storefrontapi.generated';
 import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';
+import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 
-export const meta: MetaFunction<typeof loader> = ({data}) => {
+export const meta: Route.MetaFunction = ({data}) => {
   return [{title: `Hydrogen | ${data?.blog.title ?? ''} blog`}];
 };
 
-export async function loader(args: LoaderFunctionArgs) {
+export async function loader(args: Route.LoaderArgs) {
   // Start fetching non-critical data without blocking time to first byte
   const deferredData = loadDeferredData(args);
 
   // Await the critical data required to render initial state of the page
   const criticalData = await loadCriticalData(args);
 
-  return defer({...deferredData, ...criticalData});
+  return {...deferredData, ...criticalData};
 }
 
 /**
@@ -26,7 +30,7 @@ async function loadCriticalData({
   context,
   request,
   params,
-}: LoaderFunctionArgs) {
+}: Route.LoaderArgs) {
   const paginationVariables = getPaginationVariables(request, {
     pageBy: 4,
   });
@@ -49,6 +53,8 @@ async function loadCriticalData({
     throw new Response('Not found', {status: 404});
   }
 
+  redirectIfHandleIsLocalized(request, {handle: params.blogHandle, data: blog});
+
   return {blog};
 }
 
@@ -57,7 +63,7 @@ async function loadCriticalData({
  * fetched after the initial page load. If it's unavailable, the page should still 200.
  * Make sure to not throw any errors here, as it will cause the page to 500.
  */
-function loadDeferredData({context}: LoaderFunctionArgs) {
+function loadDeferredData({context}: Route.LoaderArgs) {
   return {};
 }
 
@@ -69,7 +75,7 @@ export default function Blog() {
     <div className="blog">
       <h1>{blog.title}</h1>
       <div className="blog-grid">
-        <PaginatedResourceSection connection={articles}>
+        <PaginatedResourceSection<ArticleItemFragment> connection={articles}>
           {({node: article, index}) => (
             <ArticleItem
               article={article}
@@ -128,6 +134,7 @@ const BLOGS_QUERY = `#graphql
   ) @inContext(language: $language) {
     blog(handle: $blogHandle) {
       title
+      handle
       seo {
         title
         description
