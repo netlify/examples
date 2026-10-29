@@ -6,9 +6,9 @@
     "type": "module",
     "license": "ISC",
     "dependencies": {
-        "@modelcontextprotocol/sdk": "^1.10.2",
-        "@netlify/functions": "^2.5.1",
-        "fetch-to-node": "^2.0.0",
-        "zod": "^3.24.3"
+        "@modelcontextprotocol/sdk": "^1.32.2",
+        "@netlify/functions": "^6.0.3",
+        "fetch-to-node": "^2.1.0",
+        "zod": "^4.6.7"
     }
 }
