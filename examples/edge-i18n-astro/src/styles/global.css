@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+/*
+  Tailwind 4 changed two defaults this page relies on. Keep the Tailwind 3 look:
+  borders default to gray-200 instead of currentColor, and buttons keep the pointer cursor.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
