@@ -1,5 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk';
-import { MessageParam } from '@anthropic-ai/sdk/resources/index.mjs';
+import type { MessageParam } from '@anthropic-ai/sdk/resources/index.mjs';
 
 interface Message {
     role: 'assistant' | 'user' | 'system'
@@ -21,7 +21,9 @@ export default defineEventHandler(async (event) => {
         messages
     });
 
+    const block = msg.content[0];
+
     return {
-        message: msg.content[0].text
+        message: block?.type === 'text' ? block.text : ''
     };
 });

@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
     });
 
     return {
-        message: completion.choices[0].message.content
+        message: completion.choices[0]?.message.content
     };
 
 });
