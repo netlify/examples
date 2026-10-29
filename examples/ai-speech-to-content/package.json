@@ -2,9 +2,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
-    "build-custom-controls": "./scripts/build-custom-controls.sh",
-    "build-custom-controls-config": "./scripts/build-custom-controls-config.sh API_HOST $API_HOST"
+    "build": "astro build"
   },
   "dependencies": {
     "@astrojs/netlify": "^5.2.0",
@@ -15,8 +13,6 @@
     "groq-sdk": "^0.7.0"
   },
   "devDependencies": {
-    "@stackbit/cms-git": "^1.0.6",
-    "@stackbit/types": "^2.0.5",
     "@types/node": "^20.12.7"
   }
 }
