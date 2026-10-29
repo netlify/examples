@@ -12,7 +12,6 @@ A collection of examples and demos for people building the web with Netlify
 - Astro platform starter - [Site](https://compose-astro-demo.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/compose-astro-platform-demo)
 - Astro Server Islands - [Site](https://example-astro-server-islands.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/frameworks/astro-server-islands)
 - Astro with Motion - [Site](https://example-astro-motion.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/frameworks/astro-with-motion)
-- Astro with Netlify Visual Editor - [Site](https://example-astro-visual-editor.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/frameworks/astro-with-visual-editor)
 - Astro with Qwik - [Site](https://example-astro-qwik.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/frameworks/astro-with-qwik)
 - Astro with Sanity - [Site](https://example-astro-sanity.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/frameworks/astro-with-sanity)
 - Block AI bots - [Site](https://example-disallow-ai-bots.netlify.app/), [Code](https://github.com/netlify/examples/tree/main/examples/ai-bot-control)
