@@ -7,7 +7,7 @@ export async function getStaticPaths() {
 
   return pages.map((page) => {
       return {
-          params: { slug: page.slug },
+          params: { slug: page.id },
           props: { page }
       };
   });
